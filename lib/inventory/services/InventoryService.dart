@@ -31,7 +31,7 @@ class InventoryService {
           .map<InventoryDetails>((json) => InventoryDetails.fromJson(json))
           .toList();
     } else {
-      throw Exception('Failed to load inventory');
+      throw Exception('Failed to load inventory details');
     }
   }
 }

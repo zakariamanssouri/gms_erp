@@ -20,6 +20,7 @@ class InventoryDetailsBloc
         emit(InventoryDetailsState([], RequestState.Loading, ''));
         try {
           List<InventoryDetails> inventory_details = [];
+              print('${event.id}');
           await _inventoryService
               .getInventoryDetails(event.id)
               .then((value) => inventory_details = value);
