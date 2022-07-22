@@ -40,6 +40,7 @@ dependencies:
   equatable: ^2.0.3
   google_maps_flutter: ^2.1.8
   google_maps_flutter_web: ^0.4.0+1
+  form_field_validator:
 
 dev_dependencies:
   flutter_test:
