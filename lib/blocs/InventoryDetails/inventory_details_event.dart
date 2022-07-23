@@ -1,4 +1,4 @@
-part of 'inventory_bloc.dart';
+part of 'inventory_details_bloc.dart';
 
 abstract class InventoryDetailsEvent extends Equatable {
   const InventoryDetailsEvent();

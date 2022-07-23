@@ -3,14 +3,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gms_erp/blocs/Inventory/bloc/inventory_bloc.dart';
+import 'package:gms_erp/blocs/InventoryDetails/inventory_details_bloc.dart';
 import 'package:gms_erp/identity/main.dart';
-import 'package:gms_erp/inventory/views/InventoryDetails/Inventory_details_page.dart';
 
-import 'blocs/ProductDetails/bloc/product_details_bloc.dart';
-import 'inventory/views/Inventory/Inventory_page.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MultiBlocProvider(providers: [
+     BlocProvider<InventoryBloc>(
+          create: (context) => InventoryBloc(),
+        ),
+       BlocProvider<InventoryDetailsBloc>(
+          create: (context) => InventoryDetailsBloc(),
+        ),
+      
+  ],child: MyApp()));
 }
 
 

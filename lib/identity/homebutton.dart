@@ -29,7 +29,7 @@ class HomeButton extends StatelessWidget
                 child: Text(buttonOption.text, style: TextStyle(color: Colors.white),),
                 onPressed: () {
                   print("clicked");
-                  Navigator.pushNamed(context, "/inventory");
+                  Navigator.pushNamed(context, buttonOption.route);
                 },
               ),
               //  Padding(
@@ -57,7 +57,7 @@ class ButtonOption
 
    static List<ButtonOption> Options = const <ButtonOption>[
     const ButtonOption(route: "user", text: 'CRM',iconData: Icons.home),
-    const ButtonOption(route: "product",text: 'Inventory',iconData: Icons.person_add),
+    const ButtonOption(route: "/inventory",text: 'Inventory',iconData: Icons.person_add),
     const ButtonOption(route: "contact",text: 'BI' ,iconData: Icons.person_pin_circle_outlined),
     const ButtonOption(route: "",text: 'Identity', iconData:Icons.production_quantity_limits_rounded),
     
