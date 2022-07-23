@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, unnecessary_const
+// ignore_for_file: unused_import, unnecessary_const, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:gms_erp/config/menu.dart';
@@ -15,7 +15,12 @@ class HomeButton extends StatelessWidget {
     final textStyle = Theme.of(context).textTheme.bodyText1;
 
     return Card(
-        color: Colors.blue,
+          color: Colors.blue,
+          child: InkWell(
+          onTap: () 
+          { 
+          Navigator.pushNamed(context, buttonOption.route);
+          },
         child: Center(
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,6 +44,7 @@ class HomeButton extends StatelessWidget {
                 //    child: Text(buttonOption.text, style: textStyle,),
                 //  ),
               ]),
+        ),
         ));
   }
 }
