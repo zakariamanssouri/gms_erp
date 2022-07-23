@@ -6,6 +6,7 @@ import 'package:gms_erp/identity/views/user.view.dart';
 import 'package:gms_erp/identity/views/useradd.view.dart';
 import 'package:gms_erp/inventory/views/Inventory/Inventory_page.dart';
 import 'package:gms_erp/inventory/views/InventoryDetails/Inventory_details_page.dart';
+import 'package:gms_erp/crm/main.dart';
 import 'views/product.view.dart';
 
 void main() 
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget
        routes: {
           '/inventory': (context) => InventoryPage(),
           '/inventory_details': (context) => InventoyDetailsPage(),
+          '/crm': (context) => MyAppCRM(),
         },
       title: 'GM-Bank',
       debugShowCheckedModeBanner: true,

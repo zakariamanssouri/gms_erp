@@ -56,7 +56,7 @@ class ButtonOption
   final String route; 
 
    static List<ButtonOption> Options = const <ButtonOption>[
-    const ButtonOption(route: "user", text: 'CRM',iconData: Icons.home),
+    const ButtonOption(route: "/crm", text: 'CRM',iconData: Icons.dashboard),
     const ButtonOption(route: "/inventory",text: 'Inventory',iconData: Icons.person_add),
     const ButtonOption(route: "contact",text: 'BI' ,iconData: Icons.person_pin_circle_outlined),
     const ButtonOption(route: "",text: 'Identity', iconData:Icons.production_quantity_limits_rounded),

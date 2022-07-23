@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gms_erp/crm/models/Product.dart';
 import 'package:gms_erp/crm/main.dart';
 import 'package:gms_erp/crm/views/Activity/activities.dart';
 import 'package:gms_erp/crm/views/Client/clients.dart';
-import 'package:gms_erp/crm/main.dart';
 import 'package:gms_erp/crm/views/Product/products.dart';
+import 'package:gms_erp/identity/main.dart';
 
 class SideDrawer extends StatelessWidget {
 
@@ -14,20 +13,23 @@ class SideDrawer extends StatelessWidget {
     return Drawer(
         child: ListView(
           children: [
-            const SizedBox(
-              height: 91.0,
+            SizedBox(
+              height: 101.0,
               child: DrawerHeader(
-              child: Text('MR.',
-              textAlign: TextAlign.right,
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                image: DecorationImage(
-                  image: AssetImage("assets/images/logo.png"),
-                     fit: BoxFit.scaleDown,
-                     alignment: Alignment.topLeft)
-              )
-            ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                  ),
+                ),
+                child: Container(
+                  width: 80,
+                  height: 80,
+                  child: CircleAvatar(
+                    child: Text("GM-CRM"),
+                  ),
+                ),
+              ),
             ),
         ListTile(
           leading: Icon(Icons.home,
@@ -158,6 +160,6 @@ class SideDrawer extends StatelessWidget {
   }
   
   void _navigateToLogout(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyApp()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyAppCRM()));
   }
 }

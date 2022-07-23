@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:gms_erp/crm/views/Activity/activities.dart';
+import 'package:gms_erp/crm/views/Product/products.dart';
+import 'package:gms_erp/crm/views/Client/clients.dart';
 import 'package:gms_erp/crm/widgets/list_item_view.dart';
 import 'package:gms_erp/crm/widgets/side_drawer.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MyAppCRM());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyAppCRM extends StatelessWidget {
+  const MyAppCRM({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+          '/Activity': (context) => Activities(),
+          '/Product': (context) => Products(url: ''),
+          '/Client': (context) => Clients(url: ''),
+        },
       title: 'GM-CRM',
       theme: ThemeData(
         primarySwatch: Colors.blue,
