@@ -1,4 +1,4 @@
-import 'package:gms_erp/blocs/InventoryDetails/inventory_bloc.dart';
+import 'package:gms_erp/blocs/InventoryDetails/inventory_details_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/inventory/models/Inventory.dart';
 import 'package:gms_erp/inventory/models/Inventory_details.dart';
@@ -21,12 +21,8 @@ class InventoryCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return BlocProvider(
-            create: (context) =>
-                InventoryDetailsBloc()..add(LoadInventoryDetails(inventory.id)),
-            child: InventoyDetailsPage(
-              inventory: inventory,
-            ),
+          return InventoyDetailsPage(
+            inventory: inventory
           );
         }));
       },
@@ -105,9 +101,10 @@ class InventoryCard extends StatelessWidget {
                       width: 80,
                       height: 25,
                       decoration: BoxDecoration(
-                          color: inventory.inventoryStatusName.startsWith("Fe")
-                              ? Colors.red
-                              : Colors.green,
+                          color:
+                              inventory.inventoryStatusName.startsWith("Fe")
+                                  ? Colors.red
+                                  : Colors.green,
                           borderRadius: BorderRadius.circular(30)),
                       child: Center(
                           child: Text(

@@ -1,0 +1,92 @@
+ return Container(
+      child: const Center(
+        child: Text(
+          'Hello World',
+          textDirection: TextDirection.ltr,
+          style: TextStyle(
+            fontSize: 32,
+            color: Colors.red,
+          ),
+        ),
+      ),
+    );
+     Container(
+        decoration:BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.green,),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.account_circle_outlined,size: 30,color: Colors.white,),
+            const Text("Users",style: TextStyle(color: Colors.white,fontSize: 20),)
+            ],
+            ),
+      ),
+     Container(
+        decoration:BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.green,),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.add,size: 30,color: Colors.white,),
+            const Text("Add",style: TextStyle(color: Colors.white,fontSize: 20),)
+            ],
+            ),
+      ),
+     Container(
+        decoration:BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.green,),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.wrap_text,size: 30,color: Colors.white,),
+            const Text("Back",style: TextStyle(color: Colors.white,fontSize: 20),)
+            ],
+            ),
+      ),
+     Container(
+        decoration:BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.green,),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.zoom_in_sharp,size: 30,color: Colors.white,),
+            const Text("Zoom",style: TextStyle(color: Colors.white,fontSize: 20),)
+            ],
+            ),
+      ),
+     Container(
+        decoration:BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.green,),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.account_balance_wallet_outlined,size: 30,color: Colors.white,),
+            const Text("Wallet",style: TextStyle(color: Colors.white,fontSize: 20),)
+            ],
+            ),
+      ),
+        Container(
+        decoration:BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.green,),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.access_alarm,size: 30,color: Colors.white,),
+            const Text("Alarm",style: TextStyle(color: Colors.white,fontSize: 20),)
+            ],
+            ),
+      ),
+      Container(
+        decoration:BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.green,),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.propane_tank_outlined,size: 30,color: Colors.white,),
+            const Text("Valise",style: TextStyle(color: Colors.white,fontSize: 20),)
+            ],
+            ),),
+     Container(
+
+        decoration:BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.green,),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.wifi,size: 30,color: Colors.white,),
+            const Text("Wifi",style: TextStyle(color: Colors.white,fontSize: 20),)
+            ],
+            ),
+      ),

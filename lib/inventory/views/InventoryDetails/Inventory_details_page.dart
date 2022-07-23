@@ -1,4 +1,4 @@
-import 'package:gms_erp/blocs/InventoryDetails/inventory_bloc.dart';
+import 'package:gms_erp/blocs/InventoryDetails/inventory_details_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/inventory/models/Inventory.dart';
 import 'package:gms_erp/inventory/models/Inventory_details.dart';
@@ -13,11 +13,11 @@ class InventoyDetailsPage extends StatelessWidget {
   final Inventory? inventory;
   const InventoyDetailsPage({this.inventory});
 
-// search function
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    BlocProvider.of<InventoryDetailsBloc>(context)
+      ..add(LoadInventoryDetails(inventory!.id));
     return SafeArea(
         child: Scaffold(
       backgroundColor: GlobalParams.backgroundColor,
@@ -48,8 +48,8 @@ class InventoyDetailsPage extends StatelessWidget {
             BlocBuilder<InventoryDetailsBloc, InventoryDetailsState>(
                 builder: (context, state) {
               // data is loading
-              if (state.requestState == RequestState.Loading ||
-                  state.requestState == RequestState.Searching)
+              if (state.requestState == DetailsRequestState.Loading ||
+                  state.requestState == DetailsRequestState.Searching)
                 return Container(
                   height: size.height * 0.5,
                   child: Center(
@@ -59,8 +59,8 @@ class InventoyDetailsPage extends StatelessWidget {
 
               // data is loading
               // data is loaded
-              else if (state.requestState == RequestState.Loaded ||
-                  state.requestState == RequestState.SearchLoaded) {
+              else if (state.requestState == DetailsRequestState.Loaded ||
+                  state.requestState == DetailsRequestState.SearchLoaded) {
                 return Container(
                   padding: EdgeInsets.only(
                       top: GlobalParams.MainPadding / 2,
@@ -68,16 +68,20 @@ class InventoyDetailsPage extends StatelessWidget {
                       right: GlobalParams.MainPadding / 4),
                   height: size.height * 0.70,
                   child: ListView.builder(
-                    itemCount: state.requestState == RequestState.Loaded
+                    itemCount: state.requestState == DetailsRequestState.Loaded
                         ? state.inventory_details.length
                         : state.search_result?.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return ProductCard(
-                        size: size,
-                        inventoryDetails:
-                            state.requestState == RequestState.Loaded
-                                ? state.inventory_details[index]
-                                : state.search_result![index],
+                      return BlocProvider(
+                        create: (context) =>
+                            BlocProvider.of<InventoryDetailsBloc>(context),
+                        child: ProductCard(
+                          size: size,
+                          inventoryDetails:
+                              state.requestState == DetailsRequestState.Loaded
+                                  ? state.inventory_details[index]
+                                  : state.search_result![index],
+                        ),
                       );
                     },
                   ),
@@ -127,8 +131,8 @@ class ProductCard extends StatelessWidget {
           shadowColor: Colors.grey[300],
           // TODO:
           color: inventoryDetails.qty.toStringAsExponential(2).contains('0.00')
-              ? Colors.red
-              : Colors.blue,
+              ? Colors.red[400]
+              : Colors.blue[400],
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(

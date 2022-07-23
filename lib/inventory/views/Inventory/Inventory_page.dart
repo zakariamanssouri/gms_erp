@@ -1,7 +1,7 @@
 import 'package:gms_erp/blocs/Inventory/bloc/inventory_bloc.dart';
+import 'package:gms_erp/blocs/InventoryDetails/inventory_details_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/inventory/views/Inventory/widgets/InventoriesListView.dart';
-import 'package:gms_erp/inventory/views/Inventory/widgets/TitleAndButton.dart';
 import 'package:gms_erp/inventory/views/InventoryDetails/widgets/ErrorWithRefreshButtonWidget.dart';
 import 'package:gms_erp/widgets/DrawerWidget.dart';
 import 'package:gms_erp/widgets/SearchField.dart';
@@ -17,6 +17,7 @@ class InventoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    BlocProvider.of<InventoryBloc>(context)..add(LoadInventories());
     return Scaffold(
       drawer: DrawerWidget(),
       appBar: AppBar(
