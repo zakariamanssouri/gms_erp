@@ -237,6 +237,9 @@ class QuantityAndPriceFormState extends State<QuantityAndPriceForm> {
                 if (_formKey.currentState!.validate()) {
                   _inventoryService.updateProduct(inventoryDetails.id,
                       double.parse(quantityController.text));
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("Updated Successfully"),
+                  ));
                   BlocProvider.of<InventoryDetailsBloc>(context)
                       .state
                       .inventory_details = [];
