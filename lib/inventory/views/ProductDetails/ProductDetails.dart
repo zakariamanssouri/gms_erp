@@ -240,6 +240,9 @@ class QuantityAndPriceFormState extends State<QuantityAndPriceForm> {
                   BlocProvider.of<InventoryDetailsBloc>(context)
                       .state
                       .inventory_details = [];
+                  BlocProvider.of<InventoryDetailsBloc>(context)
+                      .state
+                      .search_result = [];
                   await BlocProvider.of<InventoryDetailsBloc>(context)
                     ..add(LoadInventoryDetails(inventoryDetails.inventoryId));
                   Navigator.pop(context);
