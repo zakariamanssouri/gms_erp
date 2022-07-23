@@ -35,9 +35,9 @@ class InventoyDetailsPage extends StatelessWidget {
         child: Column(
           children: [
             Header(
-              size: size /1.5,
+              size: size / 1.5,
               child: SearchField(
-                  size: size,
+                  size: size / 1.4,
                   onchanged_function: (String value) {
                     BlocProvider.of<InventoryDetailsBloc>(context).add(
                       SearchProductEvent(
@@ -70,7 +70,7 @@ class InventoyDetailsPage extends StatelessWidget {
                         top: GlobalParams.MainPadding / 2,
                         left: GlobalParams.MainPadding / 3,
                         right: GlobalParams.MainPadding / 4),
-                    height: size.height * 0.70,
+                    height: size.height * 0.78,
                     child: ListView.builder(
                       itemCount:
                           state.requestState == DetailsRequestState.Loaded
