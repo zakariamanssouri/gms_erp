@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gms_erp/blocs/Inventory/bloc/inventory_bloc.dart';
 import 'package:gms_erp/blocs/InventoryDetails/inventory_details_bloc.dart';
-import 'package:gms_erp/identity/main.dart';
+import 'package:gms_erp/homepage.dart';
 
 
 void main() {
@@ -16,7 +16,7 @@ void main() {
           create: (context) => InventoryDetailsBloc(),
         ),
       
-  ],child: MyApp()));
+  ],child: HomePage()));
 }
 
 

@@ -19,7 +19,7 @@ class GlobalParams {
         Icons.dashboard,
         color: Colors.blue,
       ),
-      "route": "/Acceuil"
+      "route": "/home"
     },
 
     {

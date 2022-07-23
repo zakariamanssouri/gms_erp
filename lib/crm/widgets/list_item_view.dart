@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gms_erp/config/menu.dart';
 import 'package:gms_erp/crm/views/Activity/activities.dart';
 import 'package:gms_erp/crm/views/Client/clients.dart';
 import 'package:gms_erp/crm/views/Product/products.dart';
-import 'package:gms_erp/crm/widgets/buttons.dart';
+import 'package:gms_erp/widgets/homebutton.dart';
 
 class ListItemView extends StatelessWidget {
   String url = "";
@@ -10,13 +11,13 @@ class ListItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return new GridView.count(
             padding: const EdgeInsets.all(60),
-            crossAxisCount:3,
+            crossAxisCount:2,
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
-            children: List.generate(CRMButtonOption.Options.length, (index) 
+            children: List.generate(ButtonOption.CrmOptions.length, (index) 
             { 
-              var bOption= CRMButtonOption.Options[index];
-                return Center(child: CRMHomeButton(buttonOption: bOption),);
+              var bOption= ButtonOption.CrmOptions[index];
+                return Center(child: HomeButton(buttonOption: bOption),);
             }),
     );
   }

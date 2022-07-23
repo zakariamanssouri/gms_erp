@@ -5,12 +5,10 @@ import 'package:gms_erp/crm/views/Client/clients.dart';
 import 'package:gms_erp/crm/widgets/list_item_view.dart';
 import 'package:gms_erp/crm/widgets/side_drawer.dart';
 
-void main() {
-  runApp(const MyAppCRM());
-}
 
-class MyAppCRM extends StatelessWidget {
-  const MyAppCRM({Key? key}) : super(key: key);
+
+class CRMPage extends StatelessWidget {
+  const CRMPage({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override

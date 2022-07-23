@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gms_erp/crm/main.dart';
+import 'package:gms_erp/crm/crm.dart';
 import 'package:gms_erp/crm/views/Activity/activities.dart';
 import 'package:gms_erp/crm/views/Client/clients.dart';
 import 'package:gms_erp/crm/views/Product/products.dart';
-import 'package:gms_erp/identity/main.dart';
+import 'package:gms_erp/homepage.dart';
 
 class SideDrawer extends StatelessWidget {
 
@@ -125,7 +125,7 @@ class SideDrawer extends StatelessWidget {
   }
 
   void _navigateToAccueil(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyApp()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
   }
   void _navigateToActivities(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Activities()));
@@ -160,6 +160,6 @@ class SideDrawer extends StatelessWidget {
   }
   
   void _navigateToLogout(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyAppCRM()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CRMPage()));
   }
 }
