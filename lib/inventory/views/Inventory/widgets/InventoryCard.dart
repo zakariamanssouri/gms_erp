@@ -2,7 +2,7 @@ import 'package:gms_erp/blocs/InventoryDetails/inventory_details_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/inventory/models/Inventory.dart';
 import 'package:gms_erp/inventory/models/Inventory_details.dart';
-import 'package:gms_erp/inventory/views/Inventory/Inventory_page.dart';
+import 'package:gms_erp/inventory/inventory.dart';
 import 'package:gms_erp/inventory/views/InventoryDetails/Inventory_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';

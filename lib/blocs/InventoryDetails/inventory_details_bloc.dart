@@ -16,23 +16,26 @@ class InventoryDetailsBloc
       : super(InventoryDetailsState([], DetailsRequestState.Loading, '')) {
     on<LoadInventoryDetails>(
       (event, emit) async {
-        print("test LoadInventoryDetails");
+        print("test LoadInventoryDetails Bloc ");
         emit(InventoryDetailsState([], DetailsRequestState.Loading, ''));
+        dynamic inventory_details = [];
         try {
-          List<InventoryDetails> inventory_details = [];
-          print('${event.id}');
           await _inventoryService
               .getInventoryDetails(event.id)
               .then((value) => inventory_details = value);
-          emit(InventoryDetailsState(inventory_details, DetailsRequestState.Loaded, '',
-              ));
+          emit(InventoryDetailsState(
+            inventory_details,
+            DetailsRequestState.Loaded,
+            '',
+          ));
           print('loaded');
         } catch (e) {
-          print("error on block : " + e.toString());
+          print("error on InventoryDetailsBloc : " + e.toString());
           emit(InventoryDetailsState([], DetailsRequestState.Error, "error"));
         }
       },
     );
+
     on<SearchProductEvent>((event, emit) async {
       try {
         emit(InventoryDetailsState(

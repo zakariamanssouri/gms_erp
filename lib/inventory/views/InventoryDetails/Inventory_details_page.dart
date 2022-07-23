@@ -61,29 +61,32 @@ class InventoyDetailsPage extends StatelessWidget {
               // data is loaded
               else if (state.requestState == DetailsRequestState.Loaded ||
                   state.requestState == DetailsRequestState.SearchLoaded) {
-                return Container(
-                  padding: EdgeInsets.only(
-                      top: GlobalParams.MainPadding / 2,
-                      left: GlobalParams.MainPadding / 3,
-                      right: GlobalParams.MainPadding / 4),
-                  height: size.height * 0.70,
-                  child: ListView.builder(
-                    itemCount: state.requestState == DetailsRequestState.Loaded
-                        ? state.inventory_details.length
-                        : state.search_result?.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return BlocProvider(
-                        create: (context) =>
-                            BlocProvider.of<InventoryDetailsBloc>(context),
-                        child: ProductCard(
-                          size: size,
-                          inventoryDetails:
-                              state.requestState == DetailsRequestState.Loaded
-                                  ? state.inventory_details[index]
-                                  : state.search_result![index],
-                        ),
-                      );
-                    },
+                return SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.only(
+                        top: GlobalParams.MainPadding / 2,
+                        left: GlobalParams.MainPadding / 3,
+                        right: GlobalParams.MainPadding / 4),
+                    height: size.height * 0.70,
+                    child: ListView.builder(
+                      itemCount:
+                          state.requestState == DetailsRequestState.Loaded
+                              ? state.inventory_details.length
+                              : state.search_result?.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return BlocProvider(
+                          create: (context) =>
+                              BlocProvider.of<InventoryDetailsBloc>(context),
+                          child: ProductCard(
+                            size: size,
+                            inventoryDetails:
+                                state.requestState == DetailsRequestState.Loaded
+                                    ? state.inventory_details[index]
+                                    : state.search_result![index],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 );
               }

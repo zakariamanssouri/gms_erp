@@ -7,7 +7,7 @@ import 'package:gms_erp/widgets/DrawerWidget.dart';
 import 'package:gms_erp/widgets/SearchField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../InventoryDetails/widgets/Header.dart';
+import 'views/InventoryDetails/widgets/Header.dart';
 
 class InventoryPage extends StatelessWidget {
   const InventoryPage({

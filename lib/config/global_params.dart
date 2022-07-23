@@ -12,22 +12,25 @@ class GlobalParams {
   static final double MainPadding = 20;
 
   static final List<Map<String, dynamic>> menus = [
+    
     {
-      "title": "Inventory",
+      "title": "Home",
+      "icon": Icon(
+        Icons.dashboard,
+        color: Colors.blue,
+      ),
+      "route": "/home"
+    },
+
+    {
+      "title": "Inventaires",
       "icon": Icon(
         Icons.dashboard,
         color: Colors.blue,
       ),
       "route": "/inventory"
     },
-    {
-      "title": "test",
-      "icon": Icon(
-        Icons.telegram,
-        color: Colors.blue,
-      ),
-      "route": "/test"
-    },
+    
   ];
 
   // inventory details card header gradient colors
