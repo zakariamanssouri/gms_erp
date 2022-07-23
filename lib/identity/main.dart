@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, prefer_const_constructors, unused_label, unnecessary_const
+// ignore_for_file: unused_import, prefer_const_constructors, unused_label, unnecessary_const, unnecessary_new
 import 'package:flutter/material.dart';
 import 'package:gms_erp/identity/homebutton.dart';
 import 'package:gms_erp/identity/views/Sign%20in/userlogin.views.dart';
@@ -7,9 +7,11 @@ import 'package:gms_erp/identity/views/useradd.view.dart';
 import 'package:gms_erp/inventory/views/Inventory/Inventory_page.dart';
 import 'package:gms_erp/inventory/views/InventoryDetails/Inventory_details_page.dart';
 import 'views/product.view.dart';
-//import 'home.dart';
 
-
+void main() 
+{
+  runApp(const MaterialApp(home:const MyApp()));
+}
 
 class MyApp extends StatelessWidget 
 {
@@ -19,13 +21,15 @@ class MyApp extends StatelessWidget
   Widget build(BuildContext context) 
   {
     return MaterialApp(
+      
        routes: {
           '/inventory': (context) => InventoryPage(),
           '/inventory_details': (context) => InventoyDetailsPage(),
         },
       title: 'GM-Bank',
       debugShowCheckedModeBanner: true,
-      home: Scaffold(
+      home:Builder(builder: (context)  =>
+       Scaffold(
         drawer: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
@@ -74,7 +78,7 @@ class MyApp extends StatelessWidget
                   color: Colors.blue,
                 ),
                 onTap: () {
-                   Navigator.push(context, MaterialPageRoute(builder: (context) => UserLogin()));
+                   Navigator.push(context, MaterialPageRoute(builder: (context) => UserLogin(),));
                 },
               ),
             ],
@@ -95,6 +99,6 @@ class MyApp extends StatelessWidget
             }),
     ),
     )
-    );
+    ),);
   }
 }
