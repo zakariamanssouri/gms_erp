@@ -3,8 +3,8 @@ import 'package:gms_erp/crm/models/Product.dart';
 import 'package:gms_erp/crm/main.dart';
 import 'package:gms_erp/crm/views/Activity/activities.dart';
 import 'package:gms_erp/crm/views/Client/clients.dart';
-import 'package:gms_erp/crm/views/product/products.dart';
 import 'package:gms_erp/crm/main.dart';
+import 'package:gms_erp/crm/views/Product/products.dart';
 
 class SideDrawer extends StatelessWidget {
 

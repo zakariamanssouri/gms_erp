@@ -34,4 +34,21 @@ class InventoryService {
       throw Exception('Failed to load inventory details');
     }
   }
+
+  Future<dynamic> updateProduct(id,  quantity) async {
+    var map = new Map<String, dynamic>();
+    map['id'] = id.toString();
+    map['qty'] = quantity.toString();
+
+    final response = await http.post(
+      Uri.parse(GlobalParams.baseUrl + 'inventorydetailupdate.php'),
+      body: map,
+    );
+
+    final parsed = json.decode(response.body);
+    if (parsed['success'] == 1) {
+      return true;
+    } else
+      return false;
+  }
 }
