@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gms_erp/blocs/ProductDetails/bloc/product_details_bloc.dart';
+import 'package:gms_erp/blocs/Inventory/bloc/inventory_bloc.dart';
+import 'package:gms_erp/blocs/InventoryDetails/inventory_details_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
+import 'package:gms_erp/inventory/services/InventoryService.dart';
+import 'package:gms_erp/inventory/views/InventoryDetails/Inventory_details_page.dart';
 import '../../models/Inventory_details.dart';
 import 'Widgets/TextFieldWidget.dart';
 import 'Widgets/ButtonWidget.dart';
@@ -30,113 +33,97 @@ class ProductDetails extends StatelessWidget {
           ),
         ),
         body: SingleChildScrollView(
-          child: BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
-            builder: (context, state) {
-              if (state is ProductDetailsInitial) {
-                if (state.requeststate == UpdateRequestState.Updating) {
-                  return CircularProgressIndicator();
-                }
-              }
+            child: Container(
+          padding: EdgeInsets.only(
+              bottom: GlobalParams.MainPadding,
+              right: GlobalParams.MainPadding,
+              left: GlobalParams.MainPadding),
+          width: double.infinity,
+          height: size.height,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: size.height * 0.02),
 
-              return Container(
-                padding: EdgeInsets.only(
-                    bottom: GlobalParams.MainPadding,
-                    right: GlobalParams.MainPadding,
-                    left: GlobalParams.MainPadding),
-                width: double.infinity,
-                height: size.height,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SizedBox(height: size.height * 0.02),
-
-                    // product name
-                    Text(
-                      "${inventoryDetails.productName1}",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: 'Open Sans',
-                      ),
-                    ),
-                    // product name
-                    SizedBox(height: size.height * 0.01),
-
-                    // Location Name
-
-                    // Product Number
-                    Text(
-                      "Number: ${inventoryDetails.productNo}",
-                      style: TextStyle(
-                          fontSize: _fontsize, fontFamily: 'Open Sans'),
-                    ),
-                    // Product Number
-
-                    SizedBox(height: size.height * 0.02),
-
-                    // location with icon
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.location_on,
-                          size: 14,
-                          color: Colors.blue,
-                        ),
-                        SizedBox(width: 5),
-                        Text("Location : ${inventoryDetails.stockLocationName}",
-                            style: TextStyle(
-                                fontSize: _fontsize,
-                                fontFamily: 'Open Sans',
-                                fontWeight: FontWeight.w300)),
-                      ],
-                    ),
-                    // location with icon
-
-                    SizedBox(height: size.height * 0.02),
-
-                    // Inventory Number
-                    Text(
-                      "Inventory Number: ${inventoryDetails.inventoryNumber}",
-                      style: TextStyle(
-                          fontSize: _fontsize, fontFamily: 'Open Sans'),
-                    ),
-                    // Inventory Number
-
-                    SizedBox(height: size.height * 0.02),
-                    Text(
-                      "Lot Number : ${inventoryDetails.batchNo}",
-                      style: TextStyle(
-                          fontSize: _fontsize, fontFamily: 'Open Sans'),
-                    ),
-                    // Lot
-
-                    SizedBox(height: size.height * 0.02),
-
-                    // Form for editing qunaity and price
-                    QuantityAndPriceForm(inventoryDetails: inventoryDetails),
-                    // Form for editing qunaity and price
-
-                    SizedBox(height: size.height * 0.02),
-
-                    // Lot Number
-
-                    // End date
-
-                    SizedBox(height: size.height * 0.02),
-
-                    //Update Button
-
-                    //Update Button
-                  ],
+              // product name
+              Text(
+                "${inventoryDetails.productName1}",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'Open Sans',
                 ),
-              );
-            },
+              ),
+              // product name
+              SizedBox(height: size.height * 0.01),
+
+              // Location Name
+
+              // Product Number
+              Text(
+                "Number: ${inventoryDetails.productNo}",
+                style: TextStyle(fontSize: _fontsize, fontFamily: 'Open Sans'),
+              ),
+              // Product Number
+
+              SizedBox(height: size.height * 0.02),
+
+              // location with icon
+              Row(
+                children: [
+                  Icon(
+                    Icons.location_on,
+                    size: 14,
+                    color: Colors.blue,
+                  ),
+                  SizedBox(width: 5),
+                  Text("Location : ${inventoryDetails.stockLocationName}",
+                      style: TextStyle(
+                          fontSize: _fontsize,
+                          fontFamily: 'Open Sans',
+                          fontWeight: FontWeight.w300)),
+                ],
+              ),
+              // location with icon
+
+              SizedBox(height: size.height * 0.02),
+
+              // Inventory Number
+              Text(
+                "Inventory Number: ${inventoryDetails.inventoryNumber}",
+                style: TextStyle(fontSize: _fontsize, fontFamily: 'Open Sans'),
+              ),
+              // Inventory Number
+
+              SizedBox(height: size.height * 0.02),
+              Text(
+                "Lot Number : ${inventoryDetails.batchNo}",
+                style: TextStyle(fontSize: _fontsize, fontFamily: 'Open Sans'),
+              ),
+              // Lot
+
+              SizedBox(height: size.height * 0.02),
+
+              // Form for editing qunaity and price
+              QuantityAndPriceForm(inventoryDetails: inventoryDetails),
+              // Form for editing qunaity and price
+
+              SizedBox(height: size.height * 0.02),
+
+              // Lot Number
+
+              // End date
+
+              SizedBox(height: size.height * 0.02),
+
+              //Update Button
+
+              //Update Button
+            ],
           ),
-        ));
+        )));
   }
 }
-
-
 
 class QuantityAndPriceForm extends StatefulWidget {
   final InventoryDetails inventoryDetails;
@@ -152,6 +139,8 @@ class QuantityAndPriceFormState extends State<QuantityAndPriceForm> {
   final InventoryDetails inventoryDetails;
   TextEditingController quantityController = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  InventoryService _inventoryService = InventoryService();
+
   final _formKey = GlobalKey<FormState>();
   double _fontsize = 15;
   late DateTime _enddate;
@@ -244,13 +233,16 @@ class QuantityAndPriceFormState extends State<QuantityAndPriceForm> {
             SizedBox(height: size.height * 0.03),
             ButtonWidget(
               size: size,
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  BlocProvider.of<ProductDetailsBloc>(context)
-                      .add(UpdateProductDetailsEvent(inventoryDetails));
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return Scaffold();
-                  }));
+                  _inventoryService.updateProduct(inventoryDetails.id,
+                      double.parse(quantityController.text));
+                  BlocProvider.of<InventoryDetailsBloc>(context)
+                      .state
+                      .inventory_details = [];
+                  await BlocProvider.of<InventoryDetailsBloc>(context)
+                    ..add(LoadInventoryDetails(inventoryDetails.inventoryId));
+                  Navigator.pop(context);
                 }
               },
             ),
@@ -258,4 +250,3 @@ class QuantityAndPriceFormState extends State<QuantityAndPriceForm> {
         ));
   }
 }
-
