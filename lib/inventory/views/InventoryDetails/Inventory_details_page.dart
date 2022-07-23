@@ -22,7 +22,10 @@ class InventoyDetailsPage extends StatelessWidget {
         child: Scaffold(
       backgroundColor: GlobalParams.backgroundColor,
       appBar: AppBar(
-        title: Text('Inventory Details'),
+        title: Text(
+          inventory?.description ?? "",
+          style: TextStyle(overflow: TextOverflow.fade),
+        ),
         backgroundColor: Colors.blue,
         elevation: 0,
       ),
@@ -32,7 +35,7 @@ class InventoyDetailsPage extends StatelessWidget {
         child: Column(
           children: [
             Header(
-              size: size,
+              size: size /1.5,
               child: SearchField(
                   size: size,
                   onchanged_function: (String value) {

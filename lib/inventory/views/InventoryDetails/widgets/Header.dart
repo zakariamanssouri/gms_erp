@@ -9,13 +9,12 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
     return Container(
-      height: _size.height * 0.15,
+      height: size.height * 0.15,
       child: Stack(
         children: [
           Container(
-              height: _size.height * 0.15 - 27,
+              height: size.height * 0.15 - 27,
               width: double.infinity,
               padding: EdgeInsets.only(
                 left: GlobalParams.MainPadding,
