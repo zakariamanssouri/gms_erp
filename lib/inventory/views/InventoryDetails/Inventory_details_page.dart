@@ -29,48 +29,48 @@ class InventoyDetailsPage extends StatelessWidget {
         backgroundColor: Colors.blue,
         elevation: 0,
       ),
-      body: Container(
-        height: size.height,
-        width: size.width,
-        child: Column(
-          children: [
-            Header(
-              size: size /1.5,
-              child: SearchField(
-                  size: size,
-                  onchanged_function: (String value) {
-                    BlocProvider.of<InventoryDetailsBloc>(context).add(
-                      SearchProductEvent(
-                          value,
-                          BlocProvider.of<InventoryDetailsBloc>(context)
-                              .state
-                              .inventory_details),
-                    );
-                  }),
-            ),
-            BlocBuilder<InventoryDetailsBloc, InventoryDetailsState>(
-                builder: (context, state) {
-              // data is loading
-              if (state.requestState == DetailsRequestState.Loading ||
-                  state.requestState == DetailsRequestState.Searching)
-                return Container(
-                  height: size.height * 0.5,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-
-              // data is loading
-              // data is loaded
-              else if (state.requestState == DetailsRequestState.Loaded ||
-                  state.requestState == DetailsRequestState.SearchLoaded) {
-                return SingleChildScrollView(
-                  child: Container(
+      body: SingleChildScrollView(
+        child: Container(
+          height: size.height,
+          width: size.width,
+          child: Column(
+            children: [
+              Header(
+                size: size / 1.5,
+                child: SearchField(
+                    size: size / 1.4,
+                    onchanged_function: (String value) {
+                      BlocProvider.of<InventoryDetailsBloc>(context).add(
+                        SearchProductEvent(
+                            value,
+                            BlocProvider.of<InventoryDetailsBloc>(context)
+                                .state
+                                .inventory_details),
+                      );
+                    }),
+              ),
+              BlocBuilder<InventoryDetailsBloc, InventoryDetailsState>(
+                  builder: (context, state) {
+                // data is loading
+                if (state.requestState == DetailsRequestState.Loading ||
+                    state.requestState == DetailsRequestState.Searching)
+                  return Container(
+                    height: size.height * 0.5,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+      
+                // data is loading
+                // data is loaded
+                else if (state.requestState == DetailsRequestState.Loaded ||
+                    state.requestState == DetailsRequestState.SearchLoaded) {
+                  return Container(
+                    height: size.height * 0.78,
                     padding: EdgeInsets.only(
                         top: GlobalParams.MainPadding / 2,
                         left: GlobalParams.MainPadding / 3,
                         right: GlobalParams.MainPadding / 4),
-                    height: size.height * 0.70,
                     child: ListView.builder(
                       itemCount:
                           state.requestState == DetailsRequestState.Loaded
@@ -90,23 +90,23 @@ class InventoyDetailsPage extends StatelessWidget {
                         );
                       },
                     ),
-                  ),
-                );
-              }
-              // data is loaded
-
-              // Error
-              return Expanded(
-                  child: ErrorWithRefreshButtonWidget(
-                inventory: inventory,
-                button_function: () {
-                  BlocProvider.of<InventoryDetailsBloc>(context)
-                      .add(LoadInventoryDetails(inventory!.id));
-                },
-              ));
-              // Error
-            })
-          ],
+                  );
+                }
+                // data is loaded
+      
+                // Error
+                return Expanded(
+                    child: ErrorWithRefreshButtonWidget(
+                  inventory: inventory,
+                  button_function: () {
+                    BlocProvider.of<InventoryDetailsBloc>(context)
+                        .add(LoadInventoryDetails(inventory!.id));
+                  },
+                ));
+                // Error
+              })
+            ],
+          ),
         ),
       ),
     ));

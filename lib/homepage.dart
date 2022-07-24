@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:gms_erp/config/menu.dart';
 import 'package:gms_erp/crm/crm.dart';
+import 'package:gms_erp/inventory/views/Inventory/inventories_page.dart';
 import 'package:gms_erp/widgets/homebutton.dart';
 import 'package:gms_erp/identity/identity.dart';
 import 'package:gms_erp/identity/views/Sign%20in/userlogin.views.dart';
@@ -15,11 +16,12 @@ import 'identity/views/product.view.dart';
 class HomePage extends StatelessWidget 
 {
   const HomePage({super.key});
-  Widget build(BuildContext context) 
-  {
+  @override
+  Widget build(BuildContext context) {
+
     return MaterialApp(
         routes: {
-          '/inventory': (context) => InventoryPage(),
+          '/inventory': (context) => InventoryHomePage(),
           '/inventory_details': (context) => InventoyDetailsPage(),
           '/crm': (context) => CRMPage(),
           '/identity': (context) => IdentityPage(),
@@ -85,7 +87,7 @@ class HomePage extends StatelessWidget
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => InventoryPage(),
+                          builder: (context) => InventoryHomePage(),
                         )); //ddUserView
                   },
                 ),
