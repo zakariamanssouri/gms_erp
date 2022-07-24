@@ -29,84 +29,87 @@ class InventoyDetailsPage extends StatelessWidget {
         backgroundColor: Colors.blue,
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          height: size.height,
-          width: size.width,
-          child: Column(
-            children: [
-              Header(
-                size: size / 1.5,
-                child: SearchField(
-                    size: size / 1.4,
-                    onchanged_function: (String value) {
-                      BlocProvider.of<InventoryDetailsBloc>(context).add(
-                        SearchProductEvent(
-                            value,
-                            BlocProvider.of<InventoryDetailsBloc>(context)
-                                .state
-                                .inventory_details),
-                      );
-                    }),
-              ),
-              BlocBuilder<InventoryDetailsBloc, InventoryDetailsState>(
+      body: Container(
+        height: size.height,
+        width: size.width,
+        child: Column(
+          children: [
+            Header(
+              size: size / 1.5,
+              child: SearchField(
+                  size: size / 1.4,
+                  onchanged_function: (String value) {
+                    BlocProvider.of<InventoryDetailsBloc>(context).add(
+                      SearchProductEvent(
+                          value,
+                          BlocProvider.of<InventoryDetailsBloc>(context)
+                              .state
+                              .inventory_details),
+                    );
+                  }),
+            ),
+            Expanded(
+              child: BlocConsumer<InventoryDetailsBloc, InventoryDetailsState>(
+                  listener: (context, state) {},
                   builder: (context, state) {
-                // data is loading
-                if (state.requestState == DetailsRequestState.Loading ||
-                    state.requestState == DetailsRequestState.Searching)
-                  return Container(
-                    height: size.height * 0.5,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-      
-                // data is loading
-                // data is loaded
-                else if (state.requestState == DetailsRequestState.Loaded ||
-                    state.requestState == DetailsRequestState.SearchLoaded) {
-                  return Container(
-                    height: size.height * 0.78,
-                    padding: EdgeInsets.only(
-                        top: GlobalParams.MainPadding / 2,
-                        left: GlobalParams.MainPadding / 3,
-                        right: GlobalParams.MainPadding / 4),
-                    child: ListView.builder(
-                      itemCount:
-                          state.requestState == DetailsRequestState.Loaded
-                              ? state.inventory_details.length
-                              : state.search_result?.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return BlocProvider(
-                          create: (context) =>
-                              BlocProvider.of<InventoryDetailsBloc>(context),
-                          child: ProductCard(
-                            size: size,
-                            inventoryDetails:
-                                state.requestState == DetailsRequestState.Loaded
+                    // data is loading
+                    if (state.requestState == DetailsRequestState.Loading ||
+                        state.requestState == DetailsRequestState.Searching)
+                      return Container(
+                        height: size.height * 0.5,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+
+                    // data is loading
+                    // data is loaded
+                    else if (state.requestState == DetailsRequestState.Loaded ||
+                        state.requestState ==
+                            DetailsRequestState.SearchLoaded) {
+                      return Container(
+                        height: size.height * 0.78,
+                        padding: EdgeInsets.only(
+                            top: GlobalParams.MainPadding / 2,
+                            left: GlobalParams.MainPadding / 3,
+                            right: GlobalParams.MainPadding / 4),
+                        child: ListView.builder(
+                          itemCount:
+                              state.requestState == DetailsRequestState.Loaded
+                                  ? state.inventory_details.length
+                                  : state.search_result?.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return BlocProvider(
+                              create: (context) =>
+                                  BlocProvider.of<InventoryDetailsBloc>(
+                                      context),
+                              child: ProductCard(
+                                size: size,
+                                inventoryDetails: state.requestState ==
+                                        DetailsRequestState.Loaded
                                     ? state.inventory_details[index]
                                     : state.search_result![index],
-                          ),
-                        );
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    }
+                    // data is loaded
+
+                    // Error
+                    return Expanded(
+                        child: ErrorWithRefreshButtonWidget(
+                      inventory: inventory,
+                      button_function: () {
+                        BlocProvider.of<InventoryDetailsBloc>(context)
+                            .add(LoadInventoryDetails(inventory!.id));
                       },
-                    ),
-                  );
-                }
-                // data is loaded
-      
-                // Error
-                return Expanded(
-                    child: ErrorWithRefreshButtonWidget(
-                  inventory: inventory,
-                  button_function: () {
-                    BlocProvider.of<InventoryDetailsBloc>(context)
-                        .add(LoadInventoryDetails(inventory!.id));
-                  },
-                ));
-                // Error
-              })
-            ],
-          ),
+                    ));
+                    // Error
+                  }),
+            )
+          ],
         ),
       ),
     ));
