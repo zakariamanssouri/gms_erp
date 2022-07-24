@@ -39,10 +39,10 @@ class HomeButton extends StatelessWidget {
                     Navigator.pushNamed(context, buttonOption.route);
                   },
                 ),
-                //  Padding(
-                //    padding: const EdgeInsets.all(8),
-                //    child: Text(buttonOption.text, style: textStyle,),
-                //  ),
+                 Padding(
+                 padding: const EdgeInsets.all(8),
+                  child: Text(buttonOption.text, style: textStyle,),
+                 ),
               ]),
         ),
         ));
