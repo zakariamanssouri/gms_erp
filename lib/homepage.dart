@@ -12,10 +12,11 @@ import 'package:gms_erp/inventory/views/InventoryDetails/Inventory_details_page.
 import 'identity/views/product.view.dart';
 //import 'home.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatelessWidget 
+{
   const HomePage({super.key});
-
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+  {
     return MaterialApp(
         routes: {
           '/inventory': (context) => InventoryPage(),
@@ -26,73 +27,110 @@ class HomePage extends StatelessWidget {
         },
         title: 'GMS ERP',
         debugShowCheckedModeBanner: false,
-        home: Scaffold(
+          home: Builder(
+          builder: (context) =>Scaffold(
+          appBar: AppBar(
+            title: const Text('GMS ERP'),
+          ),
           drawer: Drawer(
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
-                Container(
-                  height: 50,
-                  child: DrawerHeader(
-                    child: Text('GMS ERP'),
-                    decoration: BoxDecoration(color: Colors.white),
-                  ),
+                     Container(
+                        child: DrawerHeader(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                  image: AssetImage('images/logo.png'),
+                  
+                 ),
+                     borderRadius:  BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                            bottomRight: Radius.circular(30),
+                  ), 
+                           
                 ),
+                child: Container(
+                
+                   child:CircleAvatar(
+                   radius: 5.0,
+                    child: ClipRRect(
+                      child: Image.asset('images/logo.png'),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                 
+                   ),
+                ),),),
+                SizedBox(height:10,),
                 ListTile(
-                  title: const Text('Home'),
+                  title: const Text('CRM'),
                   leading: const Icon(
-                    Icons.home,
+                    Icons.cases_sharp,
                     color: Colors.blue,
                   ),
                   onTap: () {
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeButton(buttonOption),));
+                   Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CRMPage(),
+                              ));
                   },
                 ),
                 ListTile(
-                  title: const Text('Add User'),
+                  title: const Text('Inventaire'),
                   leading: const Icon(
-                    Icons.person_add,
+                    Icons.inventory_2,
                     color: Colors.blue,
                   ),
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AddUserView(),
+                          builder: (context) => InventoryPage(),
                         )); //ddUserView
                   },
                 ),
                 ListTile(
-                  title: const Text('Users List'),
+                  title: const Text('identité'),
                   leading: const Icon(
-                    Icons.person_pin_circle_outlined,
+                    Icons.person,
                     color: Colors.blue,
                   ),
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => UserView(),
+                          builder: (context) => IdentityPage(),
                         ));
                   },
                 ),
                 ListTile(
-                  title: const Text('Product'),
+                  title: const Text('BI'),
                   leading: const Icon(
-                    Icons.production_quantity_limits_rounded,
+                    Icons.poll_sharp,
                     color: Colors.blue,
                   ),
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => UserLogin()));
+                        MaterialPageRoute(builder: (context) => HomePage()));
                   },
                 ),
+                 SizedBox(height: 200,),
+                      ListTile(
+                        title: const Text("Se Déconnecter"),
+                        leading: const Icon(
+                          Icons.logout_rounded,
+                          color: Colors.blue,
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(),
+                              ));
+                        },
+                      ),
               ],
             ),
-          ),
-          // ignore: dead_code
-          appBar: AppBar(
-            title: const Text('GMS ERP'),
           ),
           body: GridView.count(
             padding: const EdgeInsets.all(60),
@@ -106,6 +144,6 @@ class HomePage extends StatelessWidget {
               );
             }),
           ),
-        ));
+        )));
   }
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, prefer_const_constructors, unused_label, unnecessary_const, unnecessary_new
+// ignore_for_file: unused_import, prefer_const_constructors, unused_label, unnecessary_const, unnecessary_new, sort_child_properties_last
 import 'package:flutter/material.dart';
 import 'package:gms_erp/config/menu.dart';
 import 'package:gms_erp/crm/crm.dart';
@@ -11,30 +11,47 @@ import 'package:gms_erp/inventory/inventory.dart';
 import 'package:gms_erp/inventory/views/InventoryDetails/Inventory_details_page.dart';
 import 'views/product.view.dart';
 
-class IdentityPage extends StatelessWidget {
+class IdentityPage extends StatelessWidget 
+{
   const IdentityPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: true,
       home: Builder(
           builder: (context) => Scaffold(
+             appBar: AppBar(
+                  title: const Text('Identité'),
+                ),
                 drawer: Drawer(
                   child: ListView(
                     padding: EdgeInsets.zero,
                     children: <Widget>[
                       Container(
-                        height: 50,
                         child: DrawerHeader(
-                          child: Text('Identity'),
-                          decoration: BoxDecoration(color: Colors.white),
+                          decoration: BoxDecoration(
+                            image: DecorationImage(image: AssetImage('images/logo.png'),),
+                            borderRadius:  BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                            bottomRight: Radius.circular(30),),),
+                        child: Container(
+                
+                   child:CircleAvatar(
+                   radius: 5.0,
+                    child: ClipRRect(
+                      child: Image.asset('images/logo.png'),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                 
+                   ),
+                ),
                         ),
-                      ),
+                    ),
+                      SizedBox(height:10,),
                       ListTile(
-                        title: const Text('Home'),
+                        title: const Text('Ajouter Utilisatteurs'),
                         leading: const Icon(
-                          Icons.home,
+                          Icons.person_add,
                           color: Colors.blue,
                         ),
                         onTap: () {
@@ -43,13 +60,12 @@ class IdentityPage extends StatelessWidget {
                               MaterialPageRoute(
                                 builder: (context) => HomePage(),
                               )); //
-                          // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeButton(buttonOption),));
                         },
                       ),
                       ListTile(
-                        title: const Text('Add User'),
+                        title: const Text('Utilisateurs'),
                         leading: const Icon(
-                          Icons.person_add,
+                          Icons.people_alt,
                           color: Colors.blue,
                         ),
                         onTap: () {
@@ -61,9 +77,9 @@ class IdentityPage extends StatelessWidget {
                         },
                       ),
                       ListTile(
-                        title: const Text('Users List'),
+                        title: const Text('Roles'),
                         leading: const Icon(
-                          Icons.person_pin_circle_outlined,
+                          Icons.person_pin_rounded,
                           color: Colors.blue,
                         ),
                         onTap: () {
@@ -75,9 +91,9 @@ class IdentityPage extends StatelessWidget {
                         },
                       ),
                       ListTile(
-                        title: const Text('Product'),
+                        title: const Text("Droit d'Accées"),
                         leading: const Icon(
-                          Icons.production_quantity_limits_rounded,
+                          Icons.lock_person,
                           color: Colors.blue,
                         ),
                         onTap: () {
@@ -88,13 +104,25 @@ class IdentityPage extends StatelessWidget {
                               ));
                         },
                       ),
+                      SizedBox(height: 200,),
+                      ListTile(
+                        title: const Text("Se Déconnecter"),
+                        leading: const Icon(
+                          Icons.logout_rounded,
+                          color: Colors.blue,
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(),
+                              ));
+                        },
+                      ),
                     ],
                   ),
                 ),
                 // ignore: dead_code
-                appBar: AppBar(
-                  title: const Text('Identity'),
-                ),
                 body: GridView.count(
                   padding: const EdgeInsets.all(60),
                   crossAxisCount: 2,

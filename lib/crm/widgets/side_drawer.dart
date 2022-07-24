@@ -17,7 +17,7 @@ class SideDrawer extends StatelessWidget {
               height: 101.0,
               child: DrawerHeader(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30),
                   ),
