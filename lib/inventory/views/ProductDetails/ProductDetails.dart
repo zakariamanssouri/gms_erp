@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gms_erp/blocs/Inventory/bloc/inventory_bloc.dart';
 import 'package:gms_erp/blocs/InventoryDetails/inventory_details_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/inventory/services/InventoryService.dart';
-import 'package:gms_erp/inventory/views/InventoryDetails/Inventory_details_page.dart';
 import '../../models/Inventory_details.dart';
 import 'Widgets/TextFieldWidget.dart';
 import 'Widgets/ButtonWidget.dart';
@@ -18,6 +15,7 @@ class ProductDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: GlobalParams.backgroundColor,
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
@@ -32,8 +30,7 @@ class ProductDetails extends StatelessWidget {
                 fontFamily: 'Open Sans'),
           ),
         ),
-        body: SingleChildScrollView(
-            child: Container(
+        body: Container(
           padding: EdgeInsets.only(
               bottom: GlobalParams.MainPadding,
               right: GlobalParams.MainPadding,
@@ -47,7 +44,7 @@ class ProductDetails extends StatelessWidget {
 
               // product name
               Text(
-                "${inventoryDetails.productName1}",
+                inventoryDetails.productName1,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 18,
@@ -105,7 +102,9 @@ class ProductDetails extends StatelessWidget {
               SizedBox(height: size.height * 0.02),
 
               // Form for editing qunaity and price
-              QuantityAndPriceForm(inventoryDetails: inventoryDetails),
+              Builder(builder: (context) {
+                return QuantityAndPriceForm(inventoryDetails: inventoryDetails);
+              }),
               // Form for editing qunaity and price
 
               SizedBox(height: size.height * 0.02),
@@ -121,7 +120,7 @@ class ProductDetails extends StatelessWidget {
               //Update Button
             ],
           ),
-        )));
+        ));
   }
 }
 
@@ -151,108 +150,120 @@ class QuantityAndPriceFormState extends State<QuantityAndPriceForm> {
     priceController.text = inventoryDetails.singlePrice.toString();
   }
 
+  String? validateField(String value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter some text';
+    } else {
+      String pattern = r'[0-9]\.[0-9]';
+      RegExp regex = new RegExp(pattern);
+      if (!regex.hasMatch(value)) {
+        return 'Entrer Un Nombre Valide';
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Old Quantity ${widget.inventoryDetails.qtyOrig.toString()} ${widget.inventoryDetails.measureName}",
-              style: TextStyle(fontSize: _fontsize, fontFamily: 'Open Sans'),
-            ),
-            SizedBox(height: size.height * 0.02),
-            TextFieldWidget(
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-                controller: quantityController,
-                inventoryDetails: inventoryDetails,
-                labeltext: 'New Qunatity',
-                valuetext: "${widget.inventoryDetails.qty}"),
+    return Center(
+      child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Old Quantity ${widget.inventoryDetails.qtyOrig.toString()} ${widget.inventoryDetails.measureName}",
+                style: TextStyle(fontSize: _fontsize, fontFamily: 'Open Sans'),
+              ),
+              SizedBox(height: size.height * 0.02),
+              TextFieldWidget(
+                  validator: (value) {
+                    return validateField(value!);
+                  },
+                  controller: quantityController,
+                  inventoryDetails: inventoryDetails,
+                  labeltext: 'New Qunatity',
+                  keyboardType: TextInputType.numberWithOptions(
+                      signed: false, decimal: true),
+                  valuetext: "${widget.inventoryDetails.qty}"),
 
-            SizedBox(height: size.height * 0.02),
-            Text(
-              "Old Price : ${widget.inventoryDetails.singlePrice}",
-              style: TextStyle(fontSize: _fontsize, fontFamily: 'Open Sans'),
-            ),
-            SizedBox(height: size.height * 0.02),
-            TextFieldWidget(
-                controller: priceController,
-                inventoryDetails: inventoryDetails,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-                labeltext: 'New Price ',
-                valuetext: "${widget.inventoryDetails.singlePrice}"),
-            SizedBox(height: size.height * 0.02),
+              SizedBox(height: size.height * 0.02),
+              Text(
+                "Old Price : ${widget.inventoryDetails.singlePrice}",
+                style: TextStyle(fontSize: _fontsize, fontFamily: 'Open Sans'),
+              ),
+              SizedBox(height: size.height * 0.02),
+              TextFieldWidget(
+                  controller: priceController,
+                  keyboardType: TextInputType.numberWithOptions(
+                      signed: false, decimal: true),
+                  inventoryDetails: inventoryDetails,
+                  validator: (value) {
+                    return validateField(value!);
+                  },
+                  labeltext: 'New Price ',
+                  valuetext: "${widget.inventoryDetails.singlePrice}"),
+              SizedBox(height: size.height * 0.02),
 
-            // End date
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Valid to : ${widget.inventoryDetails.validTo.toString().substring(0, 10)}",
-                  style:
-                      TextStyle(fontSize: _fontsize, fontFamily: 'Open Sans'),
-                ),
-                Container(
-                  width: 23,
-                  height: 23,
-                  child: FloatingActionButton(
-                    child: Icon(
-                      Icons.edit,
-                      size: 13,
-                    ),
-                    onPressed: () {
-                      showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2022),
-                              lastDate: DateTime(2030))
-                          .then((value) {
-                        setState(() {
-                          widget.inventoryDetails.validTo = value.toString();
-                        });
-                      });
-                    },
-                    mini: true,
+              // End date
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Valid to : ${widget.inventoryDetails.validTo.toString().substring(0, 10)}",
+                    style:
+                        TextStyle(fontSize: _fontsize, fontFamily: 'Open Sans'),
                   ),
-                )
-              ],
-            ),
-            SizedBox(height: size.height * 0.03),
-            ButtonWidget(
-              size: size,
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  _inventoryService.updateProduct(inventoryDetails.id,
-                      double.parse(quantityController.text));
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text("Updated Successfully"),
-                  ));
-                  BlocProvider.of<InventoryDetailsBloc>(context)
-                      .state
-                      .inventory_details = [];
-                  BlocProvider.of<InventoryDetailsBloc>(context)
-                      .state
-                      .search_result = [];
-                  await BlocProvider.of<InventoryDetailsBloc>(context)
-                    ..add(LoadInventoryDetails(inventoryDetails.inventoryId));
-                  Navigator.pop(context);
-                }
-              },
-            ),
-          ],
-        ));
+                  Container(
+                    width: 23,
+                    height: 23,
+                    child: FloatingActionButton(
+                      child: Icon(
+                        Icons.edit,
+                        size: 13,
+                      ),
+                      onPressed: () {
+                        showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2022),
+                                lastDate: DateTime(2030))
+                            .then((value) {
+                          setState(() {
+                            widget.inventoryDetails.validTo = value.toString();
+                          });
+                        });
+                      },
+                      mini: true,
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(height: size.height * 0.03),
+              ButtonWidget(
+                size: size,
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    _inventoryService.updateProduct(inventoryDetails.id,
+                        double.parse(quantityController.text));
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("Updated Successfully"),
+                    ));
+                    BlocProvider.of<InventoryDetailsBloc>(context)
+                        .state
+                        .inventory_details = [];
+                    BlocProvider.of<InventoryDetailsBloc>(context)
+                        .state
+                        .search_result = [];
+                    await BlocProvider.of<InventoryDetailsBloc>(context)
+                      ..add(LoadInventoryDetails(inventoryDetails.inventoryId));
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+            ],
+          )),
+    );
   }
 }
