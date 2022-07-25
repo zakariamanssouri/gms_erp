@@ -8,7 +8,9 @@ class TextFieldWidget extends StatelessWidget {
   String labeltext;
   String valuetext;
   bool? readonly;
+  TextInputType? keyboardType;
   String? Function(String?)? validator;
+  List? inputFormatters;
 
   TextEditingController controller;
   TextFieldWidget(
@@ -19,7 +21,9 @@ class TextFieldWidget extends StatelessWidget {
       this.readonly = false,
       this.focusColor = Colors.black,
       required this.controller,
-      this.validator})
+      this.validator,
+      this.keyboardType,
+      this.inputFormatters})
       : super(key: key);
 
   final InventoryDetails inventoryDetails;
@@ -27,10 +31,10 @@ class TextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: keyboardType,
       validator: validator,
       readOnly: readonly ?? false,
       decoration: InputDecoration(
-
         fillColor: Colors.red,
         focusColor: Colors.black,
         labelText: labeltext,
