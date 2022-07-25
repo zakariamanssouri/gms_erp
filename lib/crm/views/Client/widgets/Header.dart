@@ -4,34 +4,32 @@ import 'package:flutter/material.dart';
 import 'package:gms_erp/widgets/SearchField.dart';
 
 class Header extends StatelessWidget {
-  const Header({
-    Key? key, required Size size, required SearchField child,
-  }) : super(key: key);
+  final Widget child;
+  final Size size;
+  Header({Key? key, required this.size, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.all(GlobalParams.MainPadding),
-        width: double.infinity,
-        height: 70,
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // button with icon
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 30),
-            // search box
-          ],
-        ));
+      height: size.height * 0.15,
+      child: Stack(
+        children: [
+          Container(
+              height: size.height * 0.15 - 27,
+              width: double.infinity,
+              padding: EdgeInsets.only(
+                left: GlobalParams.MainPadding,
+                right: GlobalParams.MainPadding,
+              ),
+              decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(50),
+                    bottomRight: Radius.circular(50),
+                  ))),
+          Positioned(bottom: 0, left: 0, right: 0, child: child)
+        ],
+      ),
+    );
   }
 }

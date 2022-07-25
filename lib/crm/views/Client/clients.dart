@@ -42,8 +42,17 @@ class Clients extends StatelessWidget {
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               // heaeder
               Header(
-                size: size / 20,
-                child: SearchField(size: size),
+                size: size / 2,
+                child: SearchField(size: size / 1.4,
+                  onchanged_function: (String value) {
+                    BlocProvider.of<ClientBloc>(context).add(
+                      SearchClientEvent(
+                          value,
+                          BlocProvider.of<ClientBloc>(context)
+                              .state
+                              .clients),
+                    );
+                  }),
               ),
 
               // heaeder
