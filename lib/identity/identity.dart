@@ -17,6 +17,9 @@ class IdentityPage extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+     '/identityUsersList': (context) => const UserView(),
+     '/identityAddUsers': (context) => const AddUserView(),},
       debugShowCheckedModeBanner: true,
       home: Builder(
           builder: (context) => Scaffold(
@@ -30,7 +33,7 @@ class IdentityPage extends StatelessWidget
                       Container(
                         child: DrawerHeader(
                           decoration: BoxDecoration(
-                            image: DecorationImage(image: AssetImage('images/logo.png'),),
+                            image: DecorationImage(image: AssetImage('assets/images/logo.png'),),
                             borderRadius:  BorderRadius.only(
                             bottomLeft: Radius.circular(30),
                             bottomRight: Radius.circular(30),),),
@@ -49,6 +52,20 @@ class IdentityPage extends StatelessWidget
                     ),
                       SizedBox(height:10,),
                       ListTile(
+                        title: const Text('Accueil'),
+                        leading: const Icon(
+                          Icons.home,
+                          color: Colors.blue,
+                        ),
+                        onTap: () {
+                         Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(),
+                              )); //
+                        },
+                      ),
+                      ListTile(
                         title: const Text('Ajouter Utilisatteurs'),
                         leading: const Icon(
                           Icons.person_add,
@@ -58,7 +75,7 @@ class IdentityPage extends StatelessWidget
                          Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => HomePage(),
+                                builder: (context) => AddUserView(),
                               )); //
                         },
                       ),
@@ -72,7 +89,7 @@ class IdentityPage extends StatelessWidget
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AddUserView(),
+                                builder: (context) => UserView(),
                               )); //ddUserView
                         },
                       ),
@@ -97,14 +114,14 @@ class IdentityPage extends StatelessWidget
                           color: Colors.blue,
                         ),
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => UserLogin(),
-                              ));
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: (context) => UserLogin(),
+                          //     ));
                         },
                       ),
-                      SizedBox(height: 200,),
+                      SizedBox(height: 150,),
                       ListTile(
                         title: const Text("Se Déconnecter"),
                         leading: const Icon(
@@ -115,7 +132,7 @@ class IdentityPage extends StatelessWidget
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => HomePage(),
+                                builder: (context) => UserLogin(),
                               ));
                         },
                       ),

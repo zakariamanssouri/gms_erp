@@ -26,6 +26,7 @@ class HomePage extends StatelessWidget
           '/crm': (context) => CRMPage(),
           '/identity': (context) => IdentityPage(),
           '/home': (context) => HomePage(),
+         
         },
         title: 'GMS ERP',
         debugShowCheckedModeBanner: false,
@@ -38,7 +39,7 @@ class HomePage extends StatelessWidget
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
-                     Container(
+                Container(
                         child: DrawerHeader(
                           decoration: BoxDecoration(
                             image: DecorationImage(
@@ -56,7 +57,7 @@ class HomePage extends StatelessWidget
                    child:CircleAvatar(
                    radius: 5.0,
                     child: ClipRRect(
-                      child: Image.asset('images/logo.png'),
+                      child: Image.asset('assets/images/logo.png'),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                  
@@ -116,8 +117,8 @@ class HomePage extends StatelessWidget
                         MaterialPageRoute(builder: (context) => HomePage()));
                   },
                 ),
-                 SizedBox(height: 200,),
-                      ListTile(
+                SizedBox(height: 200,),
+                ListTile(
                         title: const Text("Se Déconnecter"),
                         leading: const Icon(
                           Icons.logout_rounded,
@@ -127,7 +128,7 @@ class HomePage extends StatelessWidget
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => HomePage(),
+                                builder: (context) => UserLogin(),
                               ));
                         },
                       ),
