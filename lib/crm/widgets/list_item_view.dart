@@ -29,7 +29,7 @@ class ListItemView extends StatelessWidget {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Activities()));
   }
   void _navigateToClients(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Clients(url: url)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Clients()));
   }
   void _navigateToContacts(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Activities()));

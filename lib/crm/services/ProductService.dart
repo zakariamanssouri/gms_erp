@@ -24,13 +24,7 @@ class ProductService {
       list = data.map<Product>((json) => Product.fromJson(json)).toList();
     }
     else{
-      final scaffold = ScaffoldMessenger.of(context!);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: Text(message),
-        action: SnackBarAction(label: 'OK', onPressed: scaffold.hideCurrentSnackBar),
-      ),
-    );
+      list = null;
     }
 
     return list!;

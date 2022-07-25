@@ -13,35 +13,18 @@ class Header extends StatelessWidget {
     return Container(
         padding: EdgeInsets.all(GlobalParams.MainPadding),
         width: double.infinity,
-        height: 230,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/inventaires/header.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
+        height: 70,
         child: Column(
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Hi Zakaria !",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 20),
-                ),
                 // button with icon
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: IconButton(
-                    icon: Icon(Icons.notifications),
-                    onPressed: () {},
                   ),
                 ),
               ],
