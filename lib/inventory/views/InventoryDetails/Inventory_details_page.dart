@@ -3,6 +3,7 @@ import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/inventory/models/Inventory.dart';
 import 'package:gms_erp/inventory/models/Inventory_details.dart';
 import 'package:gms_erp/inventory/views/InventoryDetails/widgets/Header.dart';
+import 'package:gms_erp/widgets/ItemCard.dart';
 import 'package:gms_erp/widgets/SearchField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -83,13 +84,60 @@ class InventoyDetailsPage extends StatelessWidget {
                               create: (context) =>
                                   BlocProvider.of<InventoryDetailsBloc>(
                                       context),
-                              child: ProductCard(
-                                size: size,
-                                inventoryDetails: state.requestState ==
-                                        DetailsRequestState.Loaded
-                                    ? state.inventory_details[index]
-                                    : state.search_result![index],
-                              ),
+                              child: ItemCard(
+                                  size: size,
+                                  onPressed: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return ProductDetails(
+                                        inventoryDetails: state.requestState ==
+                                                DetailsRequestState.Loaded
+                                            ? state.inventory_details[index]
+                                            : state.search_result![index],
+                                      );
+                                    }));
+                                  },
+                                  color: state.requestState ==
+                                          DetailsRequestState.Loaded
+                                      ? state.inventory_details[index].qty
+                                              .toStringAsFixed(2)
+                                              .contains('0.00')
+                                          ? Colors.red[400]
+                                          : Colors.blue[400]
+                                      : state.search_result![index].qty
+                                              .toStringAsFixed(2)
+                                              .contains('0.00')
+                                          ? Colors.red[400]
+                                          : Colors.blue[400],
+                                  var1: state.requestState == DetailsRequestState.Loaded
+                                      ? state
+                                          .inventory_details[index].productName1
+                                      : state
+                                          .search_result![index].productName1,
+                                  var2:
+                                      state.requestState == DetailsRequestState.Loaded
+                                          ? state.inventory_details[index]
+                                              .stockLocationName
+                                          : state.search_result![index]
+                                              .stockLocationName,
+                                  var3: state.requestState == DetailsRequestState.Loaded
+                                      ? state.inventory_details[index].productNo
+                                      : state.search_result![index].productNo,
+                                  var4: state.requestState == DetailsRequestState.Loaded
+                                      ? "Pr: ${state.inventory_details[index].singlePrice.toStringAsFixed(2)} | "
+                                      : "Pr: ${state.search_result![index].singlePrice
+                                              .toStringAsFixed(2)} | ",
+                                  var5: state.requestState == DetailsRequestState.Loaded
+                                      ? "Qty: ${state.inventory_details[index].qty.toStringAsFixed(2)}"
+                                      : "Qty: ${state.search_result![index].qty.toStringAsFixed(2)}")
+                              // ProductCard(
+                              //   size: size,
+                              // inventoryDetails:   inventoryDetails: state.requestState ==
+                              //         DetailsRequestState.Loaded
+                              //     ? state.inventory_details[index]
+                              //     : state.search_result![index],
+                              // )
+                              ,
                             );
                           },
                         ),
