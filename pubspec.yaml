@@ -41,6 +41,7 @@ dependencies:
   google_maps_flutter: ^2.1.8
   google_maps_flutter_web: ^0.4.0+1
   form_field_validator:
+  flutter_barcode_scanner: ^2.0.0
 
 dev_dependencies:
   flutter_test:
