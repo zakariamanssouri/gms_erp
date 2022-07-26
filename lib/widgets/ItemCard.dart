@@ -12,6 +12,7 @@ class ItemCard extends StatelessWidget {
   String? var4;
   String? var5;
 
+  Color? textcolor;
   ItemCard(
       {Key? key,
       required this.size,
@@ -21,7 +22,8 @@ class ItemCard extends StatelessWidget {
       this.var3,
       this.var4,
       this.var5,
-      this.onPressed})
+      this.onPressed,
+      this.textcolor = GlobalParams.itemCardTextColor})
       : super(key: key);
 
   @override
@@ -36,7 +38,7 @@ class ItemCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(GlobalParams.MainPadding / 4),
         width: double.infinity,
-        height: size.height * 0.15,
+        height: size.height * 0.13,
         child: Card(
           elevation: 4,
           shadowColor: Colors.grey[300],
@@ -52,22 +54,32 @@ class ItemCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  var1 ?? "",
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Open Sans'),
-                ),
-                Text(
-                  var2 ?? "",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Open Sans'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        var1 ?? "",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            color: textcolor,
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Open Sans'),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      var2 ?? "",
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                          color: textcolor,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Open Sans'),
+                    ),
+                  ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,7 +87,7 @@ class ItemCard extends StatelessWidget {
                     Text(
                       var3 ?? "",
                       style: TextStyle(
-                          color: Colors.white,
+                          color: textcolor,
                           fontSize: 13,
                           fontWeight: FontWeight.w300,
                           fontFamily: 'Open Sans'),
@@ -86,17 +98,16 @@ class ItemCard extends StatelessWidget {
                           var4 ?? "",
                           // 'Pr : ${inventoryDetails.singlePrice.toStringAsFixed(2)}',
                           style: TextStyle(
-                              color: Colors.white,
+                              color: textcolor,
                               fontSize: 13,
                               fontWeight: FontWeight.w300,
                               fontFamily: 'Open Sans'),
                         ),
-                       
                         Text(
                           var5 ?? "",
                           //'Qty:${inventoryDetails.qty.toStringAsFixed(3)}',
                           style: TextStyle(
-                              color: Colors.white,
+                              color: textcolor,
                               fontSize: 13,
                               fontWeight: FontWeight.w300,
                               fontFamily: 'Open Sans'),
