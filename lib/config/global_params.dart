@@ -6,7 +6,7 @@ class GlobalParams {
 // api
   static final baseUrl = 'http://144.91.76.98:84/AndroidDB/';
 // for screens
-  static final MainColor = Color(0xFFCDDEEC);
+  static const MainColor = Colors.blue;
   static final SecondaryColor = Color(0xFF3E30BC);
   static final backgroundColor = Color(0xffEDEDED);
   static final double MainPadding = 20;
