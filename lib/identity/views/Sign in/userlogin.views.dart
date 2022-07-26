@@ -1,5 +1,7 @@
 // ignore_for_file: sort_child_properties_last, prefer_final_fields
 import 'package:flutter/material.dart';
+import '../../../config/global_params.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gms_erp/identity/views/Sign%20in/settingspage.view.dart';
@@ -19,6 +21,22 @@ class UserLogin extends StatefulWidget
 class _UserLoginState extends State<UserLogin>
  {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+   void initState() { 
+    super.initState();
+    _read();
+    
+  }
+    _read() async 
+    {
+        final prefs = await SharedPreferences.getInstance();
+        final key = GlobalParams.key_domain;
+        final value = prefs.getString(key) ?? "";
+        GlobalParams.baseUrl = value;
+        print('read: $value');
+      }
+
   @override
   Widget build(BuildContext context) 
   {

@@ -32,17 +32,16 @@ class _SettingsPage extends State<SettingsPage>
     {
         final prefs = await SharedPreferences.getInstance();
         final key = GlobalParams.key_domain;
-        final value = prefs.getString(key) ?? "walo";
+        final value = prefs.getString(key) ?? "";
         namedomainController.text = value;
         print('read: $value');
       }
       
-      _save(String value) async 
+    _save(String value) async 
       {
         final prefs = await SharedPreferences.getInstance();
         final key = GlobalParams.key_domain;
         prefs.setString(key, value);
-        GlobalParams.baseUrl = value;
         print('saved $value');
       }
 
@@ -66,7 +65,7 @@ class _SettingsPage extends State<SettingsPage>
                                        child: Image.asset('assets/images/logo.png'),
                                        borderRadius: BorderRadius.circular(10.0),), ),),
                                 const SizedBox(height:10),
-                                Text(' Merci de saisir le nom du domaine avant de continuer',textAlign: TextAlign.center,style: TextStyle(color: Colors.blue,fontSize:13,),),
+                                const Text(' Merci de saisir le nom du domaine avant de continuer',textAlign: TextAlign.center,style: TextStyle(color: Colors.blue,fontSize:13,),),
                                 const SizedBox(height:20),
                                 TextFormField(
                                    controller: namedomainController,
@@ -96,8 +95,7 @@ class _SettingsPage extends State<SettingsPage>
                                   primary: Colors.blue), 
                                   
                                 child: const Text('Confirmer'),
-                              ),
-                              
+                              ), 
                             ],
                       ),
                   ),
