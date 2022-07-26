@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class GlobalParams {
 // api
   static final baseUrl = 'http://144.91.76.98:84/AndroidDB/';
+  //static final baseUrl = 'http://144.91.76.98:84/gm-erp/';
 // for screens
   static const MainColor = Colors.blue;
   static final SecondaryColor = Color(0xFF3E30BC);

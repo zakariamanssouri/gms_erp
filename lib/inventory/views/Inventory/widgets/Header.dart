@@ -1,10 +1,11 @@
 
 import 'package:gms_erp/config/global_params.dart';
 import 'package:flutter/material.dart';
+import 'package:gms_erp/widgets/SearchField.dart';
 
 class Header extends StatelessWidget {
   const Header({
-    Key? key,
+    Key? key, required Size size, required SearchField child,
   }) : super(key: key);
 
   @override

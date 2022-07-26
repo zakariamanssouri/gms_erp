@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:gms_erp/crm/models/Client.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:gms_erp/config/global_params.dart';
+
 class ClientService {
   
-  static Future<List<Client>> getClients(String url, BuildContext? context) async {
+  static Future<List<Client>> getClients() async {
     List<Client>? list;
     int success=-1;
     String message="";
 
-    url = 'http://144.91.76.98:84/AndroidDB/search_client.php?barcode=all';
-    var res = await http.get(Uri.parse(url));
+    var res = await http.get(Uri.parse(GlobalParams.baseUrl + 'search_client.php?barcode=all'));
     var json_data = json.decode(res.body);
 
     if (res.statusCode == 200) {
@@ -24,13 +25,7 @@ class ClientService {
       list = data.map<Client>((json) => Client.fromJson(json)).toList();
     }
     else{
-      final scaffold = ScaffoldMessenger.of(context!);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: Text(message),
-        action: SnackBarAction(label: 'OK', onPressed: scaffold.hideCurrentSnackBar),
-      ),
-    );
+      list = null;
     }
 
     return list!;

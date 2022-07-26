@@ -23,9 +23,9 @@ class ButtonOption
   ];
 
   static List<ButtonOption> IdentityOptions = const <ButtonOption>[
-    const ButtonOption(route: "user", text: 'Ajouter Utilisateur', iconData: Icons.person_add),
-    const ButtonOption(route: "product", text: 'Utilisateurs', iconData: Icons.people_alt),
-    const ButtonOption(route: "contact", text: 'Roles', iconData: Icons.person_pin_rounded),
+    const ButtonOption(route: "/identityAddUsers", text: 'Ajouter Utilisateur', iconData: Icons.person_add),
+    const ButtonOption(route: "/identityUsersList", text: 'Utilisateurs', iconData: Icons.people_alt),
+    const ButtonOption(route: "", text: 'Roles', iconData: Icons.person_pin_rounded),
     const ButtonOption(route: "",text: "Droit d'Accées",iconData: Icons.lock_person),
   ];
 
