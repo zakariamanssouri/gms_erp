@@ -101,12 +101,12 @@ class InventoyDetailsPage extends StatelessWidget {
                                           DetailsRequestState.Loaded
                                       ? state.inventory_details[index].qty
                                               .toStringAsFixed(2)
-                                              .contains('0.00')
+                                              .startsWith('0.00')
                                           ? Colors.red[400]
                                           : Colors.blue[400]
                                       : state.search_result![index].qty
                                               .toStringAsFixed(2)
-                                              .contains('0.00')
+                                              .startsWith('0.00')
                                           ? Colors.red[400]
                                           : Colors.blue[400],
                                   var1: state.requestState == DetailsRequestState.Loaded
