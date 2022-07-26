@@ -53,7 +53,6 @@ class _UserLoginState extends State<UserLogin>
                                      child: ClipRRect(
                                          child: Image.asset('assets/images/logo.png'),
                                          borderRadius: BorderRadius.circular(10.0),), ),),
-                                  //   Text('Se Connecter',textAlign: TextAlign.center,style: TextStyle(color: Colors.blue,fontSize: 35,fontWeight: FontWeight.w400,),),
                                   const SizedBox(height:10),
                                   const SizedBox(height:15),
                                   TextFormField(
@@ -97,9 +96,9 @@ class _UserLoginState extends State<UserLogin>
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                     children:[
-                                      Text("Si vous n'avez pas de compte merci de ",textAlign: TextAlign.center,style: TextStyle(fontSize:13,color:Colors.blue),),
+                                      Text("Si vous n'avez pas de compte",textAlign: TextAlign.center,style: TextStyle(fontSize:13,color:Colors.blue),),
                                       InkWell(
-                                        child:Text("S'inscrire ",textAlign: TextAlign.center,style: TextStyle(fontSize:13,color:Colors.blue,fontWeight: FontWeight.bold,),),
+                                        child:Text("S'inscrire",textAlign: TextAlign.center,style: TextStyle(fontSize:13,color:Colors.blue,fontWeight: FontWeight.bold,),),
                                         onTap: ()
                                         {
                                           Navigator.push(
