@@ -8,7 +8,6 @@ import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/crm/views/Client/widgets/ClientsListView.dart';
 import 'package:gms_erp/crm/views/Client/widgets/Header.dart';
 import 'package:gms_erp/widgets/DrawerWidget.dart';
-import 'package:gms_erp/crm/views/Client/widgets/ClientCard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../inventory/views/InventoryDetails/widgets/ErrorWithRefreshButtonWidget.dart';
