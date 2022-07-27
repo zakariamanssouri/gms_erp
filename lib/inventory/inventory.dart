@@ -7,6 +7,7 @@ import 'package:gms_erp/homepage.dart';
 import 'package:gms_erp/inventory/views/Inventory/inventories_page.dart';
 import 'package:gms_erp/inventory/views/Inventory/widgets/InventoriesListView.dart';
 import 'package:gms_erp/inventory/views/InventoryDetails/widgets/ErrorWithRefreshButtonWidget.dart';
+import 'package:gms_erp/inventory/views/Products/products.dart';
 import 'package:gms_erp/widgets/DrawerWidget.dart';
 import 'package:gms_erp/widgets/SearchField.dart';
 import 'package:flutter/material.dart';
@@ -49,69 +50,5 @@ class InventoryHomePage extends StatelessWidget {
             }),
           ),
         ));
-  }
-}
-
-class ProductsPage extends StatelessWidget {
-  const ProductsPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    print("widget built");
-    Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: GlobalParams.backgroundColor,
-      floatingActionButton: FloatingActionButton(
-          disabledElevation: 0,
-          child: Icon(
-            Icons.qr_code_scanner_rounded,
-            size: 40,
-          ),
-          onPressed: () async {
-            String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-                "red", "cancel", true, ScanMode.BARCODE);
-          }),
-      appBar: AppBar(
-        title: const Text('Products'),
-        elevation: 0,
-        backgroundColor: Colors.blue,
-      ),
-      body: Container(
-        height: size.height,
-        width: double.infinity,
-        child: Container(
-          child: Column(
-            children: [
-              Header(
-                size: size / 1.5,
-                child: SearchField(
-                    size: size / 1.4,
-                    onchanged_function: (String value) {
-                      BlocProvider.of<InventoryDetailsBloc>(context).add(
-                        SearchProductEvent(
-                            value,
-                            BlocProvider.of<InventoryDetailsBloc>(context)
-                                .state
-                                .inventory_details),
-                      );
-                    }),
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Expanded(
-                  child: Container(
-                child: ListView.builder(
-                  itemCount: 1,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Text("data");
-                  },
-                ),
-              ))
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }
