@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gms_erp/crm/views/Client/addClientPage.dart';
 import 'package:gms_erp/crm/views/Client/clientItem.dart';
 import 'package:gms_erp/widgets/SearchField.dart';
 import 'package:gms_erp/blocs/Client/client_bloc.dart';
@@ -20,6 +21,10 @@ class Clients extends StatelessWidget {
         title: Text('Clients'),
         backgroundColor: Colors.blue,
         elevation: 0,
+        actions: [
+          IconButton(onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddClientPage()));
+                              }, icon: Icon(Icons.add))],
       ),
       body: BlocProvider(
         create: (context) =>
