@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gms_erp/blocs/Inventory/bloc/inventory_bloc.dart';
 import 'package:gms_erp/blocs/InventoryDetails/inventory_details_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/inventory/services/InventoryService.dart';
@@ -7,10 +8,11 @@ import '../../models/Inventory_details.dart';
 import 'Widgets/TextFieldWidget.dart';
 import 'Widgets/ButtonWidget.dart';
 
+
 class ProductDetails extends StatelessWidget {
   InventoryDetails inventoryDetails;
   double _fontsize = 14;
-  ProductDetails({required this.inventoryDetails}) {}
+  ProductDetails({required this.inventoryDetails});
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -247,17 +249,24 @@ class QuantityAndPriceFormState extends State<QuantityAndPriceForm> {
                   if (_formKey.currentState!.validate()) {
                     _inventoryService.updateProduct(inventoryDetails.id,
                         double.parse(quantityController.text));
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      padding: EdgeInsets.all(20),
                       content: Text("Updated Successfully"),
                     ));
+
                     BlocProvider.of<InventoryDetailsBloc>(context)
                         .state
                         .inventory_details = [];
+
                     BlocProvider.of<InventoryDetailsBloc>(context)
                         .state
                         .search_result = [];
-                    await BlocProvider.of<InventoryDetailsBloc>(context)
-                      ..add(LoadInventoryDetails(inventoryDetails.inventoryId));
+
+                    BlocProvider.of<InventoryDetailsBloc>(context).add(
+                        LoadInventoryDetails(inventoryDetails.inventoryId));
+
+
+                    // print(inventoryDetails.inventoryId);
                     Navigator.pop(context);
                   }
                 },
