@@ -15,9 +15,6 @@ void main() {
      BlocProvider<InventoryBloc>(
           create: (context) => InventoryBloc(),
         ),
-        BlocProvider<ClientBloc>(
-          create: (context) => ClientBloc(),
-        ),
       
   ],child: MaterialApp(
      home: UserLogin())));

@@ -20,5 +20,30 @@ class ClientBloc extends Bloc<ClientEvent, ClientState> {
         emit(ClientState([], RequestState.Error, "error"));
       }
     });
+
+    on<SearchClientEvent>((event, emit) async {
+      try {
+        emit(ClientState(
+            event.client_list, RequestState.Searching, '',
+            search_result: []));
+
+        List<Client> search_result = [];
+        for (var i = 0; i < event.client_list.length; i++) {
+          if (event.client_list[i].no
+                  .toLowerCase()
+                  .contains(event.search_value.toLowerCase()) ||
+              event.client_list[i].name
+                  .toLowerCase()
+                  .contains(event.search_value.toLowerCase())) {
+            search_result.add(event.client_list[i]);
+          }
+        }
+        emit(ClientState(
+            event.client_list, RequestState.SearchLoaded, '',
+            search_result: search_result));
+      } catch (e) {
+        emit(ClientState([], RequestState.Error, "error"));
+      }
+    });
   }
 }

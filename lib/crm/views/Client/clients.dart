@@ -1,199 +1,148 @@
-
 import 'package:flutter/material.dart';
-import 'package:gms_erp/crm/widgets/side_drawer.dart';
+import 'package:gms_erp/crm/views/Client/clientItem.dart';
 import 'package:gms_erp/widgets/SearchField.dart';
-
 import 'package:gms_erp/blocs/Client/client_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
-import 'package:gms_erp/crm/views/Client/widgets/ClientsListView.dart';
 import 'package:gms_erp/crm/views/Client/widgets/Header.dart';
-import 'package:gms_erp/widgets/DrawerWidget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../inventory/views/InventoryDetails/widgets/ErrorWithRefreshButtonWidget.dart';
+import '../../../widgets/ItemCard.dart';
 
 class Clients extends StatelessWidget {
 
-  const Clients({
-    Key? key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    BlocProvider.of<ClientBloc>(context)..add(LoadClients());
-    return Scaffold(
-      drawer: SideDrawer(),
+    return SafeArea(
+        child: Scaffold(
+      backgroundColor: GlobalParams.backgroundColor,
       appBar: AppBar(
+        title: Text('Clients'),
         backgroundColor: Colors.blue,
         elevation: 0,
-        title: Text("Clients",
-            style: TextStyle(
-                fontFamily: 'Open Sans',
-                fontWeight: FontWeight.w900,
-                color: Colors.white,
-                fontSize: 20)),
       ),
-      backgroundColor: GlobalParams.backgroundColor,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              // heaeder
-              Header(
-                size: size / 2,
-                child: SearchField(size: size / 1.4,
-                  onchanged_function: (String value) {
-                    BlocProvider.of<ClientBloc>(context).add(
-                      SearchClientEvent(
-                          value,
-                          BlocProvider.of<ClientBloc>(context)
-                              .state
-                              .clients),
-                    );
-                  }),
-              ),
-
-              // heaeder
-              SizedBox(
-                height: 5,
-              ),
-            ]),
-            BlocBuilder<ClientBloc, ClientState>(
-              builder: (context, state) {
-                // data is loading
-                if (state.requestState == RequestState.Loading)
-                  return Center(child: CircularProgressIndicator());
-                // data is loading
-
-                // data is loaded
-                else if (state.requestState == RequestState.Loaded)
-                  return ClientsListView(clients: state.clients);
-                // data is loaded
-
-                // no data
-                return ErrorWithRefreshButtonWidget(
-                    button_function: () {
-                      BlocProvider.of<ClientBloc>(context)
-                          .add(LoadClients());
-                    }, inventory: null,);
-                // no data
-              },
-            )
-          ],
-        ),
+      body: BlocProvider(
+        create: (context) =>
+            ClientBloc()..add(LoadClients()),
+        child: ClientsBody(size: size),
       ),
-    );
+    ));
   }
 }
 
+class ClientsBody extends StatelessWidget {
+  ClientsBody({
+    Key? key,
+    required this.size,
+  }) : super(key: key);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  /*String url;
-  Clients({Key? key, required this.url}) : super(key: key);
-
-  @override
-  _clientsState createState() => _clientsState();
-}
-
-class _clientsState extends State<Clients>{
-  List<Client> allClients = [];
-  List<Client> foundClients = [];
-
-  Widget listViewWidget(List<Client> client) {
-    return Container(
-      child: ListView.builder(
-        itemCount: client.length,
-          itemBuilder: (context, position) {
-            return Card(
-              child: ListTile(
-                leading: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                  '${client[position].no}',
-                  style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.black),
-                ), 
-                Text(
-                  '${client[position].country}',
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.grey),
-                ),
-                      ]),
-                trailing: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                        '${client[position].name}',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.black),
-                      ),
-                      Text(
-                  '${client[position].type}',
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.grey),
-                ),
-                      ]),
-            onTap: () {
-            _navigateToClientItem(context, client[position]);
-          }
-              ),
-            );
-          }),
-    );
-  }
-
-  void initState(){
-    allClients = ClientService.getClients(widget.url, context) as List<Client>;
-    foundClients = allClients;
-  }
+  final Size size;
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text("Clients"),
-        shape: SearchField(size: size / 1.5 , )
+    BuildContext _context = context;
+    return Container(
+      height: size.height,
+      width: size.width,
+      child: Column(
+        children: [
+          Header(
+            size: size / 1.5,
+            child: SearchField(
+                size: size / 1.4,
+                onchanged_function: (String value) {
+                  BlocProvider.of<ClientBloc>(context).add(
+                    SearchClientEvent(
+                        value,
+                        BlocProvider.of<ClientBloc>(context)
+                            .state
+                            .clients),
+                  );
+                }),
+          ),
+          Expanded(
+            child: BlocBuilder<ClientBloc, ClientState>(
+                builder: (context, state) {
+              print("request state:${state.requestState}");
+              // data is loading
+              if (state.requestState == RequestState.Loading ||
+                  state.requestState == RequestState.Searching)
+                return Container(
+                  height: size.height * 0.5,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+
+              // data is loading
+              // data is loaded
+              else if (state.requestState == RequestState.Loaded ||
+                  state.requestState == RequestState.SearchLoaded) {
+                return Container(
+                  height: size.height * 0.78,
+                  padding: EdgeInsets.only(
+                      top: GlobalParams.MainPadding / 2,
+                      left: GlobalParams.MainPadding / 3,
+                      right: GlobalParams.MainPadding / 4),
+                  child: ListView.builder(
+                    itemCount: state.requestState == RequestState.Loaded
+                        ? state.clients.length
+                        : state.search_result?.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ItemCard(
+                          size: size,
+                          onPressed: () {
+                            print("lenghth here");
+                            ClientBloc bloc =
+                                BlocProvider.of<ClientBloc>(context);
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return BlocProvider.value(
+                                value: BlocProvider.of<ClientBloc>(
+                                    _context),
+                                child: ClientItem(
+                                  client: state.requestState ==
+                                          RequestState.Loaded
+                                      ? state.clients[index]
+                                      : state.search_result![index],
+                                ),
+                              );
+                            }));
+                          },
+                          color:
+                              Colors.white,
+                          var1: state.requestState == RequestState.Loaded
+                              ? state.clients[index].no
+                              : state.search_result![index].no,
+                          var2: state.requestState == RequestState.Loaded
+                              ? state.clients[index].name
+                              : state.search_result![index].name,
+                          var3: state.requestState == RequestState.Loaded
+                              ? state.clients[index].country
+                              : state.search_result![index].country,
+                          var4: state.requestState == RequestState.Loaded
+                              ? state.clients[index].type
+                              : state.search_result![index].type,
+                              textcolor: Colors.black);
+                    },
+                  ),
+                );
+              }
+              // data is loaded
+
+              // Error
+              return ErrorWithRefreshButtonWidget(
+                inventory: null,
+                button_function: () {
+                  BlocProvider.of<ClientBloc>(context)
+                      .add(LoadClients());
+                },
+              );
+              // Error
+            }),
+          )
+        ],
       ),
-      body: Builder(
-          builder: (context) {
-            return foundClients != null
-                ? listViewWidget(foundClients)
-                : Center(child: CircularProgressIndicator());
-          }),
-          drawer: SideDrawer(),
     );
   }
-
-  void _navigateToClientItem(BuildContext context, Client client) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClientItem(client: client)));
-  }
-}*/
+}
