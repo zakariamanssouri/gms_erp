@@ -15,9 +15,6 @@ void main() {
      BlocProvider<InventoryBloc>(
           create: (context) => InventoryBloc(),
         ),
-       BlocProvider<InventoryDetailsBloc>(
-          create: (context) => InventoryDetailsBloc(),
-        ),
         BlocProvider<ClientBloc>(
           create: (context) => ClientBloc(),
         ),
