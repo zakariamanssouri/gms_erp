@@ -9,7 +9,7 @@ import 'package:gms_erp/identity/views/user.view.dart';
 import 'package:gms_erp/identity/views/useradd.view.dart';
 import 'package:gms_erp/inventory/inventory.dart';
 import 'package:gms_erp/inventory/views/InventoryDetails/Inventory_details_page.dart';
-import 'views/product.view.dart';
+
 
 class IdentityPage extends StatelessWidget 
 {

@@ -20,15 +20,16 @@ class User{
       id: json['id'],
       name: json['name'],
       email: json['email'], 
+      password:json['password'],
     );
   }
 
   Map toJson() {
-    return {'id': id, 'name': name, 'email': email};
+    return {'id': id, 'name': name, 'email': email, 'password' : password};
   }
   
   String tostring(){
-    String result = "$id  $name  $email" ;
+    String result = "$id  $name  $email $password " ;
     return result.toString();
   }
 }
