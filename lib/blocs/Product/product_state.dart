@@ -1,25 +1,31 @@
 part of 'product_bloc.dart';
 
-abstract class ProductState extends Equatable {
-  const ProductState();
-
-  @override
-  List<Object> get props => [];
-}
-
 
 enum ProductRequestState {
-  Loading,
   Loaded,
+  Loading,
   Error,
+  None,
+  Searching,
+  SearchLoaded
 }
-class ProductInitial extends ProductState {
 
-  List<Product> products;
+class ProductState extends Equatable {
+  List<Product> products = [];
+  List<Product>? search_result;
   ProductRequestState requestState;
   String errorMessage;
-  ProductInitial({required this.products,required this.requestState,required this.errorMessage});
+
+  ProductState(
+      {required this.products,
+      required this.requestState,
+      required this.errorMessage,
+      this.search_result});
 
   @override
-  List<Object> get props => [products,requestState,errorMessage];
+  List<Object> get props => [
+        products,
+        requestState,
+        errorMessage,
+      ];
 }
