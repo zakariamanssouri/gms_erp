@@ -37,7 +37,10 @@ class Products extends StatelessWidget {
                     onchanged_function: (String value) {
                       BlocProvider.of<ProductBloc>(context).add(
                         SearchProductEvent(
-                          value,
+                          search_value: value,
+                          product_list: BlocProvider.of<ProductBloc>(context)
+                              .state
+                              .products,
                         ),
                       );
                     }),
@@ -48,7 +51,7 @@ class Products extends StatelessWidget {
               Expanded(
                 child: BlocBuilder<ProductBloc, ProductState>(
                   builder: (context, state) {
-                    if (state is ProductInitial) {
+                    if (state is ProductState) {
                       if (state.requestState == ProductRequestState.Loading) {
                         return Center(child: CircularProgressIndicator());
                       } else if (state.requestState ==
