@@ -42,6 +42,7 @@ class _SettingsPage extends State<SettingsPage>
         final prefs = await SharedPreferences.getInstance();
         final key = GlobalParams.key_domain;
         prefs.setString(key, value);
+      GlobalParams.baseUrl = value;
         print('saved $value');
       }
 
