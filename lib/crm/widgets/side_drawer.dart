@@ -7,7 +7,6 @@ import 'package:gms_erp/homepage.dart';
 
 class SideDrawer extends StatelessWidget {
 
-  String url = "";
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -156,7 +155,7 @@ class SideDrawer extends StatelessWidget {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Activities()));
   }
   void _navigateToProducts(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Products(url: url)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Products()));
   }
   
   void _navigateToLogout(BuildContext context) {

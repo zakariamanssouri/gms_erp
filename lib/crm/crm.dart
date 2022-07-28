@@ -16,7 +16,7 @@ class CRMPage extends StatelessWidget {
     return MaterialApp(
       routes: {
           '/Activity': (context) => Activities(),
-          '/Product': (context) => Products(url: ''),
+          '/Product': (context) => Products(),
           '/Client': (context) => Clients(),
         },
       title: 'GM-CRM',

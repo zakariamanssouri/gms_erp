@@ -6,7 +6,7 @@ import 'package:gms_erp/crm/views/Product/products.dart';
 import 'package:gms_erp/widgets/homebutton.dart';
 
 class ListItemView extends StatelessWidget {
-  String url = "";
+  
   @override
   Widget build(BuildContext context) {
     return new GridView.count(
@@ -47,6 +47,6 @@ class ListItemView extends StatelessWidget {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Activities()));
   }
   void _navigateToProducts(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Products(url: url)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Products()));
   }
 }

@@ -1,85 +1,112 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:gms_erp/crm/widgets/side_drawer.dart';
-import 'package:gms_erp/crm/widgets/search_field.dart';
-import 'package:gms_erp/crm/models/Product.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gms_erp/blocs/Product/product_bloc.dart';
+import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/crm/views/Product/productItem.dart';
-import 'package:gms_erp/crm/services/ProductService.dart';
+import 'package:gms_erp/inventory/views/InventoryDetails/widgets/ErrorWithRefreshButtonWidget.dart';
+import 'package:gms_erp/widgets/ItemCard.dart';
+import 'package:gms_erp/widgets/SearchField.dart';
 
-import 'package:http/http.dart' as http;
+import '../Client/widgets/Header.dart';
 
-class Products extends StatefulWidget {
-  String url;
-  Products({Key? key, required this.url}) : super(key: key);
-  
-  BuildContext? get context => null;
-  @override
-  _ProductsState createState() => _ProductsState();
-}
-
-class _ProductsState extends State<Products> {
-
-  Widget listViewWidget(List<Product> product) {
-    return Container(
-      child: ListView.builder(
-        itemCount: product.length,
-          itemBuilder: (context, position) {
-            return Card(
-              child: ListTile(
-                leading: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                  '${product[position].name}',
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.black),
-                ), 
-                Text(
-                  '${product[position].code}',
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.grey),
-                ),
-                      ]),
-                trailing: Text(
-                        '${product[position].s_price}',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.black),
-                      ),
-                onTap: () {
-              _navigateToProductItem(context, product[position]);
-            }
-              ),
-            );
-          }),
-    );
-  }
+class Products extends StatelessWidget {
+  const Products({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print("widget built");
+    Size size = MediaQuery.of(context).size;
+    return BlocProvider(
+      create: (context) => ProductBloc()..add(LoadAllProductsEvent()),
+      child: Scaffold(
+        backgroundColor: GlobalParams.backgroundColor,
+        appBar: AppBar(
+          title: const Text('Products'),
+          elevation: 0,
+          backgroundColor: Colors.blue,
+        ),
+        body: Container(
+          height: size.height,
+          width: double.infinity,
+          child: Column(
+            children: [
+              Header(
+                size: size / 1.5,
+                child: SearchField(
+                    size: size / 1.4,
+                    onchanged_function: (String value) {
+                      BlocProvider.of<ProductBloc>(context).add(
+                        SearchProductEvent(
+                          value,
+                        ),
+                      );
+                    }),
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Expanded(
+                child: BlocBuilder<ProductBloc, ProductState>(
+                  builder: (context, state) {
+                    if (state is ProductInitial) {
+                      if (state.requestState == ProductRequestState.Loading) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (state.requestState ==
+                          ProductRequestState.Loaded) {
+                        return Container(
+                            height: size.height * 0.78,
+                            padding: EdgeInsets.only(
+                                top: GlobalParams.MainPadding / 2,
+                                left: GlobalParams.MainPadding / 3,
+                                right: GlobalParams.MainPadding / 4),
+                            child: ListView.builder(
+                                itemCount: state.products.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return BlocProvider(
+                                      create: (context) =>
+                                          BlocProvider.of<ProductBloc>(context),
+                                      child: ItemCard(
+                                        onPressed: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return ProductItem(
+                                                product: state.products[index]);
+                                          }));
+                                        },
+                                        size: size,
+                                        var1: state.products[index].name,
+                                        var2: state.products[index].s_price,
+                                        var3: state.products[index].code,
+                                      ));
+                                }));
+                      }
+                      return Container(
+                          child: ErrorWithRefreshButtonWidget(
+                        inventory: null,
+                        button_function: () {
+                          BlocProvider.of<ProductBloc>(context)
+                              .add(LoadAllProductsEvent());
+                        },
+                      ));
+                    }
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text("Produits"),
+                    return Expanded(
+                        child: Container(
+                      child: ListView.builder(
+                        itemCount: 1,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Text("data");
+                        },
+                      ),
+                    ));
+                  },
+                ),
+              )
+            ],
+          ),
+        ),
       ),
-      body: 
-          FutureBuilder(
-          future: ProductService.getProducts(widget.url, context),
-          builder: (context, snapshot) {
-            return snapshot.data != null
-                ? listViewWidget(snapshot.data as List<Product>)
-                : Center(child: CircularProgressIndicator());
-          }),
-        drawer: SideDrawer(),
     );
-  }
-
-  void _navigateToProductItem(BuildContext context, Product product) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductItem(product: product)));
   }
 }
