@@ -12,6 +12,11 @@ class LoadAllProductsEvent extends ProductEvent {
 }
 
 class SearchProductEvent extends ProductEvent {
-  final String searchvalue;
-  const SearchProductEvent(this.searchvalue);
+  String search_value;
+  List<Product> product_list = [];
+
+  SearchProductEvent({required this.search_value,required  this.product_list});
+
+  @override
+  List<Object> get props => [search_value, product_list];
 }
