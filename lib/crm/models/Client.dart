@@ -1,5 +1,6 @@
 class Client {
   String id, no, name, country, type, group, street, city, phone;
+  String? etat, vat;
   Client(
     {required this.id,
     required this.no,

@@ -1,3 +1,4 @@
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:gms_erp/blocs/InventoryDetails/inventory_details_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/inventory/models/Inventory.dart';
@@ -19,6 +20,17 @@ class InventoyDetailsPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
         child: Scaffold(
+      floatingActionButton: FloatingActionButton(
+          disabledElevation: 0,
+          backgroundColor: Colors.purple[900],
+          child: Icon(
+            Icons.qr_code_scanner_rounded,
+            size: 30,
+          ),
+          onPressed: () async {
+            String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+                "blue", "cancel", false, ScanMode.BARCODE);
+          }),
       backgroundColor: GlobalParams.backgroundColor,
       appBar: AppBar(
         title: Text(

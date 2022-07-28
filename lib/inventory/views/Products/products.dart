@@ -72,17 +72,13 @@ class ProductsPage extends StatelessWidget {
                                               MaterialPageRoute(
                                                   builder: (context) {
                                             return ProductDetailsPage(
-                                                state.products[index]);
+                                                product: state.products[index]);
                                           }));
                                         },
                                         size: size,
-                                        color:
-                                            GlobalParams.MainColor.withOpacity(
-                                                0.8),
                                         var1: state.products[index].name,
                                         var2: state.products[index].s_price,
                                         var3: state.products[index].code,
-                                        var4: state.products[index].stock_min,
                                       ));
                                 }));
                       }

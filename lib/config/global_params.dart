@@ -42,4 +42,8 @@ class GlobalParams {
   static final String key_domain = "domainame";
   static  String key_token ="token";
   static const  itemCardTextColor = Colors.white;
+
+
+  // font sizes
+  static final double MainfontSize = 15;
 }
