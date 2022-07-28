@@ -38,11 +38,11 @@ class _SettingsPage extends State<SettingsPage>
       }
       
     _save(String value) async 
-      {
+    {
         final prefs = await SharedPreferences.getInstance();
         final key = GlobalParams.key_domain;
         prefs.setString(key, value);
-        print('saved $value');
+        //print('saved $value');
       }
 
   @override
@@ -89,7 +89,6 @@ class _SettingsPage extends State<SettingsPage>
                                        Navigator.pop(context);
                                   }
                                },
-                    
                                   style: ElevatedButton.styleFrom(
                                   fixedSize: const Size(240, 40), 
                                   primary: Colors.blue), 
