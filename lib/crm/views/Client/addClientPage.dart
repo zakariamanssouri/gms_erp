@@ -63,7 +63,7 @@ class DataField extends StatefulWidget {
 }
 
 class DataFieldState extends State<DataField> {
-  final Client client;
+  Client client;
   TextEditingController numController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController telController = TextEditingController();
@@ -201,7 +201,7 @@ class DataFieldState extends State<DataField> {
               SizedBox(height: size.height * 0.02),
               TextFieldWidget(
                   validator: (value) {
-                    return validateNumber(value!);
+                    return validateField(value!);
                   },
                   obj: client,
                   controller: numController,
@@ -228,7 +228,7 @@ class DataFieldState extends State<DataField> {
                   keyboardType: TextInputType.numberWithOptions(
                       signed: false, decimal: true),
                   validator: (value) {
-                    return validateNumber(value!);
+                    return validateField(value!);
                   },
                   obj: client, valuetext: '', labeltext: 'Telephone',),
               SizedBox(height: size.height * 0.02),
@@ -306,6 +306,7 @@ class DataFieldState extends State<DataField> {
                                         onChanged: (newValue) {
                                           setState(() {
                                             selectedGroup = newValue.toString();
+                                            client.group = selectedGroup;
                                             client.grp_id = GrpID(selectedGroup).toString();
                                           });
                                         },
@@ -436,6 +437,10 @@ class DataFieldState extends State<DataField> {
                 size: size,
                 onPressed: () async {
                   //if (_formKey.currentState!.validate()) {
+                    client.name = nameController.text;
+                    client.no = numController.text;
+                    client.phone = telController.text;
+                    
                     ClientService.addClient(client);
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       padding: EdgeInsets.all(20),

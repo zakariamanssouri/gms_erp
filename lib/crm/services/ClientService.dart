@@ -44,7 +44,6 @@ class ClientService {
     map['customer_group_id'] = client.grp_id;
     map['customer_state_id'] = client.state_id;
     map['phone'] = client.phone;
-    map['vat_booking_group_id'] = client.vat_id;
 
     final response = await http.post(
       Uri.parse(GlobalParams.baseUrl + 'client_add.php'),
