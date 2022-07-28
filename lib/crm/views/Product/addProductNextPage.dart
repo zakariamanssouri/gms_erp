@@ -145,9 +145,9 @@ class ProductDataFieldState extends State<ProductDataField> {
 
   String selectedMeasure = 'Carton';
   String selectedPacktype = 'SOUS VIDE';
-  String selectedType = 'Marocain';
-  String selectedGroup = 'Divers';
-  String selectedState = 'Qualifier';
+  String selectedType = 'AIGUILLES PISTOLETS';
+  String selectedGroup = 'Viande Rouge';
+  String selectedState = 'Actif';
   String selectedVat = '14 %';
 
   final _formKey = GlobalKey<FormState>();

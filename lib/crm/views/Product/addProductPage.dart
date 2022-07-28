@@ -153,12 +153,12 @@ class ProductDataFieldState extends State<ProductDataField> {
   double _fontsize = 15;
 
   ProductDataFieldState(this.product) {
-    numController.text = product.no.toString();
-    nameController.text = product.name.toString();
-    codeController.text = product.code.toString();
-    purPriceController.text = product.p_price.toString();
-    salesPriceController.text = product.s_price.toString();
-    stockController.text = product.stock_min.toString();
+    numController.text = '';
+    nameController.text = '';
+    codeController.text = '';
+    purPriceController.text = '';
+    salesPriceController.text = '';
+    stockController.text = '';
   }
 
   
