@@ -43,6 +43,8 @@ class _SettingsPage extends State<SettingsPage>
         final key = GlobalParams.key_domain;
         prefs.setString(key, value);
         //print('saved $value');
+      GlobalParams.baseUrl = value;
+        print('saved $value');
       }
 
   @override

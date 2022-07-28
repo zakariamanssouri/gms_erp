@@ -114,8 +114,6 @@ class ClientsBody extends StatelessWidget {
                               );
                             }));
                           },
-                          color:
-                              Colors.white,
                           var1: state.requestState == RequestState.Loaded
                               ? state.clients[index].no
                               : state.search_result![index].no,
@@ -127,8 +125,7 @@ class ClientsBody extends StatelessWidget {
                               : state.search_result![index].country,
                           var4: state.requestState == RequestState.Loaded
                               ? state.clients[index].type
-                              : state.search_result![index].type,
-                              textcolor: Colors.black);
+                              : state.search_result![index].type);
                     },
                   ),
                 );

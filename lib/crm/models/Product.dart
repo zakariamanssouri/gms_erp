@@ -1,5 +1,7 @@
 class Product {
   String id, no, name, s_price, stock_min, code, s_price_min;
+  String? p_price, measure, packtype, type, group, state, vat;
+  String? measure_id, type_id, packtype_id, grp_id, state_id, vat_id;
   Product(
     {required this.id,
     required this.no,
