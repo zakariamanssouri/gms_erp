@@ -1,6 +1,8 @@
 class Client {
   String id, no, name, country, type, group, street, city, phone;
   String? etat, vat;
+  String? type_id, grp_id, state_id, vat_id;
+
   Client(
     {required this.id,
     required this.no,
@@ -21,7 +23,7 @@ class Client {
         country: json["country_name"],
         type: json["customer_type"],
         group: json["customer_group"],
-        street: json["street"]==null ? '' : json["street"],
+        street: json["street"] == null ? '' : json["street"],
         city: json["city"],
         phone: json["contact_phone"]);
   }

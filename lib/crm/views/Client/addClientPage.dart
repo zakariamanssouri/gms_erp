@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gms_erp/crm/services/ClientService.dart';
+import 'package:gms_erp/crm/views/Client/clientItem.dart';
 import '../../../config/global_params.dart';
 import '../../../widgets/ButtonWidget.dart';
 import '../../../widgets/TextFieldWiget.dart';
@@ -72,8 +74,8 @@ class DataFieldState extends State<DataField> {
   List<String> stateList = ['Qualifier', 
         'Disqualifié - Perdu', 
         'Disqualifié - Impossible de contacter', 
-        'Disqualifié - n\' est plus interessé', 
-        'Disqualifié - Annule', 
+        'Disqualifié - n\'est plus interessé', 
+        'Disqualifié - Annulé', 
         'Nouveau'];
   List<String> vatList = ['14 %',
         '20 %',
@@ -93,6 +95,80 @@ class DataFieldState extends State<DataField> {
     nameController.text = client.name.toString();
     telController.text = client.phone.toString();
   }
+
+  int TypeID(String type){
+        switch(type){
+            case 'Marocain' :
+                return 2;
+            case 'Agence de voyage' :
+                return 4;
+            case 'Societé privé' :
+                return 7;
+            case 'Etranger' :
+                return 8;
+            case 'Administration publique' :
+                return 10;
+            case 'Super Marché' :
+                return 1002;
+            case 'HOTEL' :
+                return 1003;
+            case 'RESTAURANT' :
+                return 1004;
+            default:
+                return 0;
+        }
+    }
+
+    int GrpID(String grp){
+        switch(grp){
+            case 'Divers' :
+                return 8;
+            case 'Moyen client' :
+                return 14;
+            case 'Grand client' :
+                return 15;
+            case 'Grossiste' :
+                return 1008;
+            default:
+                return 0;
+        }
+    }
+
+    int StateID(String state){
+        switch(state){
+            case 'Qualifier' :
+                return 1;
+            case 'Disqualifié - Perdu' :
+                return 2;
+            case 'Disqualifié - Impossible de contacter' :
+                return 3;
+            case 'Disqualifié - n\'est plus interesse' :
+                return 4;
+            case 'Disqualifié - Annulé' :
+                return 5;
+            case 'Nouveau' :
+                return 6;
+            default:
+                return 0;
+        }
+    }
+    int VatID(String vat){
+        switch(vat){
+            case '14 %':
+                return 1;
+            case '20 %':
+                return 2;
+            case '0 %':
+                return 3;
+            case '10 %':
+                return 4;
+            default:
+                return 0;
+        }
+    }
+
+
+
 
   String? validateNumber(String value) {
     if (value == null || value.isEmpty) {
@@ -181,6 +257,7 @@ class DataFieldState extends State<DataField> {
                                           setState(() {
                                             selectedType = newValue.toString();
                                             client.type = selectedType;
+                                            client.type_id = TypeID(selectedType).toString();
                                           });
                                         },
                                         //decoration: InputDecoration(border: InputBorder.none),
@@ -229,7 +306,7 @@ class DataFieldState extends State<DataField> {
                                         onChanged: (newValue) {
                                           setState(() {
                                             selectedGroup = newValue.toString();
-                                            client.group = selectedGroup;
+                                            client.grp_id = GrpID(selectedGroup).toString();
                                           });
                                         },
                                         //decoration: InputDecoration(border: InputBorder.none),
@@ -279,6 +356,7 @@ class DataFieldState extends State<DataField> {
                                           setState(() {
                                             selectedState = newValue.toString();
                                             client.etat = selectedState;
+                                            client.state_id = StateID(selectedState).toString();
                                           });
                                         },
                                         //decoration: InputDecoration(border: InputBorder.none),
@@ -328,6 +406,7 @@ class DataFieldState extends State<DataField> {
                                           setState(() {
                                             selectedVat = newValue.toString();
                                             client.vat = selectedVat;
+                                            client.vat_id = VatID(selectedVat).toString();
                                           });
                                         },
                                         items: vatList
@@ -356,9 +435,13 @@ class DataFieldState extends State<DataField> {
                 text: 'Ajouter',
                 size: size,
                 onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    //
-                  }
+                  //if (_formKey.currentState!.validate()) {
+                    ClientService.addClient(client);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      padding: EdgeInsets.all(20),
+                      content: Text("Client Ajouté")));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClientItem(client: client)));
+                  //}
                 }
                     )])));
   }
