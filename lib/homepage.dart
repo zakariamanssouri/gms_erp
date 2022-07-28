@@ -1,4 +1,3 @@
-// ignore_for_file: unused_import, prefer_const_constructors, unused_label, unnecessary_const
 import 'package:flutter/material.dart';
 import 'package:gms_erp/config/menu.dart';
 import 'package:gms_erp/crm/crm.dart';
@@ -6,12 +5,9 @@ import 'package:gms_erp/inventory/views/Inventory/inventories_page.dart';
 import 'package:gms_erp/widgets/homebutton.dart';
 import 'package:gms_erp/identity/identity.dart';
 import 'package:gms_erp/identity/views/Sign%20in/userlogin.views.dart';
-import 'package:gms_erp/identity/views/user.view.dart';
-import 'package:gms_erp/identity/views/useradd.view.dart';
 import 'package:gms_erp/inventory/inventory.dart';
 import 'package:gms_erp/inventory/views/InventoryDetails/Inventory_details_page.dart';
-import 'identity/views/product.view.dart';
-//import 'home.dart';
+
 
 class HomePage extends StatelessWidget 
 {

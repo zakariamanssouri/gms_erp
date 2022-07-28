@@ -1,41 +1,53 @@
-// ignore_for_file: sort_child_properties_last, prefer_final_fields
+// ignore_for_file: sort_child_properties_last, prefer_final_fields, unused_local_variable, unnecessary_new, use_build_context_synchronously, prefer_interpolation_to_compose_strings, avoid_print
 import 'package:flutter/material.dart';
+import 'package:gms_erp/identity/services/user.service.dart';
+import 'package:gms_erp/service.base.dart';
 import '../../../config/global_params.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gms_erp/identity/views/Sign%20in/settingspage.view.dart';
-import '../../../config/menu.dart';
 import '../../../homepage.dart';
-import '../../../widgets/homebutton.dart';
-import '../user.view.dart';
+import '../../models/user.dart';
+import '../../myalert.dart';
 import '../useradd.view.dart';
 
 class UserLogin extends StatefulWidget 
 {
-  UserLogin({Key? key}) : super(key: key);
+  const UserLogin({Key? key}) : super(key: key);
   @override
   State<UserLogin> createState() => _UserLoginState();
 }
 
 class _UserLoginState extends State<UserLogin>
  {
+
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  UserService userService =UserService();
 
   @override
-   void initState() { 
+   void initState() 
+   { 
     super.initState();
     _read();
-    
-  }
-    _read() async 
+   }
+   _read() async 
+   {
+      final prefs = await SharedPreferences.getInstance();
+      final key = GlobalParams.key_domain;
+      final value = prefs.getString(key) ?? "";
+      GlobalParams.baseUrl = value;
+      //print('read: $value');
+    }
+     _saveToken(String value) async 
     {
-        final prefs = await SharedPreferences.getInstance();
-        final key = GlobalParams.key_domain;
-        final value = prefs.getString(key) ?? "";
-        GlobalParams.baseUrl = value;
-        print('read: $value');
-      }
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString( GlobalParams.key_token, value); 
+    }
+
+   
+
 
   @override
   Widget build(BuildContext context) 
@@ -71,9 +83,9 @@ class _UserLoginState extends State<UserLogin>
                                      child: ClipRRect(
                                          child: Image.asset('assets/images/logo.png'),
                                          borderRadius: BorderRadius.circular(10.0),), ),),
-                                  const SizedBox(height:10),
-                                  const SizedBox(height:15),
+                                  const SizedBox(height:25),
                                   TextFormField(
+                                  controller:emailController,
                                   autovalidateMode: AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
                                   border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10),),),
@@ -82,9 +94,9 @@ class _UserLoginState extends State<UserLogin>
                                   prefixIcon: Icon(Icons.email,color: Color(0xff00A3EE),),),
                                   validator: MultiValidator([RequiredValidator(errorText: 'Champs Obligatoire'),EmailValidator(errorText: 'Votre email est invalide')]),
                                   ),
-                                  const SizedBox(height:10),
-                                  const SizedBox(height:10),
+                                  const SizedBox(height:20),
                                   TextFormField(
+                                    controller: passwordController,
                                   autovalidateMode: AutovalidateMode.onUserInteraction,
                                   obscureText:true,
                                   decoration: const InputDecoration(
@@ -96,38 +108,52 @@ class _UserLoginState extends State<UserLogin>
                                   ),
                                   const SizedBox(height:15),
                                   ElevatedButton(
-                                  onPressed: () {
-                                    if (_formKey.currentState!.validate()){
-                                        Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => HomePage(),
-                                        ));
+                                  child: const Text('Se Connecter'),
+                                  onPressed: () async {
+                                    if (_formKey.currentState!.validate())
+                                    {
+                                      Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const HomePage(),
+                                      ));
+                                      //  var U =new User(
+                                      //  email:  emailController.text,
+                                      //  password: passwordController.text);
+                                      //  await userService.Login(U).then((value) => _saveToken(value));
+                                      // var token = await BaseService.READTOKEN();
+                                      //  print('token $token');
+                                        //=> MyAlert.showAlertDialog(context,"title","content"),);
+                                        // if(response)
+                                        // {
+                                        //   Navigator.popAndPushNamed(context, 'product');
+                                        // }
+                                        // else                  
+                                        // {
+                                        //   throw Exception('Failed to create product.');
+                                        // }
                                     }},
                                     style: ElevatedButton.styleFrom(
                                     fixedSize: const Size(240, 40), 
                                     primary: Colors.blue), 
-                                    
-                                  child: const Text('Se Connecter'),
                                 ),
                                 const SizedBox(height:20),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                     children:[
-                                      Text("Si vous n'avez pas de compte",textAlign: TextAlign.center,style: TextStyle(fontSize:13,color:Colors.blue),),
+                                      const Text("Si vous n'avez pas de compte",textAlign: TextAlign.center,style: TextStyle(fontSize:13,color:Colors.blue),),
                                       InkWell(
-                                        child:Text("S'inscrire",textAlign: TextAlign.center,style: TextStyle(fontSize:13,color:Colors.blue,fontWeight: FontWeight.bold,),),
-                                        onTap: ()
-                                        {
-                                          Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => const AddUserView(),
+                                      child:const Text("S'inscrire",textAlign: TextAlign.center,style: TextStyle(fontSize:13,color:Colors.blue,fontWeight: FontWeight.bold,),),
+                                      onTap: ()
+                                      {
+                                        Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                        builder: (context) => const AddUserView(),
                                           ));
-                                        },
+                                      },
                                       ),
-    
-                              ]),
+                                  ]),
                               ],
                         ),
                     ),
