@@ -40,6 +40,6 @@ class GlobalParams {
     Colors.blue,
   ];
   static final String key_domain = "domainame";
-
+  static  String key_token ="token";
   static const  itemCardTextColor = Colors.white;
 }
