@@ -1,13 +1,14 @@
 part of 'product_bloc.dart';
 
-
 enum ProductRequestState {
   Loaded,
   Loading,
   Error,
   None,
   Searching,
-  SearchLoaded
+  SearchLoaded,
+  Updating,
+  Updated
 }
 
 class ProductState extends Equatable {
