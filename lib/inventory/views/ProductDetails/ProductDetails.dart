@@ -8,7 +8,6 @@ import '../../models/Inventory_details.dart';
 import 'Widgets/TextFieldWidget.dart';
 import 'Widgets/ButtonWidget.dart';
 
-
 class ProductDetails extends StatelessWidget {
   InventoryDetails inventoryDetails;
   double _fontsize = 14;
@@ -249,10 +248,6 @@ class QuantityAndPriceFormState extends State<QuantityAndPriceForm> {
                   if (_formKey.currentState!.validate()) {
                     _inventoryService.updateProduct(inventoryDetails.id,
                         double.parse(quantityController.text));
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      padding: EdgeInsets.all(20),
-                      content: Text("Updated Successfully"),
-                    ));
 
                     BlocProvider.of<InventoryDetailsBloc>(context)
                         .state
@@ -265,6 +260,17 @@ class QuantityAndPriceFormState extends State<QuantityAndPriceForm> {
                     BlocProvider.of<InventoryDetailsBloc>(context).add(
                         LoadInventoryDetails(inventoryDetails.inventoryId));
 
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      backgroundColor: Colors.green,
+                      duration: Duration(seconds: 2),
+                      shape: StadiumBorder(),
+                      behavior: SnackBarBehavior.floating,
+                      content: Text("Updated Successfully",
+                          style: TextStyle(
+                              fontSize: _fontsize,
+                              fontFamily: 'Open Sans',
+                              fontWeight: FontWeight.w900)),
+                    ));
 
                     // print(inventoryDetails.inventoryId);
                     Navigator.pop(context);

@@ -38,10 +38,11 @@ class _SettingsPage extends State<SettingsPage>
       }
       
     _save(String value) async 
-      {
+    {
         final prefs = await SharedPreferences.getInstance();
         final key = GlobalParams.key_domain;
         prefs.setString(key, value);
+        //print('saved $value');
       GlobalParams.baseUrl = value;
         print('saved $value');
       }
@@ -50,6 +51,9 @@ class _SettingsPage extends State<SettingsPage>
   Widget build(BuildContext context) 
   {
     return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white, iconTheme: IconThemeData(color: Colors.blue),elevation: 0,),
+          backgroundColor: Colors.white,
           body: Padding(
                   padding: const EdgeInsets.all(40.0),
                   child: Form(
@@ -90,7 +94,6 @@ class _SettingsPage extends State<SettingsPage>
                                        Navigator.pop(context);
                                   }
                                },
-                    
                                   style: ElevatedButton.styleFrom(
                                   fixedSize: const Size(240, 40), 
                                   primary: Colors.blue), 

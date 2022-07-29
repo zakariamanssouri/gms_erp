@@ -8,6 +8,9 @@ class GlobalParams {
 // api
   static var baseUrl = '';
   //static final baseUrl = 'http://144.91.76.98:84/gm-erp/';
+
+  // laravel api
+  static final laravelApi = "http://144.91.76.98:84/gm-erp/public/api/";
 // for screens
   static const MainColor = Colors.blue;
   static final SecondaryColor = Color(0xFF3E30BC);
@@ -40,10 +43,10 @@ class GlobalParams {
     Colors.blue,
   ];
   static final String key_domain = "domainame";
-  static  String key_token ="token";
-  static const  itemCardTextColor = Colors.white;
-
+  static String key_token = "token";
+  static const itemCardTextColor = Colors.white;
 
   // font sizes
-  static final double MainfontSize = 15;
+  static const double MainfontSize = 15;
+  static const MainfontFamily = "Open Sans";
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: sort_child_properties_last, prefer_final_fields, unused_local_variable, unnecessary_new, use_build_context_synchronously, prefer_interpolation_to_compose_strings, avoid_print
+// ignore_for_file: sort_child_properties_last, prefer_final_fields, unused_local_variable, unnecessary_new, use_build_context_synchronously, prefer_interpolation_to_compose_strings, avoid_print, empty_statements, unused_label
 import 'package:flutter/material.dart';
 import 'package:gms_erp/identity/services/user.service.dart';
 import 'package:gms_erp/service.base.dart';
@@ -24,8 +24,9 @@ class _UserLoginState extends State<UserLogin>
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final CheckController = TextEditingController();
   UserService userService =UserService();
-
+  bool isChecked = false;
   @override
    void initState() 
    { 
@@ -45,16 +46,13 @@ class _UserLoginState extends State<UserLogin>
       final prefs = await SharedPreferences.getInstance();
       prefs.setString( GlobalParams.key_token, value); 
     }
-
-   
-
-
   @override
   Widget build(BuildContext context) 
   {
     return Scaffold(
+            backgroundColor: Colors.white,
             body: Padding(
-                    padding: const EdgeInsets.all(40.0),
+                    padding: const EdgeInsets.all(35.0),
                     child: Form(
                         key: _formKey,
                         child: ListView(
@@ -75,7 +73,7 @@ class _UserLoginState extends State<UserLogin>
                                   },
                                 ),
                                 ),
-                               Container(
+                                Container(
                                 decoration: const BoxDecoration(borderRadius:  BorderRadius.only(
                                 bottomLeft: Radius.circular(30),bottomRight: Radius.circular(30),), ),
                                 child:CircleAvatar(
@@ -107,32 +105,48 @@ class _UserLoginState extends State<UserLogin>
                                   validator: MultiValidator([RequiredValidator(errorText: 'Champs Obligatoire'),]),
                                   ),
                                   const SizedBox(height:15),
+                                 Row(
+                                 children:[
+                                   Checkbox(
+                                    
+                                    checkColor: Colors.white,
+                                    
+                                    //fillColor: MaterialStateProperty.resolveWith(getColor),
+                                    value: isChecked,
+                                    onChanged: (bool? value) {
+                                          if(isChecked==false)
+                                          {
+                                            setState(() {
+                                              isChecked=true;
+                                              
+                                            });
+                                          }
+                                          else
+                                          {
+                                            setState(() {
+                                              isChecked=false;
+                                            });
+                                          }
+                                    }),
+                                    const Text("Acceptée les droits d'accées ",textAlign: TextAlign.center,style: TextStyle(fontSize:13,)),
+                                    ]),
+                                    const SizedBox(height:15),
                                   ElevatedButton(
+                                  
                                   child: const Text('Se Connecter'),
-                                  onPressed: () async {
+                                  onPressed: !isChecked ?null: () async
+                                  {
                                     if (_formKey.currentState!.validate())
                                     {
-                                      Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const HomePage(),
-                                      ));
                                       //  var U =new User(
                                       //  email:  emailController.text,
                                       //  password: passwordController.text);
                                       //  await userService.Login(U).then((value) => _saveToken(value));
-                                      // var token = await BaseService.READTOKEN();
+                                       Navigator.push(context,MaterialPageRoute(builder: (context) => const HomePage(),));
+                                      //  var token = await BaseService.READTOKEN();
                                       //  print('token $token');
-                                        //=> MyAlert.showAlertDialog(context,"title","content"),);
-                                        // if(response)
-                                        // {
-                                        //   Navigator.popAndPushNamed(context, 'product');
-                                        // }
-                                        // else                  
-                                        // {
-                                        //   throw Exception('Failed to create product.');
-                                        // }
-                                    }},
+                                    }
+                                  } ,
                                     style: ElevatedButton.styleFrom(
                                     fixedSize: const Size(240, 40), 
                                     primary: Colors.blue), 
@@ -143,7 +157,7 @@ class _UserLoginState extends State<UserLogin>
                                     children:[
                                       const Text("Si vous n'avez pas de compte",textAlign: TextAlign.center,style: TextStyle(fontSize:13,color:Colors.blue),),
                                       InkWell(
-                                      child:const Text("S'inscrire",textAlign: TextAlign.center,style: TextStyle(fontSize:13,color:Colors.blue,fontWeight: FontWeight.bold,),),
+                                      child:const Text(" S'inscrire",textAlign: TextAlign.center,style: TextStyle(fontSize:13,color:Colors.blue,fontWeight: FontWeight.bold,),),
                                       onTap: ()
                                       {
                                         Navigator.push(

@@ -16,6 +16,7 @@ class HomePage extends StatelessWidget
   Widget build(BuildContext context) {
 
     return MaterialApp(
+     
         routes: {
           '/inventory': (context) => InventoryHomePage(),
           '/inventory_details': (context) => InventoyDetailsPage(),
@@ -131,6 +132,7 @@ class HomePage extends StatelessWidget
               ],
             ),
           ),
+           backgroundColor: Colors.white,
           body: GridView.count(
             padding: const EdgeInsets.all(60),
             crossAxisCount: 2,

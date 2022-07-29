@@ -139,6 +139,7 @@ class IdentityPage extends StatelessWidget
                     ],
                   ),
                 ),
+                 backgroundColor: Colors.white,
                 // ignore: dead_code
                 body: GridView.count(
                   padding: const EdgeInsets.all(60),
