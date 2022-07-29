@@ -28,24 +28,25 @@ class AddClientPage extends StatelessWidget {
                 fontFamily: 'Open Sans'),
           ),
         ),
-        body: Container(
-          padding: EdgeInsets.only(
-              bottom: GlobalParams.MainPadding,
-              right: GlobalParams.MainPadding,
-              left: GlobalParams.MainPadding),
-          width: double.infinity,
-          height: size.height,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: size.height * 0.02),
-              // Form for editing qunaity and price
-              Builder(builder: (context) {
-                return DataField(client: client,);
-              }),
-
-              SizedBox(height: size.height * 0.02),
-            ],
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(
+                bottom: GlobalParams.MainPadding,
+                right: GlobalParams.MainPadding,
+                left: GlobalParams.MainPadding),
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(height: size.height * 0.02),
+                // Form for editing qunaity and price
+                Builder(builder: (context) {
+                  return DataField(client: client,);
+                }),
+          
+                SizedBox(height: size.height * 0.02),
+              ],
+            ),
           ),
         ));
   }
@@ -172,7 +173,7 @@ class DataFieldState extends State<DataField> {
 
   String? validateNumber(String value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter some text';
+      return 'Veuillez remplir le champs';
     } else {
       String pattern = r'[0-9]\.[0-9]';
       RegExp regex = new RegExp(pattern);
@@ -184,13 +185,21 @@ class DataFieldState extends State<DataField> {
 
   String? validateField(String value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter some text';
+      return 'Veuillez remplir le champs';
     }
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+  client.type = selectedType;
+  client.group = selectedGroup;
+  client.etat = selectedState;
+  client.vat = selectedVat;
+  client.type_id = TypeID(selectedType).toString();
+  client.grp_id = GrpID(selectedGroup).toString();
+  client.state_id = StateID(selectedState).toString();
+  client.vat_id = VatID(selectedVat).toString();
 
     return Center(
       child: Form(
@@ -201,7 +210,7 @@ class DataFieldState extends State<DataField> {
               SizedBox(height: size.height * 0.02),
               TextFieldWidget(
                   validator: (value) {
-                    return validateField(value!);
+                    return validateNumber(value!);
                   },
                   obj: client,
                   controller: numController,
@@ -209,7 +218,7 @@ class DataFieldState extends State<DataField> {
                   valuetext: '',
                   keyboardType: TextInputType.numberWithOptions(
                       signed: false, decimal: true),),
-
+      
               SizedBox(height: size.height * 0.02),
               TextFieldWidget(
                   controller: nameController,
@@ -221,18 +230,18 @@ class DataFieldState extends State<DataField> {
                   labeltext: 'Nom',
                   valuetext: '',),
               SizedBox(height: size.height * 0.02),
-
+      
               
               TextFieldWidget(
                   controller: telController,
                   keyboardType: TextInputType.numberWithOptions(
                       signed: false, decimal: true),
                   validator: (value) {
-                    return validateField(value!);
+                    return validateNumber(value!);
                   },
                   obj: client, valuetext: '', labeltext: 'Telephone',),
               SizedBox(height: size.height * 0.02),
-
+      
                   Container(
                             //padding: EdgeInsets.only(top: 8),
                             child: Column(
@@ -282,7 +291,7 @@ class DataFieldState extends State<DataField> {
                                 )])
                                 ),
               SizedBox(height: size.height * 0.02),
-
+      
               Container(
                             //padding: EdgeInsets.only(top: 8),
                             child: Column(
@@ -332,7 +341,7 @@ class DataFieldState extends State<DataField> {
                                 )])
                                 ),
               SizedBox(height: size.height * 0.02),
-
+      
               Container(
                             //padding: EdgeInsets.only(top: 8),
                             child: Column(
@@ -382,7 +391,7 @@ class DataFieldState extends State<DataField> {
                                 )])
                                 ),
               SizedBox(height: size.height * 0.02),
-
+      
               Container(
                             //padding: EdgeInsets.only(top: 8),
                             child: Column(
@@ -431,22 +440,24 @@ class DataFieldState extends State<DataField> {
                                 )])
                                 ),
               SizedBox(height: size.height * 0.04),
-
+      
               ButtonWidget(
                 text: 'Ajouter',
                 size: size,
                 onPressed: () async {
-                  //if (_formKey.currentState!.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     client.name = nameController.text;
                     client.no = numController.text;
                     client.phone = telController.text;
                     
-                    ClientService.addClient(client);
+                    if(ClientService.addClient(client) as bool){
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       padding: EdgeInsets.all(20),
                       content: Text("Client Ajouté")));
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClientItem(client: client)));
-                  //}
+                    }
+                    else{}
+                  }
                 }
                     )])));
   }

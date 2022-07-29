@@ -43,7 +43,7 @@ class ProductService {
     map['measure_id'] = product.measure_id;
     map['pack_id'] = product.packtype_id;
     map['g_id'] = product.grp_id;
-    map['type_id'] = product.type_id;
+    map['t_id'] = product.type_id;
     map['s_id'] = product.state_id;
     map['booking_g_id'] = product.vat_id;
 
@@ -53,6 +53,8 @@ class ProductService {
     );
 
     final parsed = json.decode(response.body);
+    print(parsed['success']);
+    print(parsed['message']);
     if (parsed['success'] == 1) {
       return true;
     } else
