@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:gms_erp/crm/models/Client.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,19 +9,15 @@ class ClientService {
   
   static Future<List<Client>> getClients() async {
     List<Client>? list;
-    int success=-1;
-    String message="";
 
     var res = await http.get(Uri.parse(GlobalParams.baseUrl + 'search_client.php?barcode=all'));
     var json_data = json.decode(res.body);
 
     if (res.statusCode == 200) {
-      success = json_data["success"];
-      message = json_data["message"];
-    }
-    if(success == 1){
+      if(json_data["success"] == 1){
       var data = json_data["data"] as List;
       list = data.map<Client>((json) => Client.fromJson(json)).toList();
+    }
     }
     else{
       list = null;
@@ -31,7 +26,7 @@ class ClientService {
     return list!;
   }
 
-  static Future<dynamic> addClient(Client client) async {
+  static Future<Client?> addClient(Client client) async {
     var map = new Map<String, dynamic>();
     map['no'] = client.no;
     map['currency_id'] =  2.toString();
@@ -47,16 +42,21 @@ class ClientService {
     map['vat_booking_group_id'] = client.vat_id;
 
     final response = await http.post(
-      Uri.parse(GlobalParams.baseUrl + 'client_add.php'),
+      Uri.parse(GlobalParams.baseUrl + 'client_add.php'/*'customer'*/),
       body: map,
     );
 
     final parsed = json.decode(response.body);
     print(parsed['success']);
     print(parsed['message']);
-    if (parsed['success'] == 1) {
-      return true;
-    } else
-      return false;
+    //print(parsed);
+    if (response.statusCode == 200) {
+      /*clientAdded = true;
+      return parsed;*/
+      if(parsed['success'] == 1)
+        return client;
+    }
+    else
+      return null;
   }
 }

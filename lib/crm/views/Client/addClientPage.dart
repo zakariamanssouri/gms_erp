@@ -175,8 +175,7 @@ class DataFieldState extends State<DataField> {
     if (value == null || value.isEmpty) {
       return 'Veuillez remplir le champs';
     } else {
-      String pattern = r'[0-9]\.[0-9]';
-      RegExp regex = new RegExp(pattern);
+      RegExp regex = new RegExp(r'^[0-9]+$');
       if (!regex.hasMatch(value)) {
         return 'Entrer Un Nombre Valide';
       }
@@ -449,14 +448,15 @@ class DataFieldState extends State<DataField> {
                     client.name = nameController.text;
                     client.no = numController.text;
                     client.phone = telController.text;
+                    print(ClientService.addClient(client) is Client);
                     
-                    if(ClientService.addClient(client) as bool){
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      padding: EdgeInsets.all(20),
-                      content: Text("Client Ajouté")));
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClientItem(client: client)));
+                    /*if(ClientService.addClient(client) is Client){
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        padding: EdgeInsets.all(20),
+                        content: Text("Client Ajouté")));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClientItem(client: client)));
                     }
-                    else{}
+                    else{}*/
                   }
                 }
                     )])));
