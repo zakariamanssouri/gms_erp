@@ -1,6 +1,7 @@
-
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gms_erp/blocs/Client/client_bloc.dart';
 import 'package:gms_erp/blocs/Product/product_bloc.dart';
 import 'package:gms_erp/crm/views/Client/widgets/Header.dart';
 import 'package:gms_erp/inventory/views/InventoryDetails/widgets/ErrorWithRefreshButtonWidget.dart';
@@ -43,7 +44,7 @@ class ProductsPageBody extends StatelessWidget {
             child: BlocBuilder<ProductBloc, ProductState>(
               builder: (context, state) {
                 // Initial state
-                print("request state: ${state.requestState}");
+
                 if (state.requestState == ProductRequestState.Loading ||
                     state.requestState == ProductRequestState.Searching) {
                   return Center(child: CircularProgressIndicator());
@@ -58,7 +59,11 @@ class ProductsPageBody extends StatelessWidget {
                 return Container(
                     child: ErrorWithRefreshButtonWidget(
                   inventory: null,
-                  button_function: () {},
+                  button_function: () {
+                    BlocProvider.of<ProductBloc>(context).add(
+                      const LoadAllProductsEvent(),
+                    );
+                  },
                 ));
                 // Initial state
 
