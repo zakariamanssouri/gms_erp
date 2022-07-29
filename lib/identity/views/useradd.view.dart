@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gms_erp/identity/views/Sign%20in/settingspage.view.dart';
 import '../../../homepage.dart';
+import '../models/user.dart';
+import '../myalert.dart';
 import 'Sign in/userlogin.views.dart';
 
 
@@ -29,6 +31,7 @@ class _AddUserView extends State<AddUserView>
   Widget build(BuildContext context) 
   {
     return Scaffold(
+            backgroundColor: Colors.white,
             body: Padding(
                     padding: const EdgeInsets.all(40.0),
                     child: Form(
@@ -45,14 +48,14 @@ class _AddUserView extends State<AddUserView>
                                          borderRadius: BorderRadius.circular(10.0),), ),),
                                   const SizedBox(height:25),
                                   TextFormField(
-                                  controller: passwordController,
+                                  controller: nameController,
                                   autovalidateMode: AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
                                   border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10),),),
                                   hintText: 'Nom Complet',
                                   labelText: 'Nom Complet',
                                   prefixIcon: Icon(Icons.person,color: Color(0xff00A3EE),),),
-                                  validator: MultiValidator([RequiredValidator(errorText: 'Champs Obligatoire'),]),
+                                  validator: MultiValidator([PatternValidator(r"^[A-Za-zÀ-ÖØ-öø-ÿ_.-\s]+$", errorText: 'Votre nom ne doit pas contenir des chiffres.')]),
                                   ),
                                   const SizedBox(height:20),
                                   TextFormField(
@@ -67,7 +70,7 @@ class _AddUserView extends State<AddUserView>
                                   ),
                                   const SizedBox(height:20),
                                   TextFormField(
-                                    controller: passwordController,
+                                  controller: passwordController,
                                   autovalidateMode: AutovalidateMode.onUserInteraction,
                                   obscureText:true,
                                   decoration: const InputDecoration(
@@ -83,12 +86,24 @@ class _AddUserView extends State<AddUserView>
                                   onPressed: () async {
                                     if (_formKey.currentState!.validate())
                                     {
-                                     
-                                    }},
+                                      // var p=new User(
+                                      //     name: nameController.text,
+                                      //     email: emailController.text ,
+                                      //     password:passwordController.text);
+                                      // await userService.create(p).then((value) => MyAlert.showAlertDialog(context,"title","content"),);
+                                      //   // if(response)
+                                        // {
+                                        //   Navigator.popAndPushNamed(context, 'product');
+                                        // }
+                                        // else                  
+                                        // {
+                                        //   throw Exception('Failed to create product.');
+                                        // }
+                                    }
+                                  },
                                     style: ElevatedButton.styleFrom(
                                     fixedSize: const Size(240, 40), 
-                                    primary: Colors.blue), 
-                                ),
+                                    primary: Colors.blue),),
                                 const SizedBox(height:20),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,

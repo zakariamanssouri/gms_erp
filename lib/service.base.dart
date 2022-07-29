@@ -22,16 +22,17 @@ class BaseService
           };
     }
    
+    // ignore: non_constant_identifier_names
     static dynamic HEADERS_WITHOUT_TOKEN() async 
     {
-        String token = await READTOKEN();
-        return  {
+        // ignore: unused_local_variable
+       // String token = await READTOKEN();
+        return  
+        {
             'Content-Type': 'application/json; charset=UTF-8', 
             'Accept': 'application/json', 
-          };
-    }
-
-  
+        };
+    } 
 }
 
  

@@ -51,6 +51,9 @@ class _SettingsPage extends State<SettingsPage>
   Widget build(BuildContext context) 
   {
     return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white, iconTheme: IconThemeData(color: Colors.blue),elevation: 0,),
+          backgroundColor: Colors.white,
           body: Padding(
                   padding: const EdgeInsets.all(40.0),
                   child: Form(
