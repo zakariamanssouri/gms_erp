@@ -72,5 +72,19 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             errorMessage: ''));
       }
     });
+
+    // on update product event
+    on<UpdateProductEvent>((event, emit) async {
+      try {
+        print("update product event");
+        await ProductService.updateProduct(event.product);
+        add(LoadAllProductsEvent());
+      } catch (e) {
+        emit(ProductState(
+            products: [],
+            requestState: ProductRequestState.Error,
+            errorMessage: ''));
+      }
+    });
   }
 }
