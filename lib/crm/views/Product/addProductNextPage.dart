@@ -18,7 +18,7 @@ class AddProductNextPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    Product product = Product(id: '', no: num, name: name, s_price: salesPrice, stock_min: stock, code: code, s_price_min: '');
+    Product product = Product(id: '', no: num, name: name, s_price: salesPrice, stock_min: stock, code: code, s_price_min: '0.00');
     product.p_price = purPrice;
     
     return Scaffold(
@@ -355,6 +355,18 @@ class ProductDataFieldState extends State<ProductDataField> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    product.measure = selectedMeasure;
+    product.packtype = selectedPacktype;
+    product.type = selectedType;
+    product.group = selectedGroup;
+    product.state = selectedState;
+    product.vat = selectedVat;
+    product.type_id = TypeID(selectedType).toString();
+    product.grp_id = GrpID(selectedGroup).toString();
+    product.state_id = StateID(selectedState).toString();
+    product.vat_id = VatID(selectedVat).toString();
+    product.measure_id = MeasureID(selectedMeasure).toString();
+    product.packtype_id = PacktypeID(selectedPacktype).toString();
 
     return Center(
       child: Form(

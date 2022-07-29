@@ -22,6 +22,15 @@ class Product {
         code: json["ean_code"],
         s_price_min: json["sales_price_min"]);
   }
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "product_no": no,
+        "product_name1": name,
+        "sales_price": s_price,
+        "stock_min_qty": stock_min,
+        "ean_code": code,
+        "sales_price_min": s_price_min,
+    };
 
   
  get getNo => this.no;
