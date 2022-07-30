@@ -19,7 +19,6 @@ class _UserLoginState extends State<UserLogin>
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final CheckController = TextEditingController();
   UserService userService =UserService();
   bool isChecked = false;
   @override
@@ -104,7 +103,7 @@ class _UserLoginState extends State<UserLogin>
                                         }
                                       });
                                     }),
-                                    const Text("Me seuvenir? ",textAlign: TextAlign.center,style: TextStyle(fontSize:13,)),
+                                    const Text("Remember Me ?  ",textAlign: TextAlign.center,style: TextStyle(fontSize:13,)),
                                     ]),
                                     const SizedBox(height:15),
                                   ElevatedButton(
