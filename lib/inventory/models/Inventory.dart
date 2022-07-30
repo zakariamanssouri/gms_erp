@@ -4,57 +4,59 @@
 
 import 'dart:convert';
 
-List<Inventory> inventoryFromJson(String str) => List<Inventory>.from(json.decode(str).map((x) => Inventory.fromJson(x)));
+List<Inventory> inventoryFromJson(String str) =>
+    List<Inventory>.from(json.decode(str).map((x) => Inventory.fromJson(x)));
 
-String inventoryToJson(List<Inventory> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String inventoryToJson(List<Inventory> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Inventory {
-    Inventory({
-        required this.id,
-        required this.description,
-        required this.employee,
-        required this.endDate,
-        required this.insUser,
-        required this.inventoryDate,
-        required this.inventoryNumber,
-        required this.inventoryStatusId,
-        required this.isCanceled,
-        required this.isClosed,
-        required this.isOpen,
-        required this.isStarted,
-        required this.inventoryStatusName,
-        required this.isSomeItemsBooked,
-        required this.canDelete,
-        required this.inventoryTeamId,
-        required this.inventoryTeamName,
-        required this.remarkEnd,
-        required this.remarkStart,
-        required this.startDate,
-    });
+  Inventory({
+    required this.id,
+    required this.description,
+    required this.employee,
+    required this.endDate,
+    required this.insUser,
+    required this.inventoryDate,
+    required this.inventoryNumber,
+    required this.inventoryStatusId,
+    required this.isCanceled,
+    required this.isClosed,
+    required this.isOpen,
+    required this.isStarted,
+    required this.inventoryStatusName,
+    required this.isSomeItemsBooked,
+    required this.canDelete,
+    required this.inventoryTeamId,
+    required this.inventoryTeamName,
+    required this.remarkEnd,
+    required this.remarkStart,
+    required this.startDate,
+  });
 
-    String id;
-    String description;
-    String employee;
-    DateTime endDate;
-    String insUser;
-    DateTime inventoryDate;
-    String inventoryNumber;
-    String inventoryStatusId;
-    String isCanceled;
-    String isClosed;
-    String isOpen;
-    String isStarted;
-    String inventoryStatusName;
-    String isSomeItemsBooked;
-    String canDelete;
-    String inventoryTeamId;
-    String inventoryTeamName;
-    String remarkEnd;
-    String remarkStart;
-    DateTime startDate;
+  String id;
+  String description;
+  String employee;
+  DateTime endDate;
+  String insUser;
+  DateTime inventoryDate;
+  String inventoryNumber;
+  String inventoryStatusId;
+  String isCanceled;
+  String isClosed;
+  String isOpen;
+  String isStarted;
+  String inventoryStatusName;
+  String isSomeItemsBooked;
+  String canDelete;
+  String inventoryTeamId;
+  String inventoryTeamName;
+  String remarkEnd;
+  String remarkStart;
+  DateTime startDate;
 
-    factory Inventory.fromJson(Map<String, dynamic> json) => Inventory(
-        id: json["id"],
+  factory Inventory.fromJson(Map<String, dynamic> json) => Inventory(
+        id: json["id"].toString(),
         description: json["description"],
         employee: json["employee"],
         endDate: DateTime.parse(json["end_date"]),
@@ -74,9 +76,9 @@ class Inventory {
         remarkEnd: json["remark_end"],
         remarkStart: json["remark_start"],
         startDate: DateTime.parse(json["start_date"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "description": description,
         "employee": employee,
@@ -97,5 +99,5 @@ class Inventory {
         "remark_end": remarkEnd,
         "remark_start": remarkStart,
         "start_date": startDate.toIso8601String(),
-    };
+      };
 }
