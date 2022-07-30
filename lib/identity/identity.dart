@@ -4,9 +4,9 @@ import 'package:gms_erp/config/menu.dart';
 import 'package:gms_erp/crm/crm.dart';
 import 'package:gms_erp/homepage.dart';
 import 'package:gms_erp/widgets/homebutton.dart';
-import 'package:gms_erp/identity/views/Sign%20in/userlogin.views.dart';
+import 'package:gms_erp/identity/views/Sign%20in/user_login.view.dart';
 import 'package:gms_erp/identity/views/user.view.dart';
-import 'package:gms_erp/identity/views/useradd.view.dart';
+import 'views/Sign in/user.signup.view.dart';
 import 'package:gms_erp/inventory/inventory.dart';
 import 'package:gms_erp/inventory/views/InventoryDetails/Inventory_details_page.dart';
 

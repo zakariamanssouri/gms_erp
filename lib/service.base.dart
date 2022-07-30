@@ -4,7 +4,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class BaseService  
 {
-    
+    static Future<String> GET_DOMAIN() async
+    {
+        final prefs = await SharedPreferences.getInstance();
+        final value = prefs.getString(GlobalParams.key_domain) ?? "";
+        GlobalParams.baseUrl = value;
+
+        return GlobalParams.baseUrl;
+    }
+
+    static Future<String> SET_DOMAIN(String value) async
+    {
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString(GlobalParams.key_domain, value);
+        GlobalParams.baseUrl = value;
+
+        return GlobalParams.baseUrl;
+    }
+
 
     static dynamic READTOKEN() async 
     {
@@ -21,12 +38,9 @@ class BaseService
             'Authorization': 'Bearer $token',
           };
     }
-   
-    // ignore: non_constant_identifier_names
+
     static dynamic HEADERS_WITHOUT_TOKEN() async 
     {
-        // ignore: unused_local_variable
-       // String token = await READTOKEN();
         return  
         {
             'Content-Type': 'application/json; charset=UTF-8', 

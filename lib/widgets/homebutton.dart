@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gms_erp/config/menu.dart';
-import '../identity/myalert.dart';
+import 'myalert.dart';
 
 
 class HomeButton extends StatelessWidget {
