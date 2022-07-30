@@ -9,13 +9,11 @@ import 'package:gms_erp/config/global_params.dart';
 class InventoryService {
   Future<List<Inventory>> getInventories() async {
     final response =
-        await http.get(Uri.parse(GlobalParams.baseUrl + 'inventory.php'));
+        await http.get(Uri.parse(GlobalParams.laravelApi + 'inventory'));
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body);
 
-      return parsed['data']
-          .map<Inventory>((json) => Inventory.fromJson(json))
-          .toList();
+      return parsed.map<Inventory>((json) => Inventory.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load inventories');
     }
@@ -35,7 +33,7 @@ class InventoryService {
     }
   }
 
-  Future<dynamic> updateProduct(id,  quantity) async {
+  Future<dynamic> updateProduct(id, quantity) async {
     var map = new Map<String, dynamic>();
     map['id'] = id.toString();
     map['qty'] = quantity.toString();
