@@ -21,7 +21,6 @@ class _HomePageState extends State<UserView>
     userService.getAll().then((response) 
     {
       setState((){
-        print("test set state");
         data = response;
       });
     });
@@ -31,7 +30,6 @@ class _HomePageState extends State<UserView>
     @override
     Widget build(BuildContext context) 
     {
-
       return Scaffold(
           appBar: AppBar(
               title: const Text('Users'),),
@@ -47,8 +45,7 @@ class _HomePageState extends State<UserView>
                       onTap: () {
                       // Navigator.push(context, MaterialPageRoute(builder: (context) => PageDetails(index),));
                       },
-                    ), 
-                    
+                    ),
                   );
                 },
               ),
