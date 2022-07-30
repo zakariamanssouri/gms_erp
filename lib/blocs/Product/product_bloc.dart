@@ -77,12 +77,29 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<UpdateProductEvent>((event, emit) async {
       try {
         emit(ProductState(
-            products: [],
+            products: state.products,
             requestState: ProductRequestState.Updating,
             errorMessage: ''));
         print("update product event");
-        await ProductService.updateProduct(event.product);
-        add(LoadAllProductsEvent());
+        await ProductService.updateProduct(event.product).then((value) => {
+              print("value : $value"),
+              if (value == true)
+                {
+                  emit(ProductState(
+                      products: state.products,
+                      requestState: ProductRequestState.Updated,
+                      errorMessage: '')),
+                  //add(LoadAllProductsEvent())
+                }
+              else
+                {
+                  print("hit here in else"),
+                  emit(ProductState(
+                      products: state.products,
+                      requestState: ProductRequestState.Error,
+                      errorMessage: ''))
+                }
+            });
       } catch (e) {
         emit(ProductState(
             products: [],
