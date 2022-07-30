@@ -1,15 +1,7 @@
-// ignore_for_file: sort_child_properties_last, prefer_final_fields, unused_local_variable, unnecessary_new, use_build_context_synchronously, prefer_interpolation_to_compose_strings, avoid_print, empty_statements
 import 'package:flutter/material.dart';
 import 'package:gms_erp/identity/services/user.service.dart';
-import 'package:gms_erp/service.base.dart';
-import '../../../config/global_params.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:gms_erp/identity/views/Sign%20in/settingspage.view.dart';
-import '../../../homepage.dart';
-import '../models/user.dart';
-import '../myalert.dart';
-import 'Sign in/userlogin.views.dart';
+import 'user_login.view.dart';
 
 
 class AddUserView extends StatefulWidget 
@@ -20,13 +12,14 @@ class AddUserView extends StatefulWidget
 }
 
 class _AddUserView extends State<AddUserView>
- {
+{
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  UserService userService =UserService();
+  UserService userService = UserService();
+
   @override
   Widget build(BuildContext context) 
   {
@@ -44,8 +37,8 @@ class _AddUserView extends State<AddUserView>
                                 child:CircleAvatar(
                                      radius: 80.0,
                                      child: ClipRRect(
-                                         child: Image.asset('assets/images/logo.png'),
-                                         borderRadius: BorderRadius.circular(10.0),), ),),
+                                         borderRadius: BorderRadius.circular(10.0),
+                                         child: Image.asset('assets/images/logo.png'),), ),),
                                   const SizedBox(height:25),
                                   TextFormField(
                                   controller: nameController,
@@ -82,7 +75,6 @@ class _AddUserView extends State<AddUserView>
                                   ),
                                   const SizedBox(height:15),
                                   ElevatedButton(
-                                  child: const Text("S'inscrire"),
                                   onPressed: () async {
                                     if (_formKey.currentState!.validate())
                                     {
@@ -103,7 +95,8 @@ class _AddUserView extends State<AddUserView>
                                   },
                                     style: ElevatedButton.styleFrom(
                                     fixedSize: const Size(240, 40), 
-                                    primary: Colors.blue),),
+                                    primary: Colors.blue),
+                                  child: const Text("S'inscrire"),),
                                 const SizedBox(height:20),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,

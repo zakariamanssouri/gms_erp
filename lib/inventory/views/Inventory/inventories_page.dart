@@ -17,58 +17,55 @@ class InventoriesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    BlocProvider.of<InventoryBloc>(context)..add(LoadInventories());
-    return Scaffold(
-      drawer: DrawerWidget(),
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        elevation: 0,
-        title: Text("Inventories",
-            style: TextStyle(
-                fontFamily: 'Open Sans',
-                fontWeight: FontWeight.w900,
-                color: Colors.white,
-                fontSize: 20)),
-      ),
-      backgroundColor: GlobalParams.backgroundColor,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              // heaeder
-              Header(
-                size: size,
-                child: SearchField(size: size),
-              ),
+    return BlocProvider(
+      create: (context) => InventoryBloc()..add(LoadInventories()),
+      child: Scaffold(
+        drawer: DrawerWidget(),
+        appBar: AppBar(
+          backgroundColor: Colors.blue,
+          elevation: 0,
+          title: Text("Inventories",
+              style: TextStyle(
+                  fontFamily: 'Open Sans',
+                  fontWeight: FontWeight.w900,
+                  color: Colors.white,
+                  fontSize: 20)),
+        ),
+        backgroundColor: GlobalParams.backgroundColor,
+        body: SafeArea(
+          child: Column(
+            children: [
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                // heaeder
+                Header(
+                  size: size / 1.3,
+                  child: Text(""),
+                ),
+              ]),
+              BlocBuilder<InventoryBloc, InventoryState>(
+                builder: (context, state) {
+                  // data is loading
+                  if (state.requestState == RequestState.Loading)
+                    return Center(child: CircularProgressIndicator());
+                  // data is loading
 
-              // heaeder
-              SizedBox(
-                height: 10,
-              ),
-            ]),
-            BlocBuilder<InventoryBloc, InventoryState>(
-              builder: (context, state) {
-                // data is loading
-                if (state.requestState == RequestState.Loading)
-                  return Center(child: CircularProgressIndicator());
-                // data is loading
+                  // data is loaded
+                  else if (state.requestState == RequestState.Loaded)
+                    return InventoriesListView(inventories: state.inventories);
+                  // data is loaded
 
-                // data is loaded
-                else if (state.requestState == RequestState.Loaded)
-                  return InventoriesListView(inventories: state.inventories);
-                // data is loaded
-
-                // no data
-                return ErrorWithRefreshButtonWidget(
-                    inventory: null,
-                    button_function: () {
-                      BlocProvider.of<InventoryBloc>(context)
-                          .add(LoadInventories());
-                    });
-                // no data
-              },
-            )
-          ],
+                  // no data
+                  return ErrorWithRefreshButtonWidget(
+                      inventory: null,
+                      button_function: () {
+                        BlocProvider.of<InventoryBloc>(context)
+                            .add(LoadInventories());
+                      });
+                  // no data
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

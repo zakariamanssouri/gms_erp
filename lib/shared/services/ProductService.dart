@@ -32,15 +32,12 @@ class ProductService {
   // create methode to update product that takes Product object as parameter and pass it to the request method
   static Future<bool> updateProduct(Product product) async {
     bool success = false;
-    String message = "";
     String url = '${GlobalParams.laravelApi}product/${product.id}';
     var res = await http.put(Uri.parse(url), body: {
       "ean_code": product.code,
     });
-
-    var json_data = json.decode(res.body);
     if (res.statusCode == 200) {
-      success = json_data["success"] == 1;
+      success = true;
       print("success");
     }
     return success;
