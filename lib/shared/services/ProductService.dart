@@ -7,20 +7,14 @@ import 'package:http/http.dart' as http;
 
 class ProductService {
   static Future<List<Product>> getProducts() async {
-    List<Product>? list;
-
-    var res = await http.get(Uri.parse(GlobalParams.baseUrl + 'product'));
-    var json_data = json.decode(res.body);
-
-    if (res.statusCode == 200) {
-      var data = json_data as List;
-      list = data.map<Product>((json) => Product.fromJson(json)).toList();
+    final response =
+        await http.get(Uri.parse(GlobalParams.laravelApi + 'product'));
+    if (response.statusCode == 200) {
+      final parsed = json.decode(response.body);
+      return parsed.map<Product>((json) => Product.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load products');
     }
-    else{
-      list = null;
-    }
-
-    return list!;
   }
 
   // create methode to update product that takes Product object as parameter and pass it to the request method
