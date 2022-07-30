@@ -40,7 +40,6 @@ class ClientsHome extends StatelessWidget {
         title: Text('Clients'),
         backgroundColor: Colors.blue,
         elevation: 0,
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.add))],
       ),
       body: ClientsBody(size: size),
       floatingActionButton: FloatingActionButton(

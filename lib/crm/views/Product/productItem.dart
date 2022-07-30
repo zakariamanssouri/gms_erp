@@ -1,7 +1,13 @@
+import 'dart:ui';
+
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gms_erp/blocs/Product/product_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/crm/models/Product.dart';
+import 'package:gms_erp/widgets/ButtonWidget.dart';
 
 class ProductItem extends StatefulWidget {
   Product product;
@@ -23,164 +29,168 @@ class _ProductItemState extends State<ProductItem> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
-      backgroundColor: Colors.blue,
-      appBar: AppBar(
-        elevation: 0,
-        title: Text('Produit'),
-      ),
-      body: Container(
-        margin: EdgeInsets.all(GlobalParams.MainPadding),
-        padding: EdgeInsets.all(GlobalParams.MainPadding),
-        height: size.height,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.white.withOpacity(0.1),
-              blurRadius: 10,
-              offset: Offset(10, 20),
-              spreadRadius: 5,
-            ),
-          ],
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
+        appBar: AppBar(
+          elevation: 0,
+          title: Text('Produit'),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Text("Numero : ",
-                    overflow: TextOverflow.ellipsis,
+        body: BlocListener<ProductBloc, ProductState>(
+            listener: (context, state) {
+              if (state.requestState == ProductRequestState.Updating) {
+              } else if (state.requestState == ProductRequestState.Updated) {
+                CoolAlert.show(
+                  context: context,
+                  type: CoolAlertType.success,
+                  text: 'Le produit a été mis à jour avec succès',
+                );
+                BlocProvider.of<ProductBloc>(context)
+                    .add(LoadAllProductsEvent());
+                Navigator.pop(context);
+                // BlocProvider.of<ProductBloc>(context)
+                //     .add(LoadAllProductsEvent());
+                // Navigator.pop(context); // error on updating
+              } else if (state.requestState == ProductRequestState.Error) {
+                CoolAlert.show(
+                  context: context,
+                  type: CoolAlertType.error,
+                  text: 'Erreur lors de la mise à jour du produit',
+                );
+              }
+            },
+            child: ListView(children: <Widget>[
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+                leading: const Text('Numéro',
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: GlobalParams.MainfontSize,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Open Sans')),
-                Text("${widget.product.no}",
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: GlobalParams.MainfontSize,
-                        fontWeight: FontWeight.w300,
-                        fontFamily: 'Open Sans')),
-              ],
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: [
-                Text("Nom       :  ",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: GlobalParams.MainfontSize,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Open Sans')),
-                Flexible(
-                  child: Wrap(children: [
-                    Text("${widget.product.name}",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: GlobalParams.MainfontSize,
-                            fontWeight: FontWeight.w300,
-                            fontFamily: 'Open Sans')),
-                  ]),
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w900)),
+                title: Text(
+                  widget.product.no,
+                  style: const TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w300),
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                Text("barcode : ",
-                    overflow: TextOverflow.ellipsis,
+              )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+                leading: const Text('Noms',
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: GlobalParams.MainfontSize,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Open Sans')),
-                Text("${barcode}",
-                    overflow: TextOverflow.ellipsis,
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w900)),
+                title: Text(widget.product.name,
+                    style: const TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w300,
+                    )),
+              )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+                leading: Text('Code Bar',
+                    style: const TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w900)),
+                title: Text(barcode,
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: GlobalParams.MainfontSize,
-                        fontWeight: FontWeight.w300,
-                        fontFamily: 'Open Sans')),
-                Spacer(),
-                FloatingActionButton(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w300,
+                    )),
+                trailing: FloatingActionButton(
+                    heroTag: 'barcode-button',
                     disabledElevation: 0,
                     mini: true,
                     backgroundColor: Colors.deepOrange,
                     child: Icon(
                       Icons.qr_code_scanner_rounded,
-                      size: 30,
+                      size: 20,
                     ),
                     onPressed: () async {
                       String barcodeScanRes =
                           await FlutterBarcodeScanner.scanBarcode(
-                              "red", "cancel", true, ScanMode.BARCODE);
+                              "blue", "cancel", true, ScanMode.BARCODE);
                       setState(() {
                         barcode = barcodeScanRes;
+                        widget.product.code = barcode;
                       });
                     }),
-              ],
-            ),
-            Row(
-              children: [
-                Text("Stock Min : ",
-                    overflow: TextOverflow.ellipsis,
+              )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+                leading: Text('Stock Min',
+                    style: const TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w900)),
+                title: Text(widget.product.stock_min,
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: GlobalParams.MainfontSize,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Open Sans')),
-                Text("${widget.product.stock_min}",
-                    overflow: TextOverflow.ellipsis,
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w300,
+                    )),
+              )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+                leading: const Text('Prix',
+                    style: const TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w900)),
+                title: Text(widget.product.s_price,
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: GlobalParams.MainfontSize,
-                        fontWeight: FontWeight.w300,
-                        fontFamily: 'Open Sans')),
-              ],
-            ),
-            Row(
-              children: [
-                Text("Prix : ",
-                    overflow: TextOverflow.ellipsis,
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w300,
+                    )),
+              )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+                leading: Text('Prix Min',
+                    style: const TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w900)),
+                title: Text(widget.product.s_price_min,
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: GlobalParams.MainfontSize,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Open Sans')),
-                Text("${widget.product.s_price}",
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: GlobalParams.MainfontSize,
-                        fontWeight: FontWeight.w300,
-                        fontFamily: 'Open Sans')),
-              ],
-            ),
-            Row(
-              children: [
-                Text("Prix Min : ",
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: GlobalParams.MainfontSize,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Open Sans')),
-                Text("${widget.product.s_price_min}",
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: GlobalParams.MainfontSize,
-                        fontWeight: FontWeight.w300,
-                        fontFamily: 'Open Sans')),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w300,
+                    )),
+              )),
+              Container(
+                  margin: EdgeInsets.only(
+                      top: GlobalParams.MainPadding / 2,
+                      right: GlobalParams.MainPadding / 2,
+                      left: GlobalParams.MainPadding / 2),
+                  child: ButtonWidget(
+                      size: size,
+                      onPressed: () async {
+                        BlocProvider.of<ProductBloc>(context)
+                          ..add(
+                            UpdateProductEvent(product: widget.product),
+                          );
+
+                        // print(BlocProvider.of<ProductBloc>(context)
+                        //     .state
+                        //     .requestState);
+                        // if (BlocProvider.of<ProductBloc>(context)
+                        //         .state
+                        //         .requestState ==
+                        //     RequestState.Error) {
+                        //   print("hit here");
+                        // }
+
+                        // if (BlocProvider.of<ProductBloc>(context)
+                        //         .state
+                        //         .requestState !=
+                        //     ProductRequestState.Error) {
+                        //   CoolAlert.show(
+                        //       context: context,
+                        //       type: CoolAlertType.success,
+                        //       text: "le produit a été mis à jour avec succès");
+                        //   Navigator.pop(context);
+                        // }
+                      },
+                      text: "Modifier"))
+            ])));
   }
 }

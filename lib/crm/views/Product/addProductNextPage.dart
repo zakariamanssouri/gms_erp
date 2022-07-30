@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gms_erp/blocs/Product/product_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
-import 'package:gms_erp/crm/services/ProductService.dart';
 import 'package:gms_erp/crm/views/Product/productItem.dart';
+import 'package:gms_erp/inventory/views/InventoryDetails/widgets/ErrorWithRefreshButtonWidget.dart';
+import 'package:gms_erp/shared/services/ProductService.dart';
 
 import '../../../widgets/ButtonWidget.dart';
 import '../../../widgets/TextFieldWiget.dart';
@@ -9,18 +12,30 @@ import '../../models/Product.dart';
 
 
 class AddProductNextPage extends StatelessWidget {
-
   String num, name, code, purPrice, salesPrice, stock;
   AddProductNextPage({Key? key, required this.num, required this.name, required this.code, 
   required this.purPrice, required this.salesPrice, required this.stock})
       : super(key: key);
-  
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     Product product = Product(id: '', no: num, name: name, s_price: salesPrice, stock_min: stock, code: code, s_price_min: '0.00');
     product.p_price = purPrice;
-    
+    return AddingWidget(product: product);
+  }
+}
+
+class AddingWidget extends StatelessWidget {
+  const AddingWidget({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
+
+  final Product product;
+
+  @override
+  Widget build(BuildContext context) {
+    BuildContext _context = context;
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: GlobalParams.backgroundColor,
@@ -28,8 +43,8 @@ class AddProductNextPage extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.grey[200],
           elevation: 0,
-          title: Text(
-            'Ajouter Produit',
+          title: const Text(
+            "Ajouter Produit",
             style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w900,
@@ -37,26 +52,68 @@ class AddProductNextPage extends StatelessWidget {
                 fontFamily: 'Open Sans'),
           ),
         ),
-        body: Container(
-          padding: EdgeInsets.only(
-              bottom: GlobalParams.MainPadding,
-              right: GlobalParams.MainPadding,
-              left: GlobalParams.MainPadding),
-          width: double.infinity,
-          height: size.height,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: size.height * 0.02),
-              // Form for editing qunaity and price
-              Builder(builder: (context) {
-                return ProductDataField(product: product);
-              }),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(
+                bottom: GlobalParams.MainPadding,
+                right: GlobalParams.MainPadding,
+                left: GlobalParams.MainPadding),
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  child: 
+                  BlocListener<ProductBloc, ProductState>(
+                  listener: (context, state) {
+                    print("request state:${state.requestState}");
+                    
 
-              SizedBox(height: size.height * 0.02),
-            ],
+                    
+              
+              // data is loading
+              if (state.requestState == ProductRequestState.Adding ||
+                  state.requestState == ProductRequestState.Loading)
+                Container(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+
+              // data is loading
+              // data is loaded
+              else if (state.requestState == ProductRequestState.Added) {
+                print('Add successful');
+                BlocProvider.of<ProductBloc>(context).add(
+                    LoadAllProductsEvent());
+                    
+                              Navigator.push(_context,
+                                  MaterialPageRoute(builder: (context) {
+                                return BlocProvider.value(
+                                  value: BlocProvider.of<ProductBloc>(
+                                      _context),
+                                      child: ProductItem(
+                                    product: product,
+                                  ),);}));
+                  }
+              // Error
+              if (state.requestState == ProductRequestState.Error){
+              ErrorWithRefreshButtonWidget(
+                inventory: null,
+                button_function: () {
+                  print(BlocProvider.of<ProductBloc>(
+                                      context));
+                  BlocProvider.of<ProductBloc>(context)
+                      .add(LoadAllProductsEvent());
+                },
+              );
+                    }
+                   },child: ProductDataField(product: product), // Error
+            ),
+          )]),
+          )
           ),
-        ));
+        );
   }
 }
 
@@ -676,14 +733,12 @@ class ProductDataFieldState extends State<ProductDataField> {
               SizedBox(height: size.height * 0.04),
 
               ButtonWidget(
-                text: 'Ajouter',
+                text: 'Envoyer',
                 size: size,
                 onPressed: () async {
-                    ProductService.addProduct(product);
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      padding: EdgeInsets.all(20),
-                      content: Text('Produit Ajouté')));
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductItem(product: product)));
+                    BlocProvider.of<ProductBloc>(context).add(
+                    AddProductEvent(
+                        product: product,));
                   //}
                 }
                     )])));

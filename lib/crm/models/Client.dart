@@ -28,24 +28,20 @@ class Client {
         phone: json["contact_phone"]);
   }
   Map<String, dynamic> toJson() => {
-        "id": id,
         "customer_no": no,
         "customer_name1": name,
-        "customer_type_id": type_id,
-        "customer_group_id": grp_id,
-        "customer_state_id": state_id,
-        "vat_booking_group_id": vat_id,
+        "customer_type_id": int.parse(type_id!),
+        "customer_group_id": int.parse(grp_id!),
+        "customer_state_id": int.parse(state_id!),
+        "vat_booking_group_id": int.parse(vat_id!),
         "country_name": country,
         "customer_type": type,
         "customer_group": group,
-        "street": street,
-        "city": city,
-        "contact_phone": phone,
-        "currency_id":  2.toString(),
-        "customer_model_id":  3.toString(),
-        "delivery_type_id":  1.toString(),
-        "salutation_id":  3.toString(),
-        "address_pool_id":  15707.toString(),
+        "currency_id":  2,
+        "customer_model_id":  3,
+        "delivery_type_id":  1,
+        "salutation_id":  3,
+        "address_pool_id":  null,
     };
 
   

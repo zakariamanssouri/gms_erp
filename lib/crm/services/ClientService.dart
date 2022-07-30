@@ -39,16 +39,19 @@ class ClientService {
     map['phone'] = client.phone;
     map['vat_booking_group_id'] = client.vat_id;*/
 
+    print(1);
     final response = await http.post(
       Uri.parse(GlobalParams.baseUrl + 'customer'),
       body: client.toJson(),
     );
+    print(1);
 
     final parsed = json.decode(response.body);
     /*print(parsed['success']);
     print(parsed['message']);*/
     print(parsed);
     if (response.statusCode == 200) {
+      print(parsed["id"]);
       if(parsed["id"] != null)
         return true;
     }
