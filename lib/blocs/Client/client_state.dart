@@ -1,6 +1,6 @@
 part of 'client_bloc.dart';
 
-enum RequestState { Loaded, Loading, Error, None, Searching, SearchLoaded }
+enum RequestState { Loaded, Loading, Error, None, Searching, SearchLoaded, Adding, Added }
 
 class ClientState extends Equatable {
   List<Client> clients = [];
@@ -9,8 +9,10 @@ class ClientState extends Equatable {
   String errorMessage;
 
   ClientState(
-      this.clients, this.requestState, this.errorMessage,
-      {this.search_result});
+      {required this.clients,
+      required this.requestState,
+      required this.errorMessage,
+      this.search_result});
 
   @override
   List<Object> get props => [

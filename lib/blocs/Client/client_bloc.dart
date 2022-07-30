@@ -6,25 +6,26 @@ part 'client_event.dart';
 part 'client_state.dart';
 
 class ClientBloc extends Bloc<ClientEvent, ClientState> {
-  ClientBloc() : super(ClientState([], RequestState.Loading, '')) {
+  ClientBloc() : super(ClientState(clients: [], requestState: RequestState.Loading, 
+  errorMessage: '')) {
     on<LoadClients>((event, emit) async {
-      emit(ClientState([], RequestState.Loading, ''));
+      emit(ClientState(clients:[], requestState: RequestState.Loading, errorMessage: ''));
       try {
         List<Client> clients = [];
         await ClientService
             .getClients()
             .then((value) => clients = value);
-        emit(ClientState(clients, RequestState.Loaded, ''));
+        emit(ClientState(clients:clients, requestState: RequestState.Loaded, errorMessage: ''));
       } catch (e) {
         print("error on block Client bloc : $e");
-        emit(ClientState([], RequestState.Error, "error"));
+        emit(ClientState(clients:[], requestState: RequestState.Error, errorMessage: "error"));
       }
     });
 
     on<SearchClientEvent>((event, emit) async {
       try {
-        emit(ClientState(
-            event.client_list, RequestState.Searching, '',
+        emit(ClientState(clients:
+            event.client_list, requestState: RequestState.Searching, errorMessage: '',
             search_result: []));
 
         List<Client> search_result = [];
@@ -38,12 +39,51 @@ class ClientBloc extends Bloc<ClientEvent, ClientState> {
             search_result.add(event.client_list[i]);
           }
         }
-        emit(ClientState(
-            event.client_list, RequestState.SearchLoaded, '',
+        emit(ClientState(clients:
+            event.client_list, requestState: RequestState.SearchLoaded, errorMessage: '',
             search_result: search_result));
       } catch (e) {
-        emit(ClientState([], RequestState.Error, "error"));
+        emit(ClientState(clients:[], requestState: RequestState.Error, errorMessage: "error"));
       }
+    });
+    
+    on<AddClientEvent>((event, emit) async {
+      try {
+        emit(ClientState(
+            clients: state.clients,
+            requestState: RequestState.Adding,
+            errorMessage: ''));
+        print("add client event");
+        await ClientService.addClient(event.client).then((value) {
+            if(value){
+           emit(ClientState(
+            clients: state.clients,
+            requestState: RequestState.Added,
+            errorMessage: ''));
+         
+        }
+        else{
+          emit(ClientState(
+            clients: state.clients,
+            requestState: RequestState.Error,
+            errorMessage: 'error'));
+        }
+        });
+      
+      } catch (e) {
+        emit(ClientState(
+            clients: state.clients,
+            requestState: RequestState.Error,
+            errorMessage: 'error'));
+      }
+    });
+    
+    on<InitializingEvent>((event, emit) async {
+        emit(ClientState(
+            clients: [],
+            requestState: RequestState.None,
+            errorMessage: ''));
+        print("initializing event");
     });
   }
 }

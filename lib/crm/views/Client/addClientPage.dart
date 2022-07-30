@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gms_erp/crm/services/ClientService.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gms_erp/crm/views/Client/clientItem.dart';
+import '../../../blocs/Client/client_bloc.dart';
 import '../../../config/global_params.dart';
+import '../../../inventory/views/InventoryDetails/widgets/ErrorWithRefreshButtonWidget.dart';
 import '../../../widgets/ButtonWidget.dart';
 import '../../../widgets/TextFieldWiget.dart';
 import '../../models/Client.dart';
@@ -12,6 +14,21 @@ class AddClientPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    return AddingWidget(client: client);
+  }
+}
+
+class AddingWidget extends StatelessWidget {
+  const AddingWidget({
+    Key? key,
+    required this.client,
+  }) : super(key: key);
+
+  final Client client;
+
+  @override
+  Widget build(BuildContext context) {
+    BuildContext _context = context;
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: GlobalParams.backgroundColor,
@@ -19,7 +36,7 @@ class AddClientPage extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.grey[200],
           elevation: 0,
-          title: Text(
+          title: const Text(
             "Ajouter Client",
             style: TextStyle(
                 color: Colors.black,
@@ -38,17 +55,58 @@ class AddClientPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(height: size.height * 0.02),
-                // Form for editing qunaity and price
-                Builder(builder: (context) {
-                  return DataField(client: client,);
-                }),
-          
-                SizedBox(height: size.height * 0.02),
-              ],
+                Container(
+                  child: 
+                  BlocListener<ClientBloc, ClientState>(
+                  listener: (context, state) {
+                    print("request state:${state.requestState}");
+                    
+
+                    
+              
+              // data is loading
+              if (state.requestState == RequestState.Adding ||
+                  state.requestState == RequestState.Loading)
+                Container(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+
+              // data is loading
+              // data is loaded
+              else if (state.requestState == RequestState.Added) {
+                print('Add successful');
+                BlocProvider.of<ClientBloc>(context).add(
+                    LoadClients());
+                    
+                              Navigator.push(_context,
+                                  MaterialPageRoute(builder: (context) {
+                                return BlocProvider.value(
+                                  value: BlocProvider.of<ClientBloc>(
+                                      _context),
+                                      child: ClientItem(
+                                    client: client,
+                                  ),);}));
+                  }
+              // Error
+              if (state.requestState == RequestState.Error){
+              ErrorWithRefreshButtonWidget(
+                inventory: null,
+                button_function: () {
+                  print(BlocProvider.of<ClientBloc>(
+                                      context));
+                  BlocProvider.of<ClientBloc>(context)
+                      .add(InitializingEvent());
+                },
+              );
+                    }
+                   },child:DataField(client: client), // Error
             ),
+          )]),
+          )
           ),
-        ));
+        );
   }
 }
 
@@ -448,7 +506,12 @@ class DataFieldState extends State<DataField> {
                     client.name = nameController.text;
                     client.no = numController.text;
                     client.phone = telController.text;
-                    print(ClientService.addClient(client) is Client);
+                    //print(ClientService.addClient(client) is Client);
+                    BlocProvider.of<ClientBloc>(context).add(
+                    AddClientEvent(
+                        client: client,));
+                      
+                                  
                     
                     /*if(ClientService.addClient(client) is Client){
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -457,8 +520,9 @@ class DataFieldState extends State<DataField> {
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClientItem(client: client)));
                     }
                     else{}*/
-                  }
                 }
-                    )])));
+                }
+                    )
+                    ])));
   }
 }

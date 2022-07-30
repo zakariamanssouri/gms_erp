@@ -10,14 +10,12 @@ class ClientService {
   static Future<List<Client>> getClients() async {
     List<Client>? list;
 
-    var res = await http.get(Uri.parse(GlobalParams.baseUrl + 'search_client.php?barcode=all'));
+    var res = await http.get(Uri.parse(GlobalParams.baseUrl + 'customer'));
     var json_data = json.decode(res.body);
 
     if (res.statusCode == 200) {
-      if(json_data["success"] == 1){
-      var data = json_data["data"] as List;
+      var data = json_data as List;
       list = data.map<Client>((json) => Client.fromJson(json)).toList();
-    }
     }
     else{
       list = null;
@@ -26,8 +24,8 @@ class ClientService {
     return list!;
   }
 
-  static Future<Client?> addClient(Client client) async {
-    var map = new Map<String, dynamic>();
+  static Future<bool> addClient(Client client) async {
+    /*var map = new Map<String, dynamic>();
     map['no'] = client.no;
     map['currency_id'] =  2.toString();
     map['customer_model_id'] =  3.toString();
@@ -39,24 +37,22 @@ class ClientService {
     map['customer_group_id'] = client.grp_id;
     map['customer_state_id'] = client.state_id;
     map['phone'] = client.phone;
-    map['vat_booking_group_id'] = client.vat_id;
+    map['vat_booking_group_id'] = client.vat_id;*/
 
     final response = await http.post(
-      Uri.parse(GlobalParams.baseUrl + 'client_add.php'/*'customer'*/),
-      body: map,
+      Uri.parse(GlobalParams.baseUrl + 'customer'),
+      body: client.toJson(),
     );
 
     final parsed = json.decode(response.body);
-    print(parsed['success']);
-    print(parsed['message']);
-    //print(parsed);
+    /*print(parsed['success']);
+    print(parsed['message']);*/
+    print(parsed);
     if (response.statusCode == 200) {
-      /*clientAdded = true;
-      return parsed;*/
-      if(parsed['success'] == 1)
-        return client;
+      if(parsed["id"] != null)
+        return true;
     }
-    else
-      return null;
+      return false;
+
   }
 }
