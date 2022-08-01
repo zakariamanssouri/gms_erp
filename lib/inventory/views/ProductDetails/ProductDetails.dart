@@ -207,6 +207,7 @@ class QuantityAndPriceFormState extends State<QuantityAndPriceForm> {
               ),
               SizedBox(height: size.height * 0.02),
               TextFieldWidget(
+                  readonly: inventoryDetails.isDone == "1" ? true : false,
                   validator: (value) {
                     return validateField(value!);
                   },
@@ -224,8 +225,9 @@ class QuantityAndPriceFormState extends State<QuantityAndPriceForm> {
               ),
               SizedBox(height: size.height * 0.02),
               TextFieldWidget(
+                  readonly: inventoryDetails.isDone == "1" ? true : false,
                   controller: priceController,
-                  keyboardType: TextInputType.numberWithOptions(
+                  keyboardType: const TextInputType.numberWithOptions(
                       signed: false, decimal: true),
                   inventoryDetails: inventoryDetails,
                   validator: (value) {
@@ -247,41 +249,49 @@ class QuantityAndPriceFormState extends State<QuantityAndPriceForm> {
                   Container(
                     width: 23,
                     height: 23,
-                    child: FloatingActionButton(
-                      child: Icon(
-                        Icons.edit,
-                        size: 13,
-                      ),
-                      onPressed: () {
-                        showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2022),
-                                lastDate: DateTime(2030))
-                            .then((value) {
-                          setState(() {
-                            widget.inventoryDetails.validTo = value.toString();
-                          });
-                        });
-                      },
-                      mini: true,
-                    ),
+                    child: inventoryDetails.isDone != "1"
+                        ? FloatingActionButton(
+                            child: Icon(
+                              Icons.edit,
+                              size: 13,
+                            ),
+                            onPressed: () {
+                              showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2022),
+                                      lastDate: DateTime(2030))
+                                  .then((value) {
+                                setState(() {
+                                  value == null
+                                      ? widget.inventoryDetails.validTo =
+                                          widget.inventoryDetails.validTo
+                                      : widget.inventoryDetails.validTo =
+                                          value.toString();
+                                });
+                              });
+                            },
+                            mini: true,
+                          )
+                        : null,
                   )
                 ],
               ),
               SizedBox(height: size.height * 0.03),
-              ButtonWidget(
-                size: size,
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    inventoryDetails.qty =
-                        double.parse(quantityController.text);
+              inventoryDetails.isDone != "1"
+                  ? ButtonWidget(
+                      size: size,
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          inventoryDetails.qty =
+                              double.parse(quantityController.text);
 
-                    BlocProvider.of<InventoryDetailsBloc>(context)
-                        .add(UpdateInventoryDetails(inventoryDetails));
-                  }
-                },
-              ),
+                          BlocProvider.of<InventoryDetailsBloc>(context)
+                              .add(UpdateInventoryDetails(inventoryDetails));
+                        }
+                      },
+                    )
+                  : const Text(""),
             ],
           )),
     );
