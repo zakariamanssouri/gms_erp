@@ -46,33 +46,49 @@ class ProductService {
     // map['t_id'] = product.type_id;
     // map['s_id'] = product.state_id;
     // map['booking_g_id'] = product.vat_id;
-    print(11111);
-    final response = await http.post(
-      Uri.parse(GlobalParams.baseUrl + 'product'),
-      body: product.toJson(),
-    );
-    print(2222);
+    print(1);
+    try{
+      var body = json.encode(product.toJson());
+      final response = await http.post(
+        Uri.parse(GlobalParams.baseUrl + 'product'),
+        body: body,
+        headers: {'content-type': 'application/json'},
+      );
 
-    final parsed = json.decode(response.body);
-    /*print(parsed['success']);
-    print(parsed['message']);*/
-    print(parsed);
-    if (response.statusCode == 200) {
-      if(parsed["id"] != null)
-        return true;
-    }
+      print(response.statusCode);
+      final parsed = json.decode(response.body);
+      /*print(parsed['success']);
+      print(parsed['message']);*/
+      if (response.statusCode == 201) {
+        print(parsed["id"]);
+        if(parsed["id"] != null){
+          return true;
+        }
+      }
+      }on Exception catch (_, ex){
+        print(_);
+      }
       return false;
 
   }
 
   static Future<bool> updateAllProduct(Product product) async {
-    bool success = false;
-    String url = '${GlobalParams.laravelApi}product/${product.id}';
-    var res = await http.put(Uri.parse(url), body: product.toJson());
-    if (res.statusCode == 200) {
-      success = true;
-      print("success");
-    }
-    return success;
+    try{
+      String url = '${GlobalParams.laravelApi}product/${product.id}';
+      var body = json.encode(product.toJson());
+      var res = await http.put(Uri.parse(url), body:
+        body,
+        headers: {'content-type': 'application/json'});
+        print(res.statusCode);
+        print(body);
+      if (res.statusCode == 200) {
+        print(2);
+        print("success");
+        return true;
+      }
+      }on Exception catch (_, ex){
+        print(_);
+      }
+    return false;
   }
 }

@@ -4,25 +4,23 @@ import 'package:gms_erp/blocs/Product/product_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/crm/views/Product/productItem.dart';
 import 'package:gms_erp/inventory/views/InventoryDetails/widgets/ErrorWithRefreshButtonWidget.dart';
-import 'package:gms_erp/shared/services/ProductService.dart';
 
 import '../../../widgets/ButtonWidget.dart';
-import '../../../widgets/TextFieldWiget.dart';
 import '../../models/Product.dart';
 
 
 class AddProductNextPage extends StatelessWidget {
-  String? num, name, code, purPrice, salesPrice, stock;
+  String? num, name, code, purPrice, salesPrice;
   Product? product;
   AddProductNextPage({Key? key, this.num, this.name, this.code, 
-  this.purPrice, this.salesPrice, this.stock, this.product})
+  this.purPrice, this.salesPrice, this.product})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     if(this.product == null){
-      Product product = Product(id: '', no: num!, name: name!, s_price: salesPrice!, stock_min: stock!, code: code!, s_price_min: '0.00');
-      product.p_price = purPrice;
+      Product product = Product(id: '', no: num!, name: name!, s_price: salesPrice!, code: code!, s_price_min: '0.00',
+      p_price: purPrice);
     }
     return AddingWidget(product: product!);
   }
@@ -80,9 +78,10 @@ class AddingWidget extends StatelessWidget {
               children: [
                 Container(
                   child: 
-                  BlocListener<ProductBloc, ProductState>(
-                  listener: (context, state) {
+                  BlocBuilder<ProductBloc, ProductState>(
+                  builder: (context, state) {
                     print("request state:${state.requestState}");
+    print(222222);
                     
 
                     
@@ -91,7 +90,7 @@ class AddingWidget extends StatelessWidget {
               if (state.requestState == ProductRequestState.Adding ||
                   state.requestState == ProductRequestState.Loading ||
                   state.requestState == ProductRequestState.Updating)
-                Container(
+                return Container(
                   child: Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -136,7 +135,9 @@ class AddingWidget extends StatelessWidget {
                 },
               );
                     }
-                   },child: ProductDataField(product: product, isUpdate: update!), // Error
+    print(3333);
+                    return ProductDataField(product: product, isUpdate: update!);
+                   } // Error
             ),
           )]),
           )
@@ -241,12 +242,14 @@ class ProductDataFieldState extends State<ProductDataField> {
   double _fontsize = 15;
 
   ProductDataFieldState(this.product, this.isUpdate) {
-    selectedMeasure = Measure(product.measure_id!);
-    selectedPacktype = Packtype(product.packtype_id!);
-    selectedType = Type(product.type_id!);
-    selectedGroup = Grp(product.grp_id!);
-    selectedState = State(product.state_id!);
-    selectedVat = Vat(product.vat_id!);
+    if(isUpdate){
+      selectedMeasure = Measure(product.measure_id == null ? '' : product.measure_id!);
+      selectedPacktype = Packtype(product.packtype_id == null ? '' : product.packtype_id!);
+      selectedType = Type(product.type_id == null ? '' : product.type_id!);
+      selectedGroup = Grp(product.grp_id == null ? '' : product.grp_id!);
+      selectedState = State(product.state_id == null ? '' : product.state_id!);
+      selectedVat = Vat(product.vat_id == null ? '' : product.vat_id!);
+    }
   }
 
   

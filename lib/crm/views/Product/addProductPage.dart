@@ -21,7 +21,7 @@ class AddProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     if(this.product == null)
-      this.product = Product(id: '', no: '', name: '', s_price: '', stock_min: '', code: '', s_price_min: '');
+      this.product = Product(id: '', no: '', name: '', s_price: '', stock_min: '', p_price: '', code: '', s_price_min: '');
     return AddingWidget(product: product!);
   }
 }
@@ -79,8 +79,8 @@ class AddingWidget extends StatelessWidget {
               children: [
                 Container(
                   child: 
-                  BlocListener<ProductBloc, ProductState>(
-                  listener: (context, state) {
+                  BlocBuilder<ProductBloc, ProductState>(
+                  builder: (context, state) {
                     print("request state:${state.requestState}");
                     
 
@@ -90,7 +90,7 @@ class AddingWidget extends StatelessWidget {
               if (state.requestState == ProductRequestState.Adding ||
                   state.requestState == ProductRequestState.Loading ||
                   state.requestState == ProductRequestState.Updating)
-                Container(
+                return Container(
                   child: Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -103,28 +103,14 @@ class AddingWidget extends StatelessWidget {
                 BlocProvider.of<ProductBloc>(context).add(
                     LoadAllProductsEvent());
                     
-                              Navigator.push(_context,
-                                  MaterialPageRoute(builder: (context) {
-                                return BlocProvider.value(
-                                  value: BlocProvider.of<ProductBloc>(
-                                      _context),
-                                      child: ProductItem(
-                                    product: product,
-                                  ),);}));
+                              Navigator.pop(context);
                   }
                   else if (state.requestState == ProductRequestState.Updated) {
                 print('Update successful');
                 BlocProvider.of<ProductBloc>(context).add(
                     LoadAllProductsEvent());
                     
-                              Navigator.push(_context,
-                                  MaterialPageRoute(builder: (context) {
-                                return BlocProvider.value(
-                                  value: BlocProvider.of<ProductBloc>(
-                                      _context),
-                                      child: ProductItem(
-                                    product: product,
-                                  ),);}));
+                              Navigator.pop(context);
                   }
               // Error
               if (state.requestState == ProductRequestState.Error){
@@ -135,7 +121,8 @@ class AddingWidget extends StatelessWidget {
                 },
               );
                     }
-                   },child: ProductDataField(product: product, isUpdate: update!), // Error
+                    return ProductDataField(product: product, isUpdate: update!);
+                   }
             ),
           )]),
           )
@@ -369,7 +356,8 @@ class ProductDataFieldState extends State<ProductDataField> {
                       code = codeController.text;
                       purPrice = purPriceController.text;
                       salesPrice = salesPriceController.text;
-                      stock = stockController.text;
+                      print(name! + '   ' + num! + '   ' + code! + '   '
+                      + salesPrice!+ '   ' + purPrice!);
                     }
                     
                     isUpdate ? Navigator.push(context,
@@ -384,7 +372,7 @@ class ProductDataFieldState extends State<ProductDataField> {
                                   value: BlocProvider.of<ProductBloc>(
                                       _context),
                                       child: AddProductNextPage(name: name!,
-                    num: num!, code: code!, purPrice: purPrice!, salesPrice: salesPrice!, stock: stock!));}));
+                    num: num!, code: code!, purPrice: purPrice!, salesPrice: salesPrice!));}));
                   }
                 }
                     )])));
