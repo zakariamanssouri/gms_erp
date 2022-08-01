@@ -12,6 +12,7 @@ class ItemCard extends StatelessWidget {
   String? var4;
   String? var5;
 
+  Widget? indicator;
   Color? textcolor;
   ItemCard(
       {Key? key,
@@ -23,7 +24,8 @@ class ItemCard extends StatelessWidget {
       this.var4,
       this.var5,
       this.onPressed,
-      this.textcolor = GlobalParams.itemCardTextColor})
+      this.textcolor = GlobalParams.itemCardTextColor,
+      this.indicator})
       : super(key: key);
 
   @override
@@ -93,7 +95,9 @@ class ItemCard extends StatelessWidget {
                           fontFamily: 'Open Sans'),
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
+                        indicator ?? Text(""),
                         Text(
                           var4 ?? "",
                           // 'Pr : ${inventoryDetails.singlePrice.toStringAsFixed(2)}',
