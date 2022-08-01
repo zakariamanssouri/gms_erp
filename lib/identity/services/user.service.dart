@@ -1,12 +1,9 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, avoid_print
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:gms_erp/identity/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../config/global_params.dart';
 import '../../service.base.dart';
  
 
@@ -83,6 +80,7 @@ class UserService
   {
     try
     {
+      // ignore: prefer_interpolation_to_compose_strings
       var url= Uri.parse("$baseUrl/register/"+obj.id.toString());
       Map data={
         'id': obj.id,
@@ -112,7 +110,9 @@ class UserService
   {
     try
     {
+      // ignore: prefer_interpolation_to_compose_strings
       var url = baseUrl + "/register";
+       // ignore: unused_local_variable
        final headers=await BaseService.HEADERS_WITHOUT_TOKEN() ;
       final response = await http.put(Uri.parse('$url/$id'));
       if(response.statusCode==200)

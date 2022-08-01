@@ -1,10 +1,12 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:gms_erp/identity/services/user.service.dart';
 import 'package:gms_erp/identity/views/Sign%20in/settings.view.dart';
 import 'package:gms_erp/service.base.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../homepage.dart';
-import 'user.signup.view.dart';
 
 class UserLogin extends StatefulWidget 
 {
@@ -16,10 +18,10 @@ class UserLogin extends StatefulWidget
 class _UserLoginState extends State<UserLogin>
  {
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final CheckController = TextEditingController();
+  final rememberMeController = TextEditingController();
   UserService userService =UserService();
   bool isChecked = false;
   @override
@@ -27,6 +29,7 @@ class _UserLoginState extends State<UserLogin>
    { 
     super.initState();
     BaseService.GET_DOMAIN();
+    loadUserEmailPassword();
    }
 
 
@@ -52,7 +55,7 @@ class _UserLoginState extends State<UserLogin>
                                     Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => SettingsView(),
+                                            builder: (context) => const SettingsView(),
                                           ));
                                   },
                                 ),
@@ -63,8 +66,8 @@ class _UserLoginState extends State<UserLogin>
                                 child:CircleAvatar(
                                      radius: 80.0,
                                      child: ClipRRect(
-                                         child: Image.asset('assets/images/logo.png'),
-                                         borderRadius: BorderRadius.circular(10.0),), ),),
+                                         borderRadius: BorderRadius.circular(10.0),
+                                         child: Image.asset('assets/images/logo.png'),), ),),
                                   const SizedBox(height:25),
                                   TextFormField(
                                   controller:emailController,
@@ -91,11 +94,11 @@ class _UserLoginState extends State<UserLogin>
                                   const SizedBox(height:15),
                                  Row(
                                  children:[
-                                   Checkbox(
+                                   Checkbox( 
                                     checkColor: Colors.white,
                                     value: isChecked,
                                     onChanged: (bool? value) {
-                                      setState(() {
+                                      setState(() { 
                                         if(!isChecked) {
                                             isChecked=true;
                                         }
@@ -104,12 +107,10 @@ class _UserLoginState extends State<UserLogin>
                                         }
                                       });
                                     }),
-                                    const Text("Me seuvenir? ",textAlign: TextAlign.center,style: TextStyle(fontSize:13,)),
+                                    const Text("Remember Me ?  ",textAlign: TextAlign.center,style: TextStyle(fontSize:13,)),
                                     ]),
                                     const SizedBox(height:15),
                                   ElevatedButton(
-                                  
-                                  child: const Text('Se Connecter'),
                                   onPressed: () async
                                   {
                                     if (_formKey.currentState!.validate())
@@ -118,6 +119,22 @@ class _UserLoginState extends State<UserLogin>
                                       //  email:  emailController.text,
                                       //  password: passwordController.text);
                                       //  await userService.Login(U).then((value) => _saveToken(value));
+                                         SharedPreferences.getInstance().then(
+                                          (prefs) {
+
+                                              if(isChecked) 
+                                              {
+                                                  prefs.setBool("remember_me", isChecked);
+                                                  prefs.setString('email', emailController.text);
+                                                  prefs.setString('password', passwordController.text);
+                                              }
+                                              else
+                                              {
+                                                  prefs.setBool("remember_me", isChecked);
+                                                  prefs.setString('email', '');
+                                                  prefs.setString('password', ''); 
+                                              }
+                                          },);
                                        Navigator.push(context,MaterialPageRoute(builder: (context) => const HomePage(),));
                                       //  var token = await BaseService.READTOKEN();
                                       //  print('token $token');
@@ -125,10 +142,12 @@ class _UserLoginState extends State<UserLogin>
                                   } ,
                                     style: ElevatedButton.styleFrom(
                                     fixedSize: const Size(240, 40), 
-                                    primary: Colors.blue), 
+                                    primary: Colors.blue),
+                                  
+                                  child: const Text('Se Connecter'), 
                                 ),
                                 const SizedBox(height:20),
-                                Row(
+                               /*  Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                     children:[
                                       const Text("Si vous n'avez pas de compte",textAlign: TextAlign.center,style: TextStyle(fontSize:13,color:Colors.blue),),
@@ -141,11 +160,29 @@ class _UserLoginState extends State<UserLogin>
                                         MaterialPageRoute(  builder: (context) => const AddUserView(),  ));
                                       },
                                       ),
-                                  ]),
+                                  ]), */
                               ],
                         ),
                     ),
              ),
-        );
+        );   
+  }
+  void loadUserEmailPassword() async 
+  {
+      try {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        var email = prefs.getString("email") ?? "";
+        var password = prefs.getString("password") ?? "";
+        var remeberMe = prefs.getBool("remember_me") ?? false;
+        if (remeberMe) {
+          setState(() {
+            isChecked = true;
+          });
+          emailController.text = email;
+          passwordController.text = password;
+        }
+      } catch (e) 
+      {print(e);}
   }
 }
+
