@@ -66,14 +66,14 @@ class ButtonOption {
 
   static List<ButtonOption> InventoryOptions = const <ButtonOption>[
     const ButtonOption(
-        route: "/inventories", text: 'Inventories', iconData: Icons.dashboard),
-    const ButtonOption(
         route: "/products",
-        text: 'Products',
+        text: 'Produits',
         iconData: Icons.shopping_cart_checkout_sharp),
     const ButtonOption(
         route: "/stock",
         text: 'Stock',
         iconData: Icons.production_quantity_limits),
+    const ButtonOption(
+        route: "/inventories", text: 'Inventaires', iconData: Icons.dashboard),
   ];
 }
