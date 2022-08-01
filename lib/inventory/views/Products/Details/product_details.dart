@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -22,7 +20,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     barcode = widget.product.code;
   }
 
@@ -33,7 +30,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          title: Text('Product Details'),
+          title: Text('Produit : ${widget.product.no}'),
         ),
         body: BlocListener<ProductBloc, ProductState>(
             listener: (context, state) {
@@ -45,7 +42,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   text: 'le produit a été mis à jour avec succès',
                 );
                 BlocProvider.of<ProductBloc>(context)
-                    .add(LoadAllProductsEvent());
+                    .add(const LoadAllProductsEvent());
                 Navigator.pop(context);
                 // BlocProvider.of<ProductBloc>(context)
                 //     .add(LoadAllProductsEvent());
@@ -89,12 +86,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               Card(
                   child: ListTile(
                 minLeadingWidth: 70,
-                leading: Text('Code Bar',
-                    style: const TextStyle(
+                leading: const Text('Code Bar',
+                    style:  TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
                         fontWeight: FontWeight.w900)),
                 title: Text(barcode,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: GlobalParams.MainfontFamily,
                       fontWeight: FontWeight.w300,
                     )),
@@ -103,7 +100,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     disabledElevation: 0,
                     mini: true,
                     backgroundColor: Colors.deepOrange,
-                    child: Icon(
+                    child:const Icon(
                       Icons.qr_code_scanner_rounded,
                       size: 20,
                     ),
@@ -120,25 +117,52 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               Card(
                   child: ListTile(
                 minLeadingWidth: 70,
-                leading: Text('Stock Min',
-                    style: const TextStyle(
+                leading: const Text('Unité',
+                    style:  TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
                         fontWeight: FontWeight.w900)),
-                title: Text(widget.product.stock_min,
-                    style: TextStyle(
+                title: Text(widget.product.measure ?? "",
+                    style: const TextStyle(
                       fontFamily: GlobalParams.MainfontFamily,
                       fontWeight: FontWeight.w300,
                     )),
               )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+                leading: const Text('Category',
+                    style:  TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w900)),
+                title: Text(
+                    "${widget.product.product_group} / ${widget.product.product_type}",
+                    style: const TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w300,
+                    )),
+              )),
+              Card(
+                  child: ListTile(
+                      minLeadingWidth: 70,
+                      leading: const Text('Actif',
+                          style:  TextStyle(
+                              fontFamily: GlobalParams.MainfontFamily,
+                              fontWeight: FontWeight.w900)),
+                      title: Container(
+                        alignment: Alignment.centerLeft,
+                        child: widget.product.is_active == 0
+                            ?const  Icon(Icons.lock)
+                            :const  Icon(Icons.lock_open),
+                      ))),
               Card(
                   child: ListTile(
                 minLeadingWidth: 70,
                 leading: const Text('Prix',
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
                         fontWeight: FontWeight.w900)),
                 title: Text(widget.product.s_price,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: GlobalParams.MainfontFamily,
                       fontWeight: FontWeight.w300,
                     )),
@@ -146,12 +170,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               Card(
                   child: ListTile(
                 minLeadingWidth: 70,
-                leading: Text('Prix Min',
-                    style: const TextStyle(
+                leading:const Text('Prix Min',
+                    style:  TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
                         fontWeight: FontWeight.w900)),
                 title: Text(widget.product.s_price_min,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: GlobalParams.MainfontFamily,
                       fontWeight: FontWeight.w300,
                     )),
@@ -164,33 +188,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   child: ButtonWidget(
                       size: size,
                       onPressed: () async {
-                        BlocProvider.of<ProductBloc>(context)
-                          ..add(
-                            UpdateProductEvent(product: widget.product),
-                          );
-
-                        // print(BlocProvider.of<ProductBloc>(context)
-                        //     .state
-                        //     .requestState);
-                        // if (BlocProvider.of<ProductBloc>(context)
-                        //         .state
-                        //         .requestState ==
-                        //     RequestState.Error) {
-                        //   print("hit here");
-                        // }
-
-                        // if (BlocProvider.of<ProductBloc>(context)
-                        //         .state
-                        //         .requestState !=
-                        //     ProductRequestState.Error) {
-                        //   CoolAlert.show(
-                        //       context: context,
-                        //       type: CoolAlertType.success,
-                        //       text: "le produit a été mis à jour avec succès");
-                        //   Navigator.pop(context);
-                        // }
+                        BlocProvider.of<ProductBloc>(context).add(
+                          UpdateProductEvent(product: widget.product),
+                        );
                       },
-                      text: "Modifier"))
+                      text: "Enregistrer"))
             ])));
   }
 }
