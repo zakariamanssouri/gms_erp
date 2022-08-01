@@ -24,7 +24,7 @@ class ButtonOption {
 
   static List<ButtonOption> IdentityOptions = const <ButtonOption>[
     const ButtonOption(
-        route: "/identityAddUsers",
+        route: "/identityAdminAddUsers",
         text: 'Ajouter Utilisateur',
         iconData: Icons.person_add),
     const ButtonOption(
