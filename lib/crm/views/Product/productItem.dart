@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gms_erp/blocs/Product/product_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/crm/models/Product.dart';
+import 'package:gms_erp/crm/views/Product/addProductPage.dart';
 import 'package:gms_erp/widgets/ButtonWidget.dart';
 
 class ProductItem extends StatefulWidget {
@@ -22,13 +23,13 @@ class _ProductItemState extends State<ProductItem> {
 
   @override
   void initState() {
-    // TODO: implement initState
     barcode = widget.product.code;
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    BuildContext _context = context;
 
     return Scaffold(
         appBar: AppBar(
@@ -42,7 +43,7 @@ class _ProductItemState extends State<ProductItem> {
                 CoolAlert.show(
                   context: context,
                   type: CoolAlertType.success,
-                  text: 'Le produit a été mis à jour avec succès',
+                  text: 'le produit a été mis à jour avec succès',
                 );
                 BlocProvider.of<ProductBloc>(context)
                     .add(LoadAllProductsEvent());
@@ -191,6 +192,22 @@ class _ProductItemState extends State<ProductItem> {
                         // }
                       },
                       text: "Modifier"))
-            ])));
+            ])),
+            floatingActionButton: FloatingActionButton(
+        onPressed: () {
+                  Navigator.push(_context,
+                      MaterialPageRoute(builder: (context) {
+                    return BlocProvider.value(
+                      value: BlocProvider.of<ProductBloc>(
+                          _context),
+          child: AddProductPage(product: widget.product,));}));
+        },
+        backgroundColor: Colors.white,
+        child: const Icon(
+          Icons.edit,
+          color: Colors.blue,
+        ),
+      ),
+            );
   }
 }

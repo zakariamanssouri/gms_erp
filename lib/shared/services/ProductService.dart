@@ -46,11 +46,12 @@ class ProductService {
     // map['t_id'] = product.type_id;
     // map['s_id'] = product.state_id;
     // map['booking_g_id'] = product.vat_id;
-
+    print(11111);
     final response = await http.post(
       Uri.parse(GlobalParams.baseUrl + 'product'),
       body: product.toJson(),
     );
+    print(2222);
 
     final parsed = json.decode(response.body);
     /*print(parsed['success']);
@@ -62,5 +63,16 @@ class ProductService {
     }
       return false;
 
+  }
+
+  static Future<bool> updateAllProduct(Product product) async {
+    bool success = false;
+    String url = '${GlobalParams.laravelApi}product/${product.id}';
+    var res = await http.put(Uri.parse(url), body: product.toJson());
+    if (res.statusCode == 200) {
+      success = true;
+      print("success");
+    }
+    return success;
   }
 }

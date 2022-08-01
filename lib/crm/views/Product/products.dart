@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gms_erp/blocs/Product/product_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/crm/views/Product/addProductPage.dart';
-import 'package:gms_erp/crm/views/Product/widgets/ProductsPageBody.dart';
+import 'package:gms_erp/crm/views/Product/widgets/ProductsBody.dart';
 
 
 class Products extends StatelessWidget {

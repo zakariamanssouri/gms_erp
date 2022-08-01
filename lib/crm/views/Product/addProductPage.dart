@@ -12,16 +12,25 @@ import '../../models/Product.dart';
 
 
 class AddProductPage extends StatelessWidget {
-  Product product = Product(id: '', no: '', name: '', s_price: '', stock_min: '', code: '', s_price_min: '');
+  Product? product ;
+  AddProductPage({
+    Key? key,
+    this.product,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return AddingWidget(product: product);
+    if(this.product == null)
+      this.product = Product(id: '', no: '', name: '', s_price: '', stock_min: '', code: '', s_price_min: '');
+    return AddingWidget(product: product!);
   }
 }
 
 class AddingWidget extends StatelessWidget {
-  const AddingWidget({
+  
+  bool? update;
+
+  AddingWidget({
     Key? key,
     required this.product,
   }) : super(key: key);
@@ -31,6 +40,10 @@ class AddingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BuildContext _context = context;
+    if(product.id != '')
+      update = true;
+    else
+      update = false;
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: GlobalParams.backgroundColor,
@@ -38,7 +51,14 @@ class AddingWidget extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.grey[200],
           elevation: 0,
-          title: const Text(
+          title: update! ? const Text(
+            "Modifier Produit",
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w900,
+                fontSize: 19,
+                fontFamily: 'Open Sans'),
+          ) : const Text(
             "Ajouter Produit",
             style: TextStyle(
                 color: Colors.black,
@@ -68,7 +88,8 @@ class AddingWidget extends StatelessWidget {
               
               // data is loading
               if (state.requestState == ProductRequestState.Adding ||
-                  state.requestState == ProductRequestState.Loading)
+                  state.requestState == ProductRequestState.Loading ||
+                  state.requestState == ProductRequestState.Updating)
                 Container(
                   child: Center(
                     child: CircularProgressIndicator(),
@@ -91,19 +112,30 @@ class AddingWidget extends StatelessWidget {
                                     product: product,
                                   ),);}));
                   }
+                  else if (state.requestState == ProductRequestState.Updated) {
+                print('Update successful');
+                BlocProvider.of<ProductBloc>(context).add(
+                    LoadAllProductsEvent());
+                    
+                              Navigator.push(_context,
+                                  MaterialPageRoute(builder: (context) {
+                                return BlocProvider.value(
+                                  value: BlocProvider.of<ProductBloc>(
+                                      _context),
+                                      child: ProductItem(
+                                    product: product,
+                                  ),);}));
+                  }
               // Error
               if (state.requestState == ProductRequestState.Error){
               ErrorWithRefreshButtonWidget(
                 inventory: null,
                 button_function: () {
-                  print(BlocProvider.of<ProductBloc>(
-                                      context));
-                  BlocProvider.of<ProductBloc>(context)
-                      .add(LoadAllProductsEvent());
+                  ProductDataField(product: product, isUpdate: update!);
                 },
               );
                     }
-                   },child: ProductDataField(product: product), // Error
+                   },child: ProductDataField(product: product, isUpdate: update!), // Error
             ),
           )]),
           )
@@ -115,16 +147,18 @@ class AddingWidget extends StatelessWidget {
 
 class ProductDataField extends StatefulWidget {
   final Product product;
-  ProductDataField({Key? key, required this.product})
+  bool isUpdate;
+  ProductDataField({Key? key, required this.product, required this.isUpdate})
       : super(key: key);
 
   @override
   State<ProductDataField> createState() =>
-      ProductDataFieldState(product);
+      ProductDataFieldState(product, isUpdate);
 }
 
 class ProductDataFieldState extends State<ProductDataField> {
   Product product;
+  bool isUpdate;
   TextEditingController numController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController codeController = TextEditingController();
@@ -213,13 +247,13 @@ class ProductDataFieldState extends State<ProductDataField> {
   final _formKey = GlobalKey<FormState>();
   double _fontsize = 15;
 
-  ProductDataFieldState(this.product) {
-    numController.text = '';
-    nameController.text = '';
-    codeController.text = '';
-    purPriceController.text = '';
-    salesPriceController.text = '';
-    stockController.text = '';
+  ProductDataFieldState(this.product, this.isUpdate) {
+    numController.text = product.no;
+    nameController.text = product.name;
+    codeController.text = product.code;
+    purPriceController.text = product.p_price!;
+    salesPriceController.text = product.s_price;
+    stockController.text = product.stock_min;
   }
 
   String? validateNumber(String value) {
@@ -243,6 +277,7 @@ class ProductDataFieldState extends State<ProductDataField> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    BuildContext _context = context;
 
     return Center(
       child: Form(
@@ -258,7 +293,7 @@ class ProductDataFieldState extends State<ProductDataField> {
                   obj: product,
                   controller: numController,
                   labeltext: 'Numero',
-                  valuetext: '',
+                  valuetext: product.no,
                   keyboardType: TextInputType.numberWithOptions(
                       signed: false, decimal: true),),
 
@@ -271,7 +306,7 @@ class ProductDataFieldState extends State<ProductDataField> {
                   },
                   obj: product,
                   labeltext: 'Nom',
-                  valuetext: '',),
+                  valuetext: product.name,),
               SizedBox(height: size.height * 0.02),
 
               
@@ -282,7 +317,7 @@ class ProductDataFieldState extends State<ProductDataField> {
                   validator: (value) {
                     return validateField(value!);
                   },
-                  obj: product, valuetext: '', labeltext: 'Code Bar',),
+                  obj: product, valuetext: product.code, labeltext: 'Code Bar',),
               SizedBox(height: size.height * 0.02),
 
               TextFieldWidget(
@@ -292,7 +327,7 @@ class ProductDataFieldState extends State<ProductDataField> {
                   validator: (value) {
                     return validateField(value!);
                   },
-                  obj: product, valuetext: '', labeltext: 'Prix d\'achat',),
+                  obj: product, valuetext: product.p_price!, labeltext: 'Prix d\'achat',),
               SizedBox(height: size.height * 0.02),
 
               TextFieldWidget(
@@ -302,7 +337,7 @@ class ProductDataFieldState extends State<ProductDataField> {
                   validator: (value) {
                     return validateField(value!);
                   },
-                  obj: product, valuetext: '', labeltext: 'Prix de vente',),
+                  obj: product, valuetext: product.s_price, labeltext: 'Prix de vente',),
               SizedBox(height: size.height * 0.02),
 
               TextFieldWidget(
@@ -312,7 +347,7 @@ class ProductDataFieldState extends State<ProductDataField> {
                   validator: (value) {
                     return validateField(value!);
                   },
-                  obj: product, valuetext: '', labeltext: 'Stock Min',),
+                  obj: product, valuetext: product.stock_min, labeltext: 'Stock Min',),
               SizedBox(height: size.height * 0.04),
 
               ButtonWidget(
@@ -320,18 +355,34 @@ class ProductDataFieldState extends State<ProductDataField> {
                 size: size,
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    name = nameController.text;
-                    num = numController.text;
-                    code = codeController.text;
-                    purPrice = purPriceController.text;
-                    salesPrice = salesPriceController.text;
-                    stock = stockController.text;
+                    if(isUpdate){
+                      product.setName = name;
+                      product.setNo = num;
+                      product.setCode = code;
+                      product.setP_price = purPrice;
+                      product.setS_price = salesPrice;
+                      product.setStock_min = stock;
+                    }
+                    else{
+                      name = nameController.text;
+                      num = numController.text;
+                      code = codeController.text;
+                      purPrice = purPriceController.text;
+                      salesPrice = salesPriceController.text;
+                      stock = stockController.text;
+                    }
                     
-                    Navigator.push(context,
+                    isUpdate ? Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
                                 return BlocProvider.value(
                                   value: BlocProvider.of<ProductBloc>(
-                                      context),
+                                      _context),
+                                      child: AddProductNextPage(product: product));}))
+                     : Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return BlocProvider.value(
+                                  value: BlocProvider.of<ProductBloc>(
+                                      _context),
                                       child: AddProductNextPage(name: name!,
                     num: num!, code: code!, purPrice: purPrice!, salesPrice: salesPrice!, stock: stock!));}));
                   }

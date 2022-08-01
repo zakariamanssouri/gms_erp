@@ -9,26 +9,39 @@ import '../../../widgets/TextFieldWiget.dart';
 import '../../models/Client.dart';
 
 class AddClientPage extends StatelessWidget {
-  Client client = Client(id: '', name: '', no: '', country: '', city: '', street: '', type: '',
-  group: '', phone: '');
+  Client? client;
+  AddClientPage({
+    Key? key,
+    this.client,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return AddingWidget(client: client);
+    if(this.client == null)
+      this.client = Client(id: '', name: '', no: '', country: '', city: '', street: '', type: '',
+      group: '', phone: '');
+    return AddingWidget(client: client!);
   }
 }
 
 class AddingWidget extends StatelessWidget {
-  const AddingWidget({
+
+  bool? update;
+  final Client client;
+
+  AddingWidget({
     Key? key,
     required this.client,
   }) : super(key: key);
 
-  final Client client;
-
   @override
   Widget build(BuildContext context) {
     BuildContext _context = context;
+
+    if(client.id != '')
+      update = true;
+    else
+      update = false;
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: GlobalParams.backgroundColor,
@@ -36,7 +49,14 @@ class AddingWidget extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.grey[200],
           elevation: 0,
-          title: const Text(
+          title: update! ? const Text(
+            "Modifier Client",
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w900,
+                fontSize: 19,
+                fontFamily: 'Open Sans'),
+          ) : const Text(
             "Ajouter Client",
             style: TextStyle(
                 color: Colors.black,
@@ -66,7 +86,8 @@ class AddingWidget extends StatelessWidget {
               
               // data is loading
               if (state.requestState == RequestState.Adding ||
-                  state.requestState == RequestState.Loading)
+                  state.requestState == RequestState.Loading || 
+                  state.requestState == RequestState.Updating)
                 Container(
                   child: Center(
                     child: CircularProgressIndicator(),
@@ -89,19 +110,30 @@ class AddingWidget extends StatelessWidget {
                                     client: client,
                                   ),);}));
                   }
+                  else if (state.requestState == RequestState.Updated) {
+                print('Update successful');
+                BlocProvider.of<ClientBloc>(context).add(
+                    LoadClients());
+                    
+                              Navigator.push(_context,
+                                  MaterialPageRoute(builder: (context) {
+                                return BlocProvider.value(
+                                  value: BlocProvider.of<ClientBloc>(
+                                      _context),
+                                      child: ClientItem(
+                                    client: client,
+                                  ),);}));
+                  }
               // Error
               if (state.requestState == RequestState.Error){
               ErrorWithRefreshButtonWidget(
                 inventory: null,
                 button_function: () {
-                  print(BlocProvider.of<ClientBloc>(
-                                      context));
-                  BlocProvider.of<ClientBloc>(context)
-                      .add(InitializingEvent());
+                  DataField(client: client, isUpdate: update!);
                 },
               );
                     }
-                   },child:DataField(client: client), // Error
+                   },child:DataField(client: client, isUpdate: update!), // Error
             ),
           )]),
           )
@@ -113,16 +145,18 @@ class AddingWidget extends StatelessWidget {
 
 class DataField extends StatefulWidget {
   final Client client;
-  DataField({Key? key, required this.client})
+  final bool isUpdate;
+  DataField({Key? key, required this.client, required this.isUpdate})
       : super(key: key);
 
   @override
   State<DataField> createState() =>
-      DataFieldState(client);
+      DataFieldState(client, isUpdate);
 }
 
 class DataFieldState extends State<DataField> {
   Client client;
+  bool isUpdate;
   TextEditingController numController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController telController = TextEditingController();
@@ -145,14 +179,21 @@ class DataFieldState extends State<DataField> {
   String selectedGroup = 'Divers';
   String selectedState = 'Qualifier';
   String selectedVat = '14 %';
+  
 
   final _formKey = GlobalKey<FormState>();
   double _fontsize = 15;
 
-  DataFieldState(this.client) {
+  DataFieldState(this.client, this.isUpdate) {
     numController.text = client.no.toString();
     nameController.text = client.name.toString();
     telController.text = client.phone.toString();
+    if(isUpdate){
+      selectedType = client.type;
+      selectedGroup = client.group;
+      selectedState = State(client.state_id!);
+      selectedVat = Vat(client.vat!);
+    }
   }
 
   int TypeID(String type){
@@ -228,6 +269,41 @@ class DataFieldState extends State<DataField> {
 
 
 
+    String State(String id){
+        switch(id){
+            case '1' :
+                return 'Qualifier';
+            case '2' :
+                return 'Disqualifié - Perdu';
+            case '3' :
+                return 'Disqualifié - Impossible de contacter';
+            case '4' :
+                return 'Disqualifié - n\'est plus interesse';
+            case '5' :
+                return 'Disqualifié - Annulé';
+            case '6' :
+                return 'Nouveau';
+            default:
+                return '';
+        }
+    }
+    String Vat(String id){
+        switch(id){
+            case '1':
+                return '14 %';
+            case '2':
+                return '20 %';
+            case '3':
+                return '0 %';
+            case '4':
+                return '10 %';
+            default:
+                return '';
+        }
+    }
+
+
+
 
   String? validateNumber(String value) {
     if (value == null || value.isEmpty) {
@@ -272,7 +348,7 @@ class DataFieldState extends State<DataField> {
                   obj: client,
                   controller: numController,
                   labeltext: 'Numero',
-                  valuetext: '',
+                  valuetext: client.no,
                   keyboardType: TextInputType.numberWithOptions(
                       signed: false, decimal: true),),
       
@@ -285,7 +361,7 @@ class DataFieldState extends State<DataField> {
                   },
                   obj: client,
                   labeltext: 'Nom',
-                  valuetext: '',),
+                  valuetext: client.name),
               SizedBox(height: size.height * 0.02),
       
               
@@ -296,7 +372,7 @@ class DataFieldState extends State<DataField> {
                   validator: (value) {
                     return validateNumber(value!);
                   },
-                  obj: client, valuetext: '', labeltext: 'Telephone',),
+                  obj: client, valuetext: client.phone, labeltext: 'Telephone',),
               SizedBox(height: size.height * 0.02),
       
                   Container(
@@ -499,7 +575,7 @@ class DataFieldState extends State<DataField> {
               SizedBox(height: size.height * 0.04),
       
               ButtonWidget(
-                text: 'Ajouter',
+                text: isUpdate ? 'Modifier' : 'Ajouter',
                 size: size,
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
@@ -507,7 +583,8 @@ class DataFieldState extends State<DataField> {
                     client.no = numController.text;
                     client.phone = telController.text;
                     //print(ClientService.addClient(client) is Client);
-                    BlocProvider.of<ClientBloc>(context).add(
+                    isUpdate ? BlocProvider.of<ClientBloc>(context).add(
+                    UpdateClientEvent(client: client)) :  BlocProvider.of<ClientBloc>(context).add(
                     AddClientEvent(
                         client: client,));
                       

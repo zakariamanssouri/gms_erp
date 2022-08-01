@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gms_erp/blocs/Product/product_bloc.dart';
@@ -19,6 +18,7 @@ class ProductsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BuildContext _context = context;
     return Container(
         height: size.height * 0.78,
         padding: EdgeInsets.only(
@@ -28,20 +28,20 @@ class ProductsListView extends StatelessWidget {
         child: ListView.builder(
             itemCount: products.length,
             itemBuilder: (BuildContext context, int index) {
-              return BlocProvider(
-                  create: (context) => BlocProvider.of<ProductBloc>(context),
-                  child: ItemCard(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return ProductItem(product: products[index]);
-                      }));
-                    },
-                    size: size,
-                    var1: products[index].name,
-                    var2: products[index].s_price,
-                    var3: products[index].code,
-                  ));
+              return ItemCard(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return BlocProvider.value(
+                      value: BlocProvider.of<ProductBloc>(_context),
+                      child: ProductItem(product: products[index]),
+                    );
+                  }));
+                },
+                size: size,
+                var1: products[index].name,
+                var2: products[index].s_price,
+                var3: products[index].code,
+              );
             }));
   }
 }

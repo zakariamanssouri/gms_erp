@@ -58,4 +58,15 @@ class ClientService {
       return false;
 
   }
+
+  static Future<bool> updateClient(Client client) async {
+    String url = '${GlobalParams.laravelApi}product/${client.id}';
+    var res = await http.put(Uri.parse(url), body:
+      client.toJson());
+    if (res.statusCode == 200) {
+      print("success");
+      return true;
+    }
+    return false;
+  }
 }

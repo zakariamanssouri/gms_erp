@@ -23,10 +23,10 @@ class SearchClientEvent extends ClientEvent {
   List<Object> get props => [search_value, client_list];
 }
 
-class UpdateClient extends ClientEvent {
+class UpdateClientEvent extends ClientEvent {
   Client client;
 
-  UpdateClient(this.client);
+  UpdateClientEvent({required this.client});
   @override
   List<Object> get props => [client];
 }

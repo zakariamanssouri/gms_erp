@@ -1,6 +1,7 @@
 part of 'client_bloc.dart';
 
-enum RequestState { Loaded, Loading, Error, None, Searching, SearchLoaded, Adding, Added }
+enum RequestState { Loaded, Loading, Error, None, Searching, SearchLoaded, Adding, Added, 
+Updating, Updated }
 
 class ClientState extends Equatable {
   List<Client> clients = [];

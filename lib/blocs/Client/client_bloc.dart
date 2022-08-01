@@ -85,5 +85,36 @@ class ClientBloc extends Bloc<ClientEvent, ClientState> {
             errorMessage: ''));
         print("initializing event");
     });
+
+    on<UpdateClientEvent>((event, emit) async {
+      try {
+        emit(ClientState(
+            clients: state.clients,
+            requestState: RequestState.Updating,
+            errorMessage: ''));
+        print("update client event");
+        await ClientService.updateClient(event.client).then((value) {
+            if(value){
+              emit(ClientState(
+              clients: state.clients,
+              requestState: RequestState.Updated,
+              errorMessage: ''));
+         
+        }
+        else{
+          emit(ClientState(
+            clients: state.clients,
+            requestState: RequestState.Error,
+            errorMessage: 'error'));
+        }
+        });
+      
+      } catch (e) {
+        emit(ClientState(
+            clients: state.clients,
+            requestState: RequestState.Error,
+            errorMessage: 'error'));
+      }
+    });
   }
 }

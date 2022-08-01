@@ -12,21 +12,26 @@ import '../../models/Product.dart';
 
 
 class AddProductNextPage extends StatelessWidget {
-  String num, name, code, purPrice, salesPrice, stock;
-  AddProductNextPage({Key? key, required this.num, required this.name, required this.code, 
-  required this.purPrice, required this.salesPrice, required this.stock})
+  String? num, name, code, purPrice, salesPrice, stock;
+  Product? product;
+  AddProductNextPage({Key? key, this.num, this.name, this.code, 
+  this.purPrice, this.salesPrice, this.stock, this.product})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    Product product = Product(id: '', no: num, name: name, s_price: salesPrice, stock_min: stock, code: code, s_price_min: '0.00');
-    product.p_price = purPrice;
-    return AddingWidget(product: product);
+    if(this.product == null){
+      Product product = Product(id: '', no: num!, name: name!, s_price: salesPrice!, stock_min: stock!, code: code!, s_price_min: '0.00');
+      product.p_price = purPrice;
+    }
+    return AddingWidget(product: product!);
   }
 }
 
 class AddingWidget extends StatelessWidget {
-  const AddingWidget({
+
+  bool? update;
+  AddingWidget({
     Key? key,
     required this.product,
   }) : super(key: key);
@@ -36,6 +41,10 @@ class AddingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BuildContext _context = context;
+    if(product.id != '')
+      update = true;
+    else
+      update = false;
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: GlobalParams.backgroundColor,
@@ -43,7 +52,14 @@ class AddingWidget extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.grey[200],
           elevation: 0,
-          title: const Text(
+          title: update! ? const Text(
+            "Modifier Produit",
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w900,
+                fontSize: 19,
+                fontFamily: 'Open Sans'),
+          ) : const Text(
             "Ajouter Produit",
             style: TextStyle(
                 color: Colors.black,
@@ -73,7 +89,8 @@ class AddingWidget extends StatelessWidget {
               
               // data is loading
               if (state.requestState == ProductRequestState.Adding ||
-                  state.requestState == ProductRequestState.Loading)
+                  state.requestState == ProductRequestState.Loading ||
+                  state.requestState == ProductRequestState.Updating)
                 Container(
                   child: Center(
                     child: CircularProgressIndicator(),
@@ -96,19 +113,30 @@ class AddingWidget extends StatelessWidget {
                                     product: product,
                                   ),);}));
                   }
+                  else if (state.requestState == ProductRequestState.Updated) {
+                print('Update successful');
+                BlocProvider.of<ProductBloc>(context).add(
+                    LoadAllProductsEvent());
+                    
+                              Navigator.push(_context,
+                                  MaterialPageRoute(builder: (context) {
+                                return BlocProvider.value(
+                                  value: BlocProvider.of<ProductBloc>(
+                                      _context),
+                                      child: ProductItem(
+                                    product: product,
+                                  ),);}));
+                  }
               // Error
               if (state.requestState == ProductRequestState.Error){
               ErrorWithRefreshButtonWidget(
                 inventory: null,
                 button_function: () {
-                  print(BlocProvider.of<ProductBloc>(
-                                      context));
-                  BlocProvider.of<ProductBloc>(context)
-                      .add(LoadAllProductsEvent());
+                  ProductDataField(product: product, isUpdate: update!);
                 },
               );
                     }
-                   },child: ProductDataField(product: product), // Error
+                   },child: ProductDataField(product: product, isUpdate: update!), // Error
             ),
           )]),
           )
@@ -120,16 +148,18 @@ class AddingWidget extends StatelessWidget {
 
 class ProductDataField extends StatefulWidget {
   final Product product;
-  ProductDataField({Key? key, required this.product})
+  bool isUpdate;
+  ProductDataField({Key? key, required this.product, required this.isUpdate})
       : super(key: key);
 
   @override
   State<ProductDataField> createState() =>
-      ProductDataFieldState(product);
+      ProductDataFieldState(product, isUpdate);
 }
 
 class ProductDataFieldState extends State<ProductDataField> {
   Product product;
+  bool isUpdate;
   
   List<String> measureList = ['Carton',
         'Gramme',
@@ -210,8 +240,13 @@ class ProductDataFieldState extends State<ProductDataField> {
   final _formKey = GlobalKey<FormState>();
   double _fontsize = 15;
 
-  ProductDataFieldState(this.product) {
-    
+  ProductDataFieldState(this.product, this.isUpdate) {
+    selectedMeasure = Measure(product.measure_id!);
+    selectedPacktype = Packtype(product.packtype_id!);
+    selectedType = Type(product.type_id!);
+    selectedGroup = Grp(product.grp_id!);
+    selectedState = State(product.state_id!);
+    selectedVat = Vat(product.vat_id!);
   }
 
   
@@ -385,6 +420,180 @@ class ProductDataFieldState extends State<ProductDataField> {
                 return 4;
             default:
                 return 0;
+        }
+    }
+
+
+    String Measure(String id){
+        switch(id){
+            case '2' :
+                return 'Carton';
+            case '3' :
+                return 'Gramme';
+            case '5' :
+                return 'Heure';
+            case '6' :
+                return 'Jour';
+            case '7' :
+                return 'Metre';
+            case '8' :
+                return 'Litre';
+            case '11' :
+                return 'Bouteille';
+            case '13' :
+                return 'Tonne';
+            case '14' :
+                return 'Paquets';
+            case '15' :
+                return 'Pièce';
+            case '1002' :
+                return 'Milligramme';
+            case '1003' :
+                return 'Kg';
+            case '1004' :
+                return 'Abat';
+            case '1005' :
+                return 'Service';
+            case '1006' :
+                return 'UNT';
+            default:
+                return '';
+        }
+    }
+    String Type(String type){
+        switch(type){
+            case '1' :
+                return 'AIGUILLES PISTOLETS';
+            case '2' :
+                return 'ATTACHES ETIQUETTES';
+            case '3' :
+                return 'Agneau';
+            case '4' :
+                return 'Boeuf';
+            case '5' :
+                return 'Chevre';
+            case '6' :
+                return 'Emballage';
+            case '7' :
+                return 'Genisse';
+            case '8' :
+                return 'Vache';
+            case '9' :
+                return 'Veau';
+            case '10' :
+                return 'BOYAUX';
+            case '11' :
+                return 'CAISSES PLASTIQUE';
+            case '13' :
+                return 'Chevreau';
+            case '14' :
+                return 'COUTELLERIE';
+            case '15' :
+                return 'Dinde';
+            case '17' :
+                return 'Epice Marinade';
+            case '8' :
+                return 'FOURNITURE BUREAU';
+            case '21' :
+                return 'Agnelle';
+            case '24' :
+                return 'PISTOLET ';
+            case '25' :
+                return 'Produit hygiene';
+            default:
+                return '';
+        }
+    }
+    String Packtype(String packtype){
+        switch (packtype){
+            case '1':
+                return 'SOUS VIDE';
+            case '2':
+                return 'CARCASSE';
+            case '3':
+                return 'VRAC';
+            default:
+                return '';
+        }
+    }
+    String Grp(String grp){
+        switch (grp){
+            case '4':
+                return 'Viande Rouge';
+            case '1023':
+                return 'Ovins';
+            case '1025':
+                return 'Bovins';
+            case '1027':
+                return 'Caprin';
+            case '1028':
+                return 'Volaille';
+            case '1029':
+                return 'Produit hygiene';
+            case '1030':
+                return 'Produit Nettoyage';
+            case '1031':
+                return 'Epices ';
+            case '1032':
+                return 'Emballage';
+            case '1033':
+                return 'Legume frais Decouper';
+            case '1034':
+                return 'produits laitier';
+            case '1035':
+                return 'Service';
+            case '1037':
+                return 'FOURNITURE BUREAU';
+            case '1038':
+                return 'PRODUITS D\'ENTRETIEN';
+            case '1039':
+                return 'COUTELLERIE';
+            case '1040':
+                return 'CAISSES PLASTIQUE';
+            case '1042':
+                return 'VETEMENTS PRO';
+            case '1043':
+                return 'BOYAUX';
+            case '1044':
+                return 'ATTACHES D\'ETIQUETTES';
+            case '1045':
+                return 'PISTOLET';
+            case '1046':
+                return 'AIGUILLES ';
+            case '1047':
+                return 'COEUR';
+            case '1048':
+                return 'CHARCUTERIE';
+            default:
+                return '';
+        }
+    }
+    String State(String state){
+        switch (state){
+            case '1':
+                return 'Actif';
+            case '2':
+                return 'Non validé';
+            case '3':
+                return 'Bloqué';
+            case '4':
+                return 'Inactif';
+            default:
+                return '';
+        }
+    }
+    String Vat(String id){
+        switch(id){
+            case '1':
+                return '14 %';
+            case '2':
+                return '20 %';
+            case '3':
+                return '0 %';
+            case '4':
+                return '10 %';
+            default:
+                return '';
         }
     }
 
@@ -736,7 +945,10 @@ class ProductDataFieldState extends State<ProductDataField> {
                 text: 'Envoyer',
                 size: size,
                 onPressed: () async {
-                    BlocProvider.of<ProductBloc>(context).add(
+                    isUpdate ? BlocProvider.of<ProductBloc>(context).add(
+                    UpdateAllProductEvent(
+                        product: product,))
+                    : BlocProvider.of<ProductBloc>(context).add(
                     AddProductEvent(
                         product: product,));
                   //}
