@@ -253,7 +253,7 @@ class ProductDataFieldState extends State<ProductDataField> {
     codeController.text = product.code;
     purPriceController.text = product.p_price!;
     salesPriceController.text = product.s_price;
-    stockController.text = product.stock_min;
+    //stockController.text = product.stock_min;
   }
 
   String? validateNumber(String value) {
@@ -340,14 +340,14 @@ class ProductDataFieldState extends State<ProductDataField> {
                   obj: product, valuetext: product.s_price, labeltext: 'Prix de vente',),
               SizedBox(height: size.height * 0.02),
 
-              TextFieldWidget(
-                  controller: stockController,
-                  keyboardType: TextInputType.numberWithOptions(
-                      signed: false, decimal: true),
-                  validator: (value) {
-                    return validateField(value!);
-                  },
-                  obj: product, valuetext: product.stock_min, labeltext: 'Stock Min',),
+              // TextFieldWidget(
+              //     controller: stockController,
+              //     keyboardType: TextInputType.numberWithOptions(
+              //         signed: false, decimal: true),
+              //     validator: (value) {
+              //       return validateField(value!);
+              //     },
+              //     obj: product, valuetext: product.stock_min, labeltext: 'Stock Min',),
               SizedBox(height: size.height * 0.04),
 
               ButtonWidget(
@@ -361,7 +361,7 @@ class ProductDataFieldState extends State<ProductDataField> {
                       product.setCode = code;
                       product.setP_price = purPrice;
                       product.setS_price = salesPrice;
-                      product.setStock_min = stock;
+                      //product.setStock_min = stock;
                     }
                     else{
                       name = nameController.text;
