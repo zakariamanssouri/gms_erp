@@ -29,19 +29,25 @@ class ProductsListView extends StatelessWidget {
             itemCount: products.length,
             itemBuilder: (BuildContext context, int index) {
               return ItemCard(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return BlocProvider.value(
-                      value: BlocProvider.of<ProductBloc>(_context),
-                      child: ProductDetailsPage(product: products[index]),
-                    );
-                  }));
-                },
-                size: size,
-                var1: products[index].name,
-                var2: products[index].s_price,
-                var3: products[index].code,
-              );
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return BlocProvider.value(
+                        value: BlocProvider.of<ProductBloc>(_context),
+                        child: ProductDetailsPage(product: products[index]),
+                      );
+                    }));
+                  },
+                  size: size,
+                  var1: products[index].name,
+                  var2: products[index].s_price,
+                  var3: products[index].code,
+                  indicator: products[index].is_active == 0
+                      ? Icon(
+                          Icons.lock,
+                          color: Colors.white,
+                        )
+                      : Text(""));
             }));
   }
 }
