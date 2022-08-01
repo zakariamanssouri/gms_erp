@@ -1,5 +1,5 @@
 import 'package:gms_erp/inventory/models/Inventory.dart';
-import 'package:gms_erp/inventory/services/InventoryService.dart';
+import 'package:gms_erp/inventory/services/inventory.service.dart';
 import 'package:gms_erp/inventory/views/Inventory/widgets/InventoryCard.dart';
 import 'package:flutter/material.dart';
 
