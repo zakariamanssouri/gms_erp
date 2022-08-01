@@ -22,10 +22,10 @@ class InventoryService {
   // create a function for inventory details
   Future<List<InventoryDetails>> getInventoryDetails(String id) async {
     final response = await http
-        .get(Uri.parse(GlobalParams.baseUrl + 'inventorydetail.php?id=' + id));
+        .get(Uri.parse('${GlobalParams.laravelApi}inventory/$id/products'));
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body);
-      return parsed['data']
+      return parsed
           .map<InventoryDetails>((json) => InventoryDetails.fromJson(json))
           .toList();
     } else {
@@ -33,20 +33,20 @@ class InventoryService {
     }
   }
 
-  Future<dynamic> updateProduct(id, quantity) async {
-    var map = new Map<String, dynamic>();
-    map['id'] = id.toString();
-    map['qty'] = quantity.toString();
-
-    final response = await http.post(
-      Uri.parse(GlobalParams.baseUrl + 'inventorydetailupdate.php'),
-      body: map,
-    );
-
-    final parsed = json.decode(response.body);
-    if (parsed['success'] == 1) {
+  Future<dynamic> updateProduct(InventoryDetails inventoryDetails) async {
+    Map<String, String> headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+    final response = await http.put(
+        Uri.parse(
+            '${GlobalParams.laravelApi}inventory/details/${inventoryDetails.id}'),
+        body: jsonEncode(inventoryDetails.toJson()),
+        headers: headers);
+    print(response.body);
+    if (response.statusCode == 200) {
       return true;
-    } else
-      return false;
+    }
+    return false;
   }
 }
