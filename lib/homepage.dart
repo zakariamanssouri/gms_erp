@@ -84,6 +84,28 @@ class HomePage extends StatelessWidget
                         )); //ddUserView
                   },
                 ),
+                 ListTile(
+                  title: const Text('Incidents'),
+                  leading: const Icon(
+                    Icons.settings,
+                    color: Colors.blue,
+                  ),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const HomePage()));
+                  },
+                ),
+                 ListTile(
+                  title: const Text('BI'),
+                  leading: const Icon(
+                    Icons.poll_sharp,
+                    color: Colors.blue,
+                  ),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const HomePage()));
+                  },
+                ),
                 ListTile(
                   title: const Text('identité'),
                   leading: const Icon(
@@ -98,18 +120,8 @@ class HomePage extends StatelessWidget
                         ));
                   },
                 ),
-                ListTile(
-                  title: const Text('BI'),
-                  leading: const Icon(
-                    Icons.poll_sharp,
-                    color: Colors.blue,
-                  ),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const HomePage()));
-                  },
-                ),
-               const SizedBox(height: 200,),
+               
+                const SizedBox(height: 150,),
                 ListTile(
                         title: const Text("Se Déconnecter"),
                         leading: const Icon(
