@@ -82,26 +82,11 @@ class _ClientItemState extends State<ClientItem> {
     BuildContext _context = context;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Client"),
+        title: Text("Client " + widget.client.no),
       ),
       body: PageStorage(
         child: currentPage,
         bucket: bucket,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-                  Navigator.push(_context,
-                      MaterialPageRoute(builder: (context) {
-                    return BlocProvider.value(
-                      value: BlocProvider.of<ClientBloc>(
-                          _context),
-          child: AddClientPage(client: widget.client,));}));
-        },
-        backgroundColor: Colors.white,
-        child: const Icon(
-          Icons.edit,
-          color: Colors.blue,
-        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentTab,
@@ -145,7 +130,7 @@ class PageOneState extends State<PageOne> {
 
   @override
   Widget build(BuildContext context) {
-    
+    BuildContext _context = context;
     return BlocListener<ClientBloc, ClientState>(
             listener: (context, state) {
               if (state.requestState == RequestState.Error) {
@@ -257,6 +242,22 @@ class PageOneState extends State<PageOne> {
                       fontWeight: FontWeight.w300,
                     )),
               )),
+              
+              Container(width: double.infinity, alignment: Alignment.bottomRight ,child: FloatingActionButton(
+                onPressed: () {
+                          Navigator.push(_context,
+                              MaterialPageRoute(builder: (context) {
+                            return BlocProvider.value(
+                              value: BlocProvider.of<ClientBloc>(
+                                  _context),
+                  child: AddClientPage(client: widget.client,));}));
+                },
+                backgroundColor: Colors.white,
+                child: const Icon(
+                  Icons.edit,
+                  color: Colors.blue,
+                ),
+              ),)
             ]));
   }
 }

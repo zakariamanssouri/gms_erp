@@ -49,4 +49,7 @@ class ListItemView extends StatelessWidget {
   void _navigateToProducts(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Products()));
   }
+  void _navigateToVendor(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Activities()));
+  }
 }

@@ -61,13 +61,13 @@ class ClientBloc extends Bloc<ClientEvent, ClientState> {
             requestState: RequestState.Added,
             errorMessage: ''));
          
-        }
-        else{
-          emit(ClientState(
-            clients: state.clients,
-            requestState: RequestState.Error,
-            errorMessage: 'error'));
-        }
+          }
+          else{
+            emit(ClientState(
+              clients: state.clients,
+              requestState: RequestState.Error,
+              errorMessage: 'error'));
+          }
         });
       
       } catch (e) {

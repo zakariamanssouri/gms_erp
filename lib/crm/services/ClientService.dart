@@ -40,33 +40,52 @@ class ClientService {
     map['vat_booking_group_id'] = client.vat_id;*/
 
     print(1);
-    final response = await http.post(
-      Uri.parse(GlobalParams.baseUrl + 'customer'),
-      body: client.toJson(),
-    );
-    print(1);
+    try{
+      var body = json.encode(client.toJson());
+      final response = await http.post(
+        Uri.parse(GlobalParams.baseUrl + 'customer'),
+        body: body,
+        headers: {'content-type': 'application/json'},
+      );
+      print(2);
+      print(body);
 
-    final parsed = json.decode(response.body);
-    /*print(parsed['success']);
-    print(parsed['message']);*/
-    print(parsed);
-    if (response.statusCode == 200) {
-      print(parsed["id"]);
-      if(parsed["id"] != null)
-        return true;
-    }
+      print(response.statusCode);
+      final parsed = json.decode(response.body);
+      /*print(parsed['success']);
+      print(parsed['message']);*/
+      if (response.statusCode == 201) {
+        print('n');
+        print(parsed["id"]);
+        if(parsed["id"] != null){
+          print('nope');
+          return true;
+        }
+      }
+      }on Exception catch (_, ex){
+        print(_);
+      }
       return false;
 
   }
 
   static Future<bool> updateClient(Client client) async {
-    String url = '${GlobalParams.laravelApi}product/${client.id}';
-    var res = await http.put(Uri.parse(url), body:
-      client.toJson());
-    if (res.statusCode == 200) {
-      print("success");
-      return true;
-    }
+    try{
+      String url = '${GlobalParams.laravelApi}customer/${client.id}';
+      var body = json.encode(client.toJson());
+      var res = await http.put(Uri.parse(url), body:
+        body,
+        headers: {'content-type': 'application/json'});
+        print(res.statusCode);
+        print(body);
+      if (res.statusCode == 200) {
+        print(2);
+        print("success");
+        return true;
+      }
+      }on Exception catch (_, ex){
+        print(_);
+      }
     return false;
   }
 }
