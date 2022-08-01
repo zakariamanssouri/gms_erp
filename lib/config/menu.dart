@@ -18,13 +18,13 @@ class ButtonOption {
     const ButtonOption(
         route: "/inventory", text: 'Inventaire', iconData: Icons.inventory_2),
     const ButtonOption(
-        route: "/identity", text: 'identité', iconData: Icons.person),
+        route: "/identity", text: 'Icidents', iconData: Icons.settings),
     const ButtonOption(route: "", text: 'BI', iconData: Icons.poll_sharp),
   ];
 
   static List<ButtonOption> IdentityOptions = const <ButtonOption>[
     const ButtonOption(
-        route: "/identityAddUsers",
+        route: "/identityAdminAddUsers",
         text: 'Ajouter Utilisateur',
         iconData: Icons.person_add),
     const ButtonOption(
@@ -70,14 +70,14 @@ class ButtonOption {
 
   static List<ButtonOption> InventoryOptions = const <ButtonOption>[
     const ButtonOption(
-        route: "/inventories", text: 'Inventories', iconData: Icons.dashboard),
-    const ButtonOption(
         route: "/products",
-        text: 'Products',
+        text: 'Produits',
         iconData: Icons.shopping_cart_checkout_sharp),
     const ButtonOption(
         route: "/stock",
         text: 'Stock',
         iconData: Icons.production_quantity_limits),
+    const ButtonOption(
+        route: "/inventories", text: 'Inventaires', iconData: Icons.dashboard),
   ];
 }

@@ -3,25 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gms_erp/blocs/Product/product_bloc.dart';
+import 'package:gms_erp/blocs/stock/stock_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
-import 'package:gms_erp/crm/models/Product.dart';
+import 'package:gms_erp/inventory/models/stock.dart';
 import 'package:gms_erp/widgets/ButtonWidget.dart';
 
-class ProductDetailsPage extends StatefulWidget {
-  Product product;
-  ProductDetailsPage({Key? key, required this.product}) : super(key: key);
+class StockDetailsPage extends StatefulWidget {
+  Stock product;
+  StockDetailsPage({Key? key, required this.product}) : super(key: key);
 
   @override
-  State<ProductDetailsPage> createState() => _ProductDetailsPageState();
+  State<StockDetailsPage> createState() => _StockDetailsPageState();
 }
 
-class _ProductDetailsPageState extends State<ProductDetailsPage> {
-  String barcode = "";
-
+class _StockDetailsPageState extends State<StockDetailsPage> {
   @override
-  void initState() {
-    barcode = widget.product.code;
-  }
+  void initState() {}
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +27,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          title: Text('Produit : ${widget.product.no}'),
+          title: Text('Produit : ${widget.product.productNo}'),
         ),
-        body: BlocListener<ProductBloc, ProductState>(
+        body: BlocListener<StockBlock, StockState>(
             listener: (context, state) {
               if (state.requestState == ProductRequestState.Updating) {
               } else if (state.requestState == ProductRequestState.Updated) {
@@ -64,7 +61,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         fontFamily: GlobalParams.MainfontFamily,
                         fontWeight: FontWeight.w900)),
                 title: Text(
-                  widget.product.no,
+                  widget.product.productNo!,
                   style: const TextStyle(
                       fontFamily: GlobalParams.MainfontFamily,
                       fontWeight: FontWeight.w300),
@@ -77,7 +74,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     style: TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
                         fontWeight: FontWeight.w900)),
-                title: Text(widget.product.name,
+                title: Text(widget.product.productName1!,
                     style: const TextStyle(
                       fontFamily: GlobalParams.MainfontFamily,
                       fontWeight: FontWeight.w300,
@@ -87,73 +84,15 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   child: ListTile(
                 minLeadingWidth: 70,
                 leading: const Text('Code Bar',
-                    style:  TextStyle(
+                    style: TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
                         fontWeight: FontWeight.w900)),
-                title: Text(barcode,
-                    style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w300,
-                    )),
-                trailing: FloatingActionButton(
-                    heroTag: 'barcode-button',
-                    disabledElevation: 0,
-                    mini: true,
-                    backgroundColor: Colors.deepOrange,
-                    child:const Icon(
-                      Icons.qr_code_scanner_rounded,
-                      size: 20,
-                    ),
-                    onPressed: () async {
-                      String barcodeScanRes =
-                          await FlutterBarcodeScanner.scanBarcode(
-                              "blue", "cancel", true, ScanMode.BARCODE);
-                      setState(() {
-                        barcode = barcodeScanRes;
-                        widget.product.code = barcode;
-                      });
-                    }),
-              )),
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-                leading: const Text('Unité',
-                    style:  TextStyle(
-                        fontFamily: GlobalParams.MainfontFamily,
-                        fontWeight: FontWeight.w900)),
-                title: Text(widget.product.measure ?? "",
+                title: Text(widget.product.eanCode!,
                     style: const TextStyle(
                       fontFamily: GlobalParams.MainfontFamily,
                       fontWeight: FontWeight.w300,
                     )),
               )),
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-                leading: const Text('Category',
-                    style:  TextStyle(
-                        fontFamily: GlobalParams.MainfontFamily,
-                        fontWeight: FontWeight.w900)),
-                title: Text(
-                    "${widget.product.product_group} / ${widget.product.product_type}",
-                    style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w300,
-                    )),
-              )),
-              Card(
-                  child: ListTile(
-                      minLeadingWidth: 70,
-                      leading: const Text('Actif',
-                          style:  TextStyle(
-                              fontFamily: GlobalParams.MainfontFamily,
-                              fontWeight: FontWeight.w900)),
-                      title: Container(
-                        alignment: Alignment.centerLeft,
-                        child: widget.product.is_active == 0
-                            ?const  Icon(Icons.lock)
-                            :const  Icon(Icons.lock_open),
-                      ))),
               Card(
                   child: ListTile(
                 minLeadingWidth: 70,
@@ -161,7 +100,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     style: TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
                         fontWeight: FontWeight.w900)),
-                title: Text(widget.product.s_price,
+                title: Text(widget.product.purchasePrice ?? "",
                     style: const TextStyle(
                       fontFamily: GlobalParams.MainfontFamily,
                       fontWeight: FontWeight.w300,
@@ -170,29 +109,29 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               Card(
                   child: ListTile(
                 minLeadingWidth: 70,
-                leading:const Text('Prix Min',
-                    style:  TextStyle(
+                leading: const Text('Location',
+                    style: TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
                         fontWeight: FontWeight.w900)),
-                title: Text(widget.product.s_price_min,
+                title: Text("${widget.product.locationName}",
                     style: const TextStyle(
                       fontFamily: GlobalParams.MainfontFamily,
                       fontWeight: FontWeight.w300,
                     )),
               )),
-              Container(
-                  margin: EdgeInsets.only(
-                      top: GlobalParams.MainPadding / 2,
-                      right: GlobalParams.MainPadding / 2,
-                      left: GlobalParams.MainPadding / 2),
-                  child: ButtonWidget(
-                      size: size,
-                      onPressed: () async {
-                        BlocProvider.of<ProductBloc>(context).add(
-                          UpdateProductEvent(product: widget.product),
-                        );
-                      },
-                      text: "Enregistrer"))
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+                leading: const Text('Ground',
+                    style: TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w900)),
+                title: Text(widget.product.groundName ?? "",
+                    style: const TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w300,
+                    )),
+              )),
             ])));
   }
 }

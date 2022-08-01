@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gms_erp/config/menu.dart';
 import 'package:gms_erp/crm/crm.dart';
-import 'package:gms_erp/inventory/views/Inventory/inventories_page.dart';
 import 'package:gms_erp/widgets/homebutton.dart';
 import 'package:gms_erp/identity/identity.dart';
 import 'package:gms_erp/identity/views/Sign%20in/user_login.view.dart';
@@ -18,11 +17,11 @@ class HomePage extends StatelessWidget
     return MaterialApp(
      
         routes: {
-          '/inventory': (context) => InventoryHomePage(),
+          '/inventory': (context) => const InventoryHomePage(),
           '/inventory_details': (context) => InventoyDetailsPage(),
-          '/crm': (context) => CRMPage(),
-          '/identity': (context) => IdentityPage(),
-          '/home': (context) => HomePage(),
+          '/crm': (context) => const CRMPage(),
+          '/identity': (context) => const IdentityPage(),
+          '/home': (context) => const HomePage(),
          
         },
         title: 'GMS ERP',
@@ -36,31 +35,27 @@ class HomePage extends StatelessWidget
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
-                Container(
-                        child: DrawerHeader(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
+                DrawerHeader(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
                   image: AssetImage('images/logo.png'),
                   
                  ),
                      borderRadius:  BorderRadius.only(
-                            bottomLeft: Radius.circular(30),
-                            bottomRight: Radius.circular(30),
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
                   ), 
-                           
+                   
                 ),
-                child: Container(
-                
-                   child:CircleAvatar(
-                   radius: 5.0,
-                    child: ClipRRect(
-                      child: Image.asset('assets/images/logo.png'),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
+                child: CircleAvatar(
+                radius: 5.0,
+                 child: ClipRRect(
+                   borderRadius: BorderRadius.circular(10.0),
+                   child: Image.asset('assets/images/logo.png'),
+                 ),
                  
-                   ),
-                ),),),
-                SizedBox(height:10,),
+                ),),
+                const SizedBox(height:10,),
                 ListTile(
                   title: const Text('CRM'),
                   leading: const Icon(
@@ -71,7 +66,7 @@ class HomePage extends StatelessWidget
                    Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => CRMPage(),
+                                builder: (context) => const CRMPage(),
                               ));
                   },
                 ),
@@ -85,8 +80,30 @@ class HomePage extends StatelessWidget
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => InventoryHomePage(),
+                          builder: (context) => const InventoryHomePage(),
                         )); //ddUserView
+                  },
+                ),
+                 ListTile(
+                  title: const Text('Incidents'),
+                  leading: const Icon(
+                    Icons.settings,
+                    color: Colors.blue,
+                  ),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const HomePage()));
+                  },
+                ),
+                 ListTile(
+                  title: const Text('BI'),
+                  leading: const Icon(
+                    Icons.poll_sharp,
+                    color: Colors.blue,
+                  ),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const HomePage()));
                   },
                 ),
                 ListTile(
@@ -99,22 +116,12 @@ class HomePage extends StatelessWidget
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => IdentityPage(),
+                          builder: (context) => const IdentityPage(),
                         ));
                   },
                 ),
-                ListTile(
-                  title: const Text('BI'),
-                  leading: const Icon(
-                    Icons.poll_sharp,
-                    color: Colors.blue,
-                  ),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomePage()));
-                  },
-                ),
-                SizedBox(height: 200,),
+               
+                const SizedBox(height: 150,),
                 ListTile(
                         title: const Text("Se Déconnecter"),
                         leading: const Icon(
@@ -125,7 +132,7 @@ class HomePage extends StatelessWidget
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => UserLogin(),
+                                builder: (context) => const UserLogin(),
                               ));
                         },
                       ),

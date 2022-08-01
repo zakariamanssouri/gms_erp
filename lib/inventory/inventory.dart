@@ -1,19 +1,14 @@
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:gms_erp/blocs/Inventory/bloc/inventory_bloc.dart';
-import 'package:gms_erp/blocs/InventoryDetails/inventory_details_bloc.dart';
-import 'package:gms_erp/config/global_params.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gms_erp/blocs/Product/product_bloc.dart';
+import 'package:gms_erp/blocs/stock/stock_bloc.dart';
 import 'package:gms_erp/config/menu.dart';
 import 'package:gms_erp/homepage.dart';
 import 'package:gms_erp/inventory/views/Inventory/inventories_page.dart';
-import 'package:gms_erp/inventory/views/Inventory/widgets/InventoriesListView.dart';
-import 'package:gms_erp/inventory/views/InventoryDetails/widgets/ErrorWithRefreshButtonWidget.dart';
 import 'package:gms_erp/inventory/views/Products/products.dart';
+import 'package:gms_erp/inventory/views/stock/Stock.dart';
 import 'package:gms_erp/widgets/DrawerWidget.dart';
-import 'package:gms_erp/widgets/SearchField.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gms_erp/widgets/homebutton.dart';
-import 'views/InventoryDetails/widgets/Header.dart';
 
 class InventoryHomePage extends StatelessWidget {
   const InventoryHomePage({
@@ -21,13 +16,19 @@ class InventoryHomePage extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
         routes: {
           '/inventories': (context) => InventoriesPage(),
           '/home': (context) => HomePage(),
-          '/products': (context) => ProductsPage(),
+          '/products': (context) => BlocProvider<ProductBloc>(
+                create: (context) => ProductBloc()..add(LoadAllProductsEvent()),
+                child: ProductsPage(),
+              ),
+          '/stock': (context) => BlocProvider(
+                create: (context) => StockBlock()..add(const LoadStockEvent()),
+                child: StockPage(),
+              ),
         },
         title: 'GMS inventory',
         debugShowCheckedModeBanner: false,

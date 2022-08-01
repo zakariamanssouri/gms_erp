@@ -118,19 +118,19 @@ class _ProductItemState extends State<ProductItem> {
                       });
                     }),
               )),
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-                leading: Text('Stock Min',
-                    style: const TextStyle(
-                        fontFamily: GlobalParams.MainfontFamily,
-                        fontWeight: FontWeight.w900)),
-                title: Text(widget.product.stock_min,
-                    style: TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w300,
-                    )),
-              )),
+              // Card(
+              //     child: ListTile(
+              //   minLeadingWidth: 70,
+              //   leading: Text('Stock Min',
+              //       style: const TextStyle(
+              //           fontFamily: GlobalParams.MainfontFamily,
+              //           fontWeight: FontWeight.w900)),
+              //   title: Text(widget.product.stock_min,
+              //       style: TextStyle(
+              //         fontFamily: GlobalParams.MainfontFamily,
+              //         fontWeight: FontWeight.w300,
+              //       )),
+              // )),
               Card(
                   child: ListTile(
                 minLeadingWidth: 70,

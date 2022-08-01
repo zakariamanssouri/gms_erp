@@ -79,7 +79,7 @@ class _SettingsView extends State<SettingsView>
                             ],
                       ),
                   ),
-           ),);
-     
+           ),
+      ); 
   }
 }

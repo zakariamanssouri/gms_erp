@@ -19,7 +19,7 @@ class _AddUserView extends State<AddUserView>
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   UserService userService = UserService();
-
+  bool isChecked = false;
   @override
   Widget build(BuildContext context) 
   {
@@ -74,8 +74,27 @@ class _AddUserView extends State<AddUserView>
                                   validator: MultiValidator([RequiredValidator(errorText: 'Champs Obligatoire'),]),
                                   ),
                                   const SizedBox(height:15),
+                                    const SizedBox(height:15),
+                                 Row(
+                                 children:[
+                                   Checkbox(
+                                    checkColor: Colors.white,
+                                    value: isChecked,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        if(!isChecked) {
+                                            isChecked=true;
+                                        }
+                                        else{
+                                            isChecked=false;
+                                        }
+                                      });
+                                    }),
+                                    const Text("Remember Me ?  ",textAlign: TextAlign.center,style: TextStyle(fontSize:13,)),
+                                    ]),
+                                    const SizedBox(height:15),
                                   ElevatedButton(
-                                  onPressed: () async {
+                                  onPressed: !isChecked ?null: () async {
                                     if (_formKey.currentState!.validate())
                                     {
                                       // var p=new User(
