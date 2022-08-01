@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gms_erp/inventory/models/Inventory.dart';
-import 'package:gms_erp/inventory/services/InventoryService.dart';
+import 'package:gms_erp/inventory/services/inventory.service.dart';
 part 'inventory_event.dart';
 part 'inventory_state.dart';
 
