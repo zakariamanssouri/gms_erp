@@ -9,7 +9,13 @@ class Product {
       required this.s_price,
       required this.stock_min,
       required this.code,
-      required this.s_price_min});
+      required this.s_price_min,
+      this.measure_id,
+      this.type_id,
+      this.grp_id,
+      this.packtype_id,
+      this.state_id,
+      this.vat_id});
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
@@ -19,7 +25,14 @@ class Product {
         s_price: json["sales_price"],
         stock_min: json["stock_min_qty"],
         code: json["ean_code"],
-        s_price_min: json["sales_price_min"]);
+        s_price_min: json["sales_price_min"],
+        measure_id: json["measure_id"].toString(),
+        type_id: json["product_type_id"].toString(),
+        grp_id: json["product_group_id"].toString(),
+        packtype_id: json["packtype_id"].toString(),
+        state_id: json["product_state_id"].toString(),
+        vat_id: json["vat_booking_group_id"].toString(),
+        );
   }
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -29,6 +42,12 @@ class Product {
         "stock_min_qty": stock_min,
         "ean_code": code,
         "sales_price_min": s_price_min,
+        "measure_id": measure_id,
+        "product_type_id": type_id,
+        "product_group_id": grp_id,
+        "product_state_id": state_id,
+        "packtype_id": packtype_id,
+        "vat_booking_group_id": vat_id,
       };
 
   get getNo => this.no;
@@ -58,4 +77,8 @@ class Product {
   get getCode => this.code;
 
   set setCode(code) => this.code = code;
+
+  get getP_price => this.p_price;
+
+  set setP_price(p_price) => this.p_price = p_price;
 }

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:gms_erp/crm/models/Client.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,18 +9,12 @@ class ClientService {
   
   static Future<List<Client>> getClients() async {
     List<Client>? list;
-    int success=-1;
-    String message="";
 
-    var res = await http.get(Uri.parse(GlobalParams.baseUrl + 'search_client.php?barcode=all'));
+    var res = await http.get(Uri.parse(GlobalParams.baseUrl + 'customer'));
     var json_data = json.decode(res.body);
 
     if (res.statusCode == 200) {
-      success = json_data["success"];
-      message = json_data["message"];
-    }
-    if(success == 1){
-      var data = json_data["data"] as List;
+      var data = json_data as List;
       list = data.map<Client>((json) => Client.fromJson(json)).toList();
     }
     else{
@@ -31,8 +24,8 @@ class ClientService {
     return list!;
   }
 
-  static Future<dynamic> addClient(Client client) async {
-    var map = new Map<String, dynamic>();
+  static Future<bool> addClient(Client client) async {
+    /*var map = new Map<String, dynamic>();
     map['no'] = client.no;
     map['currency_id'] =  2.toString();
     map['customer_model_id'] =  3.toString();
@@ -44,19 +37,36 @@ class ClientService {
     map['customer_group_id'] = client.grp_id;
     map['customer_state_id'] = client.state_id;
     map['phone'] = client.phone;
-    map['vat_booking_group_id'] = client.vat_id;
+    map['vat_booking_group_id'] = client.vat_id;*/
 
+    print(1);
     final response = await http.post(
-      Uri.parse(GlobalParams.baseUrl + 'client_add.php'),
-      body: map,
+      Uri.parse(GlobalParams.baseUrl + 'customer'),
+      body: client.toJson(),
     );
+    print(1);
 
     final parsed = json.decode(response.body);
-    print(parsed['success']);
-    print(parsed['message']);
-    if (parsed['success'] == 1) {
-      return true;
-    } else
+    /*print(parsed['success']);
+    print(parsed['message']);*/
+    print(parsed);
+    if (response.statusCode == 200) {
+      print(parsed["id"]);
+      if(parsed["id"] != null)
+        return true;
+    }
       return false;
+
+  }
+
+  static Future<bool> updateClient(Client client) async {
+    String url = '${GlobalParams.laravelApi}product/${client.id}';
+    var res = await http.put(Uri.parse(url), body:
+      client.toJson());
+    if (res.statusCode == 200) {
+      print("success");
+      return true;
+    }
+    return false;
   }
 }

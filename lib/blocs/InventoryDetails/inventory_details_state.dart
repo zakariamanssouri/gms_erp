@@ -1,6 +1,6 @@
 part of 'inventory_details_bloc.dart';
 
-enum DetailsRequestState { Loaded, Loading, Error, None, Searching, SearchLoaded }
+enum DetailsRequestState { Loaded, Loading, Error, None, Searching, SearchLoaded , Updating ,Updated }
 
 class InventoryDetailsState extends Equatable {
   List<InventoryDetails> inventory_details = [];

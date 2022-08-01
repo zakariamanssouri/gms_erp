@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gms_erp/crm/models/Product.dart';
-import 'package:gms_erp/crm/views/Product/products.dart';
 import 'package:gms_erp/shared/services/ProductService.dart';
 
 part 'product_event.dart';
@@ -103,6 +102,71 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       } catch (e) {
         emit(ProductState(
             products: [],
+            requestState: ProductRequestState.Error,
+            errorMessage: 'error'));
+      }
+    });
+
+    on<UpdateAllProductEvent>((event, emit) async {
+      try {
+        emit(ProductState(
+            products: state.products,
+            requestState: ProductRequestState.Updating,
+            errorMessage: ''));
+        print("update product event");
+        await ProductService.updateAllProduct(event.product).then((value) => {
+              print("value : $value"),
+              if (value == true)
+                {
+                  emit(ProductState(
+                      products: state.products,
+                      requestState: ProductRequestState.Updated,
+                      errorMessage: '')),
+                  //add(LoadAllProductsEvent())
+                }
+              else
+                {
+                  print("hit here in else"),
+                  emit(ProductState(
+                      products: state.products,
+                      requestState: ProductRequestState.Error,
+                      errorMessage: ''))
+                }
+            });
+      } catch (e) {
+        emit(ProductState(
+            products: [],
+            requestState: ProductRequestState.Error,
+            errorMessage: 'error'));
+      }
+    });
+
+    on<AddProductEvent>((event, emit) async {
+      try {
+        emit(ProductState(
+            products: state.products,
+            requestState: ProductRequestState.Adding,
+            errorMessage: ''));
+        print("add Product event");
+        await ProductService.addProduct(event.product).then((value) {
+            if(value){
+           emit(ProductState(
+            products: state.products,
+            requestState: ProductRequestState.Added,
+            errorMessage: ''));
+         
+        }
+        else{
+          emit(ProductState(
+            products: state.products,
+            requestState: ProductRequestState.Error,
+            errorMessage: 'error'));
+        }
+        });
+      
+      } catch (e) {
+        emit(ProductState(
+            products: state.products,
             requestState: ProductRequestState.Error,
             errorMessage: 'error'));
       }

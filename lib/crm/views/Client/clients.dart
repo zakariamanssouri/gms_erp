@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gms_erp/crm/models/Product.dart';
 import 'package:gms_erp/crm/views/Client/addClientPage.dart';
 import 'package:gms_erp/crm/views/Client/clientItem.dart';
 import 'package:gms_erp/widgets/SearchField.dart';
@@ -10,10 +11,28 @@ import '../../../inventory/views/InventoryDetails/widgets/ErrorWithRefreshButton
 import '../../../widgets/ItemCard.dart';
 
 class Clients extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    BuildContext _context = context;
+    Size size = MediaQuery.of(context).size;
+    return BlocProvider(
+      create: (context) => ClientBloc()..add(LoadClients()),
+      child: ClientsHome(size: size),
+    );
+  }
+}
+
+class ClientsHome extends StatelessWidget {
+  const ClientsHome({
+    Key? key,
+    required this.size,
+  }) : super(key: key);
+
+  final Size size;
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    BuildContext _context = context;
     return SafeArea(
         child: Scaffold(
       backgroundColor: GlobalParams.backgroundColor,
@@ -21,15 +40,22 @@ class Clients extends StatelessWidget {
         title: Text('Clients'),
         backgroundColor: Colors.blue,
         elevation: 0,
-        actions: [
-          IconButton(onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddClientPage()));
-                              }, icon: Icon(Icons.add))],
       ),
-      body: BlocProvider(
-        create: (context) =>
-            ClientBloc()..add(LoadClients()),
-        child: ClientsBody(size: size),
+      body: ClientsBody(size: size),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+                  Navigator.push(_context,
+                      MaterialPageRoute(builder: (context) {
+                    return BlocProvider.value(
+                      value: BlocProvider.of<ClientBloc>(
+                          _context),
+          child: AddClientPage());}));
+        },
+        backgroundColor: Colors.white,
+        child: const Icon(
+          Icons.add,
+          color: Colors.blue,
+        ),
       ),
     ));
   }
@@ -57,17 +83,14 @@ class ClientsBody extends StatelessWidget {
                 size: size / 1.4,
                 onchanged_function: (String value) {
                   BlocProvider.of<ClientBloc>(context).add(
-                    SearchClientEvent(
-                        value,
-                        BlocProvider.of<ClientBloc>(context)
-                            .state
-                            .clients),
+                    SearchClientEvent(value,
+                        BlocProvider.of<ClientBloc>(context).state.clients),
                   );
                 }),
           ),
           Expanded(
-            child: BlocBuilder<ClientBloc, ClientState>(
-                builder: (context, state) {
+            child:
+                BlocBuilder<ClientBloc, ClientState>(builder: (context, state) {
               print("request state:${state.requestState}");
               // data is loading
               if (state.requestState == RequestState.Loading ||
@@ -103,13 +126,12 @@ class ClientsBody extends StatelessWidget {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
                               return BlocProvider.value(
-                                value: BlocProvider.of<ClientBloc>(
-                                    _context),
+                                value: BlocProvider.of<ClientBloc>(_context),
                                 child: ClientItem(
-                                  client: state.requestState ==
-                                          RequestState.Loaded
-                                      ? state.clients[index]
-                                      : state.search_result![index],
+                                  client:
+                                      state.requestState == RequestState.Loaded
+                                          ? state.clients[index]
+                                          : state.search_result![index],
                                 ),
                               );
                             }));
@@ -136,8 +158,7 @@ class ClientsBody extends StatelessWidget {
               return ErrorWithRefreshButtonWidget(
                 inventory: null,
                 button_function: () {
-                  BlocProvider.of<ClientBloc>(context)
-                      .add(LoadClients());
+                  BlocProvider.of<ClientBloc>(context).add(LoadClients());
                 },
               );
               // Error

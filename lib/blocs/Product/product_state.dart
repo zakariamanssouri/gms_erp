@@ -8,7 +8,9 @@ enum ProductRequestState {
   Searching,
   SearchLoaded,
   Updating,
-  Updated
+  Updated,
+  Adding,
+  Added
 }
 
 class ProductState extends Equatable {

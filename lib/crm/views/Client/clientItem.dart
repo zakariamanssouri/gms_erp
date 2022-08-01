@@ -1,8 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gms_erp/blocs/Client/client_bloc.dart';
+import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/crm/models/Client.dart';
+import 'package:gms_erp/crm/views/Client/addClientPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -74,6 +79,7 @@ class _ClientItemState extends State<ClientItem> {
 
   @override
   Widget build(BuildContext context) {
+    BuildContext _context = context;
     return Scaffold(
       appBar: AppBar(
         title: Text("Client"),
@@ -81,6 +87,21 @@ class _ClientItemState extends State<ClientItem> {
       body: PageStorage(
         child: currentPage,
         bucket: bucket,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+                  Navigator.push(_context,
+                      MaterialPageRoute(builder: (context) {
+                    return BlocProvider.value(
+                      value: BlocProvider.of<ClientBloc>(
+                          _context),
+          child: AddClientPage(client: widget.client,));}));
+        },
+        backgroundColor: Colors.white,
+        child: const Icon(
+          Icons.edit,
+          color: Colors.blue,
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentTab,
@@ -124,52 +145,119 @@ class PageOneState extends State<PageOne> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-        children: <Widget>[
-        Card(child: ListTile(
-          minLeadingWidth: 60,
-          leading: Icon(Icons.account_box_outlined,
-          color: Colors.black),
-          title: Text(client.getName),
-        )),
-        Card(child: ListTile(
-          minLeadingWidth: 60,
-          leading: Icon(Icons.phone_android_outlined,
-          color: Colors.black),
-          title: Text(client.getPhone),
-        )),
-        Card(child: ListTile(
-          minLeadingWidth: 60,
-          leading: Text('Numéro', style: const TextStyle(fontWeight: FontWeight.bold)),
-          title: Text(client.getNo),
-        )),
-        Card(child: ListTile(
-          minLeadingWidth: 60,
-          leading: Text('Type', style: const TextStyle(fontWeight: FontWeight.bold)),
-          title: Text(client.getType),
-        )),
-        Card(child: ListTile(
-          minLeadingWidth: 60,
-          leading: Text('Groupe', style: const TextStyle(fontWeight: FontWeight.bold)),
-          title: Text(client.getGroup),
-        )),
-        Card(child: ListTile(
-          minLeadingWidth: 60,
-          leading: Text('Pays', style: const TextStyle(fontWeight: FontWeight.bold)),
-          title: Text(client.getCountry),
-        )),
-        Card(child: ListTile(
-          minLeadingWidth: 60,
-          leading: Text('Ville', style: const TextStyle(fontWeight: FontWeight.bold)),
-          title: Text(client.getCity),
-        )),
-        Card(child: ListTile(
-          minLeadingWidth: 60,
-          leading: Text('Rue', style: const TextStyle(fontWeight: FontWeight.bold)),
-          title: Text(client.getStreet),
-        )),
-      ]
-        );
+    
+    return BlocListener<ClientBloc, ClientState>(
+            listener: (context, state) {
+              if (state.requestState == RequestState.Error) {
+                CoolAlert.show(
+                  context: context,
+                  type: CoolAlertType.error,
+                  text: 'Erreur lors du chargement du client',
+                );
+              }
+            },
+            child: ListView(children: <Widget>[
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+                leading: Icon(Icons.account_box_outlined,
+                color: Colors.black),
+                title: Text(client.getName,
+                  style: const TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w300),
+                ),
+              )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+                leading: Icon(Icons.phone_android_outlined,
+                color: Colors.black),
+                title: Text(client.getPhone,
+                    style: const TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w300,
+                    )),
+              )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+                leading: Text('Numéro',
+                    style: const TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w900)),
+                    title: Text(client.getNo,
+                    style: TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w300,
+                    )),
+              )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+                leading: Text('Type',
+                    style: const TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w900)),
+                title: Text(client.getType,
+                    style: TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w300,
+                    )),
+              )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+                leading: const Text('Groupe',
+                    style: const TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w900)),
+                title: Text(client.getGroup,
+                    style: TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w300,
+                    )),
+              )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+                leading: Text('Pays',
+                    style: const TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w900)),
+                title: Text(client.getCountry,
+                    style: TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w300,
+                    )),
+              )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+                leading: Text('Ville',
+                    style: const TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w900)),
+                title: Text(client.getCity,
+                    style: TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w300,
+                    )),
+              )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+                leading: Text('Rue',
+                    style: const TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w900)),
+                title: Text(client.getStreet,
+                    style: TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w300,
+                    )),
+              )),
+            ]));
   }
 }
 

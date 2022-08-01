@@ -29,3 +29,21 @@ class UpdateProductEvent extends ProductEvent {
   @override
   List<Object> get props => [product];
 }
+
+class UpdateAllProductEvent extends ProductEvent {
+  Product product;
+
+  UpdateAllProductEvent({required this.product});
+
+  @override
+  List<Object> get props => [product];
+}
+
+class AddProductEvent extends ProductEvent {
+  Product product;
+  
+  AddProductEvent({required this.product});
+
+  @override
+  List<Object> get props => [product];
+}

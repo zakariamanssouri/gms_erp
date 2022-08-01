@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gms_erp/blocs/Product/product_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/crm/views/Product/addProductPage.dart';
-import 'package:gms_erp/crm/views/Product/widgets/ProductsPageBody.dart';
-import 'package:gms_erp/inventory/views/Products/widgets/ProductsPageBody.dart';
+import 'package:gms_erp/crm/views/Product/widgets/ProductsBody.dart';
 
 
 class Products extends StatelessWidget {
@@ -12,6 +11,26 @@ class Products extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BuildContext _context = context;
+    Size size = MediaQuery.of(context).size;
+    return BlocProvider(
+      create: (context) => ProductBloc()..add(LoadAllProductsEvent()),
+      child: ProductsPage(size: size),
+    );
+  }
+}
+
+class ProductsPage extends StatelessWidget {
+  const ProductsPage({
+    Key? key,
+    required this.size,
+  }) : super(key: key);
+
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    BuildContext _context = context;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: GlobalParams.backgroundColor,
@@ -19,14 +38,22 @@ class Products extends StatelessWidget {
         title: const Text('Produits'),
         elevation: 0,
         backgroundColor: Colors.blue,
-        actions: [
-          IconButton(onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddProductPage()));
-                              }, icon: Icon(Icons.add))],
       ),
-      body: BlocProvider(
-        create: (context) => ProductBloc()..add(const LoadAllProductsEvent()),
-        child: const ProductsBody(),
+      body: ProductsBody(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+                  Navigator.push(_context,
+                      MaterialPageRoute(builder: (context) {
+                    return BlocProvider.value(
+                      value: BlocProvider.of<ProductBloc>(
+                          _context),
+          child: AddProductPage());}));
+        },
+        backgroundColor: Colors.white,
+        child: const Icon(
+          Icons.add,
+          color: Colors.blue,
+        ),
       ),
     );
   }

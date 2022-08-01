@@ -17,7 +17,7 @@ class Client {
 
   factory Client.fromJson(Map<String, dynamic> json) {
     return Client(
-        id: json["id"],
+        id: json["id"].toString(),
         no: json["customer_no"],
         name: json["customer_name1"],
         country: json["country_name"],
@@ -27,6 +27,19 @@ class Client {
         city: json["city"],
         phone: json["contact_phone"]);
   }
+  Map<String, dynamic> toJson() => {
+        "customer_no": no,
+        "customer_name1": name,
+        "customer_type_id": int.parse(type_id!),
+        "customer_group_id": int.parse(grp_id!),
+        "customer_state_id": int.parse(state_id!),
+        "vat_booking_group_id": int.parse(vat_id!),
+        "currency_id":  2,
+        "customer_model_id":  3,
+        "delivery_type_id":  1,
+        "salutation_id":  3,
+        "address_pool_id":  null,
+    };
 
   
  get getNo => this.no;
