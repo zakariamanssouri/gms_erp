@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gms_erp/inventory/models/Inventory.dart';
 import 'package:gms_erp/inventory/models/Inventory_details.dart';
-import 'package:gms_erp/inventory/services/InventoryService.dart';
+import 'package:gms_erp/inventory/services/inventory.service.dart';
 import 'package:gms_erp/inventory/views/InventoryDetails/Inventory_details_page.dart';
 import 'package:http/http.dart';
 part 'inventory_details_event.dart';
@@ -57,7 +57,36 @@ class InventoryDetailsBloc
             event.product_list, DetailsRequestState.SearchLoaded, '',
             search_result: search_result));
       } catch (e) {
+        print(e.toString());
         emit(InventoryDetailsState([], DetailsRequestState.Error, "error"));
+      }
+    });
+
+    on<UpdateInventoryDetails>((event, emit) async {
+      try {
+        emit(InventoryDetailsState(
+            state.inventory_details, DetailsRequestState.Updating, ""));
+        print("update product event");
+        await _inventoryService
+            .updateProduct(event.inventorydetails)
+            .then((productisupdated) => {
+                  print("productisupdated : $productisupdated"),
+                  if (productisupdated)
+                    {
+                      emit(InventoryDetailsState(state.inventory_details,
+                          DetailsRequestState.Updated, ""))
+                    }
+                  else
+                    {
+                      print("hit here in else"),
+                      emit(InventoryDetailsState(state.inventory_details,
+                          DetailsRequestState.Error, "")),
+                    }
+                });
+      } catch (e) {
+        print(e);
+        emit(InventoryDetailsState(
+            state.inventory_details, DetailsRequestState.Error, ""));
       }
     });
   }

@@ -26,9 +26,9 @@ class SearchProductEvent extends InventoryDetailsEvent {
 }
 
 class UpdateInventoryDetails extends InventoryDetailsEvent {
-  InventoryDetails inventory_details;
+  InventoryDetails inventorydetails;
 
-  UpdateInventoryDetails(this.inventory_details);
+  UpdateInventoryDetails(this.inventorydetails);
   @override
-  List<Object> get props => [inventory_details];
+  List<Object> get props => [inventorydetails];
 }
