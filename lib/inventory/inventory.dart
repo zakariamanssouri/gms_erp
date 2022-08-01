@@ -1,9 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gms_erp/blocs/Product/product_bloc.dart';
+import 'package:gms_erp/blocs/stock/stock_bloc.dart';
 import 'package:gms_erp/config/menu.dart';
 import 'package:gms_erp/homepage.dart';
 import 'package:gms_erp/inventory/views/Inventory/inventories_page.dart';
 import 'package:gms_erp/inventory/views/Products/products.dart';
+import 'package:gms_erp/inventory/views/stock/Stock.dart';
 import 'package:gms_erp/widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:gms_erp/widgets/homebutton.dart';
@@ -22,6 +24,10 @@ class InventoryHomePage extends StatelessWidget {
           '/products': (context) => BlocProvider<ProductBloc>(
                 create: (context) => ProductBloc()..add(LoadAllProductsEvent()),
                 child: ProductsPage(),
+              ),
+          '/stock': (context) => BlocProvider(
+                create: (context) => StockBlock()..add(const LoadStockEvent()),
+                child: StockPage(),
               ),
         },
         title: 'GMS inventory',
