@@ -9,7 +9,7 @@ import 'package:gms_erp/config/global_params.dart';
 class InventoryService {
   Future<List<Inventory>> getInventories() async {
     final response =
-        await http.get(Uri.parse(GlobalParams.laravelApi + 'inventory'));
+        await http.get(Uri.parse(GlobalParams.baseUrl + 'inventory'));
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body);
 
@@ -22,7 +22,7 @@ class InventoryService {
   // create a function for inventory details
   Future<List<InventoryDetails>> getInventoryDetails(String id) async {
     final response = await http
-        .get(Uri.parse('${GlobalParams.laravelApi}inventory/$id/products'));
+        .get(Uri.parse('${GlobalParams.baseUrl}inventory/$id/products'));
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body);
       return parsed
@@ -40,7 +40,7 @@ class InventoryService {
     };
     final response = await http.put(
         Uri.parse(
-            '${GlobalParams.laravelApi}inventory/details/${inventoryDetails.id}'),
+            '${GlobalParams.baseUrl}inventory/details/${inventoryDetails.id}'),
         body: jsonEncode(inventoryDetails.toJson()),
         headers: headers);
     print(response.body);

@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 class StockService {
   static Future<List<Stock>> getProducts() async {
     final response =
-        await http.get(Uri.parse(GlobalParams.laravelApi + 'stock'));
+        await http.get(Uri.parse(GlobalParams.baseUrl + 'stock'));
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body);
       print(parsed);

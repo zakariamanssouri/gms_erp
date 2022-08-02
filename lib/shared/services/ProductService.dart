@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class ProductService {
   static Future<List<Product>> getProducts() async {
     final response =
-        await http.get(Uri.parse(GlobalParams.laravelApi + 'product'));
+        await http.get(Uri.parse(GlobalParams.baseUrl + 'product'));
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body);
       return parsed.map<Product>((json) => Product.fromJson(json)).toList();
@@ -20,7 +20,7 @@ class ProductService {
   // create methode to update product that takes Product object as parameter and pass it to the request method
   static Future<bool> updateProduct(Product product) async {
     bool success = false;
-    String url = '${GlobalParams.laravelApi}product/${product.id}';
+    String url = '${GlobalParams.baseUrl}product/${product.id}';
     var res = await http.put(Uri.parse(url), body: {
       "ean_code": product.code,
     });
