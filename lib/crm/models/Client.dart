@@ -28,6 +28,7 @@ class Client {
         phone: json["contact_phone"]);
   }
   Map<String, dynamic> toJson() => {
+        "id": id == '' ? null : int.parse(id),
         "customer_no": int.parse(no),
         "customer_name1": name,
         "customer_type_id": int.parse(type_id!),

@@ -46,6 +46,7 @@ class ClientService {
         Uri.parse(GlobalParams.baseUrl + 'customer'),
         body: body,
         headers: {'content-type': 'application/json'},
+        encoding: Encoding.getByName("utf-8")
       );
       print(2);
       print(body);

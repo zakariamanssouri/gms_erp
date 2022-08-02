@@ -245,6 +245,7 @@ class PageOneState extends State<PageOne> {
               
               Container(width: double.infinity, alignment: Alignment.bottomRight ,child: FloatingActionButton(
                 onPressed: () {
+                  print(client.type);
                           Navigator.push(_context,
                               MaterialPageRoute(builder: (context) {
                             return BlocProvider.value(

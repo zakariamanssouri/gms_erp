@@ -146,8 +146,8 @@ class ClientsBody extends StatelessWidget {
                               ? state.clients[index].country
                               : state.search_result![index].country,
                           var4: state.requestState == RequestState.Loaded
-                              ? state.clients[index].type
-                              : state.search_result![index].type);
+                              ? state.clients[index].type + ' | ' + state.clients[index].group
+                              : state.search_result![index].type + ' | ' + state.search_result![index].group);
                     },
                   ),
                 );

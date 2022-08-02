@@ -19,9 +19,10 @@ class AddProductNextPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     if(this.product == null){
-      Product product = Product(id: '', no: num!, name: name!, s_price: salesPrice!, code: code!, s_price_min: '0.00',
+      product = Product(id: '', no: num!, name: name!, s_price: salesPrice!, code: code!, s_price_min: '0.00',
       p_price: purPrice);
     }
+    print(product);
     return AddingWidget(product: product!);
   }
 }
@@ -50,8 +51,8 @@ class AddingWidget extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.grey[200],
           elevation: 0,
-          title: update! ? const Text(
-            "Modifier Produit",
+          title: update! ? Text(
+            "Produit " + product.no,
             style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w900,
@@ -81,9 +82,6 @@ class AddingWidget extends StatelessWidget {
                   BlocBuilder<ProductBloc, ProductState>(
                   builder: (context, state) {
                     print("request state:${state.requestState}");
-    print(222222);
-                    
-
                     
               
               // data is loading
@@ -135,7 +133,6 @@ class AddingWidget extends StatelessWidget {
                 },
               );
                     }
-    print(3333);
                     return ProductDataField(product: product, isUpdate: update!);
                    } // Error
             ),
@@ -243,12 +240,12 @@ class ProductDataFieldState extends State<ProductDataField> {
 
   ProductDataFieldState(this.product, this.isUpdate) {
     if(isUpdate){
-      selectedMeasure = Measure(product.measure_id == null ? '' : product.measure_id!);
-      selectedPacktype = Packtype(product.packtype_id == null ? '' : product.packtype_id!);
-      selectedType = Type(product.type_id == null ? '' : product.type_id!);
-      selectedGroup = Grp(product.grp_id == null ? '' : product.grp_id!);
-      selectedState = State(product.state_id == null ? '' : product.state_id!);
-      selectedVat = Vat(product.vat_id == null ? '' : product.vat_id!);
+      selectedMeasure = Measure(product.measure_id == null || product.measure_id == 'null' ? '2' : product.measure_id!);
+      selectedPacktype = Packtype(product.packtype_id == null || product.packtype_id == 'null' ? '1' : product.packtype_id!);
+      selectedType = Type(product.type_id == null || product.type_id == 'null' ? '1' : product.type_id!);
+      selectedGroup = Grp(product.grp_id == null || product.grp_id == 'null' ? '4' : product.grp_id!);
+      selectedState = State(product.state_id == null || product.state_id == 'null' ? '1' : product.state_id!);
+      selectedVat = Vat(product.vat_id == null || product.vat_id == 'null' ? '1' : product.vat_id!);
     }
   }
 
@@ -636,6 +633,8 @@ class ProductDataFieldState extends State<ProductDataField> {
     product.vat_id = VatID(selectedVat).toString();
     product.measure_id = MeasureID(selectedMeasure).toString();
     product.packtype_id = PacktypeID(selectedPacktype).toString();
+
+    print(selectedPacktype + '  ' + selectedMeasure);
 
     return Center(
       child: Form(

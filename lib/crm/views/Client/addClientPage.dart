@@ -190,9 +190,11 @@ class DataFieldState extends State<DataField> {
     telController.text = client.phone.toString();
     if(isUpdate){
       selectedType = client.type;
+      if(client.type.contains('tranger'))
+        selectedType = 'Etranger';
       selectedGroup = client.group;
-      selectedState = State(client.state_id == null ? '' : client.state_id!);
-      selectedVat = Vat(client.vat_id == null ? '' : client.vat_id!);
+      selectedState = State(client.state_id == null || client.state_id == 'null' ? '1' : client.state_id!);
+      selectedVat = Vat(client.vat_id == null || client.vat_id == 'null' ? '1' : client.vat_id!);
     }
   }
 
@@ -202,7 +204,7 @@ class DataFieldState extends State<DataField> {
                 return 2;
             case 'Agence de voyage' :
                 return 4;
-            case 'Societé privé' :
+            case 'Société privé' :
                 return 7;
             case 'Etranger' :
                 return 8;
@@ -575,7 +577,7 @@ class DataFieldState extends State<DataField> {
               SizedBox(height: size.height * 0.04),
       
               ButtonWidget(
-                text: 'Enregistrer',
+                text: 'Envoyer',
                 size: size,
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {

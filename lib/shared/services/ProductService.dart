@@ -55,6 +55,8 @@ class ProductService {
         headers: {'content-type': 'application/json'},
       );
 
+      print(body);
+
       print(response.statusCode);
       final parsed = json.decode(response.body);
       /*print(parsed['success']);

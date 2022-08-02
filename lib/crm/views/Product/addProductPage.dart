@@ -51,8 +51,8 @@ class AddingWidget extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.grey[200],
           elevation: 0,
-          title: update! ? const Text(
-            "Modifier Produit",
+          title: update! ? Text(
+            "Produit " + product.no,
             style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w900,
@@ -343,11 +343,11 @@ class ProductDataFieldState extends State<ProductDataField> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     if(isUpdate){
-                      product.setName = name;
-                      product.setNo = num;
-                      product.setCode = code;
-                      product.setP_price = purPrice;
-                      product.setS_price = salesPrice;
+                      product.name = nameController.text;
+                      product.no = numController.text;
+                      product.code = codeController.text;
+                      product.p_price = purPriceController.text;
+                      product.s_price = salesPriceController.text;
                       //product.setStock_min = stock;
                     }
                     else{
