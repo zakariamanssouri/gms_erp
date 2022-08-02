@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gms_erp/blocs/Product/product_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
@@ -38,7 +39,22 @@ class ProductsPage extends StatelessWidget {
         title: const Text('Produits'),
         elevation: 0,
         backgroundColor: Colors.blue,
-      ),
+        actions: [
+            IconButton(
+          icon: Icon(
+            Icons.qr_code_scanner_rounded,
+            size: 30,
+          ),
+          onPressed: () async {
+            print(BlocProvider.of<ProductBloc>(_context));
+            String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+                "blue", "cancel", false, ScanMode.BARCODE);
+            BlocProvider.of<ProductBloc>(context).add(SearchProductEvent(
+                search_value: barcodeScanRes,
+                product_list:
+                    BlocProvider.of<ProductBloc>(context).state.products));
+          }),
+      ]),
       body: ProductsBody(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
