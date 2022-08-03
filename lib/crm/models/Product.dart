@@ -51,7 +51,7 @@ class Product {
     );
   }
   Map<String, dynamic> toJson() => {
-        "id": id,
+        "id": id == '' ? null : int.parse(id),
         "product_no": no,
         "product_name1": name,
         "sales_price": s_price,
