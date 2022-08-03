@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gms_erp/blocs/purchased_orders/purchased_orders_bloc.dart';
 import 'package:gms_erp/crm/models/PurchaseOrder.dart';
-=======
 import 'package:gms_erp/crm/models/CustomerOrder.dart';
->>>>>>> 9f1c52b8228e0e952b156afa28a597228b289290
 import 'package:gms_erp/crm/views/Activity/activities.dart';
 import 'package:gms_erp/crm/views/CustomerDelivery/customerDeliveries.dart';
 import 'package:gms_erp/crm/views/CustomerOrder/customerOrders.dart';
