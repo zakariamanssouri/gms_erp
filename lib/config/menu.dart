@@ -47,7 +47,7 @@ class ButtonOption {
     const ButtonOption(
         route: "/Client", text: 'Clients', iconData: Icons.account_box),
     const ButtonOption(
-        route: "/Activity", text: 'Contacts', iconData: Icons.contact_page),
+        route: "/CustomerOrder", text: 'Ordres des Clients', iconData: Icons.contact_page),
     const ButtonOption(
         route: "/Activity", text: 'Opportunités', iconData: Icons.file_copy),
     const ButtonOption(
