@@ -193,6 +193,19 @@ class _CustomerDeliveryItemState extends State<CustomerDeliveryItem> {
               Card(
                   child: ListTile(
                 minLeadingWidth: 120,
+                leading: Text('Emplacement',
+                    style: const TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w800)),
+                title: Text(widget.customer_delivery.locationName == null ? '' : widget.customer_delivery.locationName!,
+                    style: TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w300,
+                    )),
+              )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 120,
                 leading: Text('Total Net',
                     style: const TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
