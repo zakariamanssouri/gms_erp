@@ -48,10 +48,7 @@ class ClientService {
         headers: {'content-type': 'application/json'},
         encoding: Encoding.getByName("utf-8")
       );
-      print(2);
-      print(body);
 
-      print(response.statusCode);
       final parsed = json.decode(response.body);
       /*print(parsed['success']);
       print(parsed['message']);*/
@@ -78,9 +75,7 @@ class ClientService {
         body,
         headers: {'content-type': 'application/json'});
         print(res.statusCode);
-        print(body);
       if (res.statusCode == 200) {
-        print(2);
         print("success");
         return true;
       }

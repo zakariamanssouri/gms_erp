@@ -18,7 +18,7 @@ class ButtonOption {
     const ButtonOption(
         route: "/inventory", text: 'Inventaire', iconData: Icons.inventory_2),
     const ButtonOption(
-        route: "/identity", text: 'Icidents', iconData: Icons.settings),
+        route: "/identity", text: 'Incidents', iconData: Icons.settings),
     const ButtonOption(route: "", text: 'BI', iconData: Icons.poll_sharp),
   ];
 
@@ -47,14 +47,14 @@ class ButtonOption {
     const ButtonOption(
         route: "/Client", text: 'Clients', iconData: Icons.account_box),
     const ButtonOption(
-        route: "/Activity", text: 'Contacts', iconData: Icons.contact_page),
+        route: "/CustomerOrder", text: 'Ordres', iconData: Icons.contact_page),
     const ButtonOption(
         route: "/Activity", text: 'Opportunités', iconData: Icons.file_copy),
     const ButtonOption(
         route: "/Activity", text: 'Devis', iconData: Icons.file_download),
     const ButtonOption(
-        route: "/Activity",
-        text: 'Commandes',
+        route: "/CustomerDelivery",
+        text: 'Livraisons',
         iconData: Icons.keyboard_command_key),
     const ButtonOption(
         route: "/Activity", text: 'Factures', iconData: Icons.inventory),

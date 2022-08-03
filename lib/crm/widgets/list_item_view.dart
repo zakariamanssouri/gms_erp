@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gms_erp/config/menu.dart';
+import 'package:gms_erp/crm/models/CustomerDelivery.dart';
 import 'package:gms_erp/crm/views/Activity/activities.dart';
 import 'package:gms_erp/crm/views/Client/clients.dart';
+import 'package:gms_erp/crm/views/CustomerDelivery/customerDeliveries.dart';
+import 'package:gms_erp/crm/views/CustomerOrder/customerOrders.dart';
 import 'package:gms_erp/crm/views/Product/products.dart';
 import 'package:gms_erp/widgets/homebutton.dart';
 
@@ -31,8 +34,8 @@ class ListItemView extends StatelessWidget {
   void _navigateToClients(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Clients()));
   }
-  void _navigateToContacts(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Activities()));
+  void _navigateToCustomerOrder(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CustomerOrders()));
   }
   void _navigateToOpportunities(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Activities()));
@@ -40,8 +43,8 @@ class ListItemView extends StatelessWidget {
   void _navigateToDevis(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Activities()));
   }
-  void _navigateToCommands(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Activities()));
+  void _navigateToCustomerDelivery(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CustomerDeliveries()));
   }
   void _navigateToBills(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Activities()));
