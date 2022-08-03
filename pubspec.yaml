@@ -44,6 +44,7 @@ dependencies:
   shared_preferences: ^2.0.15
   flutter_barcode_scanner: ^2.0.0
   cool_alert: ^1.1.0
+  dropdownfield: ^1.0.0
 
 dev_dependencies:
   flutter_test:
