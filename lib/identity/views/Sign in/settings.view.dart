@@ -14,13 +14,16 @@ class _SettingsView extends State<SettingsView>
   String domainName="";
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController domainNameController = TextEditingController();
-  final String domainNameMessage=' Merci de saisir le nom du domaine avant de continuer';
-
+  final String domainNameMessage=' Saisir le nom du domaine avant de continuer';
+  var items ;
+ 
   @override
-   void initState() {
+   void initState()  {
+    BaseService.GET_DOMAINS().then((value) => items=value);
     super.initState();
-     BaseService.GET_DOMAIN().then((value) => {
-       domainNameController.text =value
+     BaseService.GET_DOMAINS().then((value) => {
+      if(value.isNotEmpty)
+       domainNameController.text = value.last,
      });
   }
 
@@ -53,28 +56,37 @@ class _SettingsView extends State<SettingsView>
                                 Text(domainNameMessage,textAlign: TextAlign.center,style: const TextStyle(color: Colors.blue,fontSize:13,),),
                                 const SizedBox(height:20),
                                 TextFormField(
-                                   controller: domainNameController,
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                decoration: const InputDecoration(
-                                border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10),),),
-                                hintText: 'Domaine',
-                                labelText: 'Domaine',
-                                prefixIcon: Icon(Icons.domain,color: Color(0xff00A3EE),),),
-                                validator: MultiValidator([RequiredValidator(errorText: 'Champs Obligatoire')]),
-                                ),
+                                     autovalidateMode: AutovalidateMode.onUserInteraction,
+                                     controller: domainNameController,
+                                      decoration: InputDecoration(
+                                      prefixIcon: const Icon(Icons.domain,color:Color(0xff00A3EE)),
+                                      hintText: 'Domaine',
+                                      // labelText: 'Domaine',
+                                      suffixIcon: PopupMenuButton<String>(
+                                          icon: const Icon(Icons.arrow_drop_down),
+                                          onSelected: (String value) {
+                                            domainNameController.text = value;
+                                          },
+                                          itemBuilder: (BuildContext context)=><PopupMenuItem<String>>[
+                                            for( var item in items)  
+                                               PopupMenuItem(
+                                                  value: item,
+                                                  child: Text('$item')),
+                                          ],),     
+                                        ),
+                                      ),
                                 const SizedBox(height:15),
                                 ElevatedButton(
                                 onPressed: () async {
                                   if (formKey.currentState!.validate())
                                   {
-                                    BaseService.SET_DOMAIN(domainNameController.text);
-                                    Navigator.pop(context);
+                                    BaseService.ADD_DOMAIN(domainNameController.text);
                                   }
                                },
                                   style: ElevatedButton.styleFrom(
                                   fixedSize: const Size(240, 40), 
                                   primary: Colors.blue),
-                                  child: const Text('Confirmer'),
+                                  child: const Text('Enregistrer'),
                               ), 
                             ],
                       ),
