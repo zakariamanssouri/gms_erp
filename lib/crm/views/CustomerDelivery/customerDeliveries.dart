@@ -35,7 +35,7 @@ class CustomerDeliveriesHome extends StatelessWidget {
         child: Scaffold(
       backgroundColor: GlobalParams.backgroundColor,
       appBar: AppBar(
-        title: Text('Livraison pour Clients'),
+        title: Text('Livraisons'),
         backgroundColor: Colors.blue,
         elevation: 0,
       ),
