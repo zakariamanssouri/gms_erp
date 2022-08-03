@@ -101,7 +101,7 @@ class CustomerDeliveriesBody extends StatelessWidget {
                         : state.search_result?.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ItemCard(
-                          size: size,
+                          size: size * 1.2,
                           onPressed: () {
                             print("lenghth here");
                             CustomerDeliveryBloc bloc =
@@ -123,14 +123,28 @@ class CustomerDeliveriesBody extends StatelessWidget {
                               ? 'Ordre : ' + state.customer_deliveries[index].orderNo!
                               : 'Ordre : ' + state.search_result![index].orderNo!,
                           var2: state.requestState == RequestState.Loaded
-                              ? 'Client : ' + state.customer_deliveries[index].customerNo! + ' | Facture : ' + state.customer_deliveries[index].invoiceNo!
-                              : 'Client : ' + state.search_result![index].customerNo! + ' | Facture : ' + state.customer_deliveries[index].invoiceNo!,
+                              ? 'Client : ' + state.customer_deliveries[index].customerNo!
+                              : 'Client : ' + state.search_result![index].customerNo!,
                           var3: state.requestState == RequestState.Loaded
                               ? 'Total Net : ' + state.customer_deliveries[index].totalNetAmount! + ' | TVA : ' + state.customer_deliveries[index].totalVatAmount!
                               : 'Total Net : ' + state.search_result![index].totalNetAmount! + ' | TVA : ' + state.customer_deliveries[index].totalNetAmount!,
-                          var4: state.requestState == RequestState.Loaded
-                              ? state.customer_deliveries[index].invoiceDate!
-                              : state.search_result![index].invoiceDate!);
+                          var7: state.requestState == RequestState.Loaded
+                              ? state.customer_deliveries[index].invoiceDate ?? ''
+                              : state.search_result![index].invoiceDate ?? '',
+                          var6: state.requestState == RequestState.Loaded
+                              ? 'Facture : ' + state.customer_deliveries[index].invoiceNo!
+                              : 'Facture : ' + state.search_result![index].invoiceNo!,
+                          indicator: state.customer_deliveries[index].paymentStateName == 'Ouvert'
+                              ? const Icon(
+                                  Icons.radio_button_unchecked,
+                                  size: 15,
+                                  color: Colors.white,
+                                )
+                              : const Icon(
+                                  Icons.verified,
+                                  size: 15,
+                                  color: Colors.white,
+                                ),);
                     },
                   ),
                 );

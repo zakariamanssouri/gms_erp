@@ -36,7 +36,7 @@ class _CustomerDeliveryItemState extends State<CustomerDeliveryItem> {
             child: ListView(children: <Widget>[
               Card(
                   child: ListTile(
-                minLeadingWidth: 120,
+                minLeadingWidth: 145,
                 leading: Text('Numéro de Livraison',
                     style: const TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
@@ -49,7 +49,7 @@ class _CustomerDeliveryItemState extends State<CustomerDeliveryItem> {
               )),
               Card(
                   child: ListTile(
-                minLeadingWidth: 120,
+                minLeadingWidth: 145,
                 leading: const Text('Numéro du client',
                     style: TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
@@ -62,7 +62,7 @@ class _CustomerDeliveryItemState extends State<CustomerDeliveryItem> {
               )),
               Card(
                   child: ListTile(
-                minLeadingWidth: 120,
+                minLeadingWidth: 145,
                 leading: Text('Numéro de Facture',
                     style: const TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
@@ -75,7 +75,7 @@ class _CustomerDeliveryItemState extends State<CustomerDeliveryItem> {
               )),
               Card(
                   child: ListTile(
-                minLeadingWidth: 120,
+                minLeadingWidth: 145,
                 leading: Text('Numéro d\'ordre',
                     style: const TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
@@ -88,7 +88,7 @@ class _CustomerDeliveryItemState extends State<CustomerDeliveryItem> {
               )),
               Card(
                   child: ListTile(
-                minLeadingWidth: 120,
+                minLeadingWidth: 145,
                 leading: Text('Numéro ICE',
                     style: const TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
@@ -101,7 +101,7 @@ class _CustomerDeliveryItemState extends State<CustomerDeliveryItem> {
               )),
               Card(
                   child: ListTile(
-                minLeadingWidth: 120,
+                minLeadingWidth: 145,
                 leading: Text('Type d\'ordre',
                     style: const TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
@@ -114,7 +114,7 @@ class _CustomerDeliveryItemState extends State<CustomerDeliveryItem> {
               )),
               Card(
                   child: ListTile(
-                minLeadingWidth: 120,
+                minLeadingWidth: 145,
                 leading: Text('Date de livraison',
                     style: const TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
@@ -127,7 +127,7 @@ class _CustomerDeliveryItemState extends State<CustomerDeliveryItem> {
               )),
               Card(
                   child: ListTile(
-                minLeadingWidth: 120,
+                minLeadingWidth: 145,
                 leading: Text('Date de facture',
                     style: const TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
@@ -140,7 +140,7 @@ class _CustomerDeliveryItemState extends State<CustomerDeliveryItem> {
               )),
               Card(
                   child: ListTile(
-                minLeadingWidth: 120,
+                minLeadingWidth: 145,
                 leading: Text('Addresse',
                     style: const TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
@@ -153,7 +153,7 @@ class _CustomerDeliveryItemState extends State<CustomerDeliveryItem> {
                     )),
               Card(
                   child: ListTile(
-                minLeadingWidth: 120,
+                minLeadingWidth: 145,
                 leading: const Text('Pays',
                     style: const TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
@@ -166,7 +166,7 @@ class _CustomerDeliveryItemState extends State<CustomerDeliveryItem> {
               )),
               Card(
                   child: ListTile(
-                minLeadingWidth: 120,
+                minLeadingWidth: 145,
                 leading: Text('Ville',
                     style: const TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
@@ -179,7 +179,7 @@ class _CustomerDeliveryItemState extends State<CustomerDeliveryItem> {
               )),
               Card(
                   child: ListTile(
-                minLeadingWidth: 120,
+                minLeadingWidth: 145,
                 leading: Text('Rue',
                     style: const TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
@@ -192,7 +192,7 @@ class _CustomerDeliveryItemState extends State<CustomerDeliveryItem> {
               )),
               Card(
                   child: ListTile(
-                minLeadingWidth: 120,
+                minLeadingWidth: 145,
                 leading: Text('Emplacement',
                     style: const TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
@@ -205,7 +205,7 @@ class _CustomerDeliveryItemState extends State<CustomerDeliveryItem> {
               )),
               Card(
                   child: ListTile(
-                minLeadingWidth: 120,
+                minLeadingWidth: 145,
                 leading: Text('Total Net',
                     style: const TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
@@ -218,7 +218,7 @@ class _CustomerDeliveryItemState extends State<CustomerDeliveryItem> {
               )),
               Card(
                   child: ListTile(
-                minLeadingWidth: 120,
+                minLeadingWidth: 145,
                 leading: Text('TVA',
                     style: const TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,

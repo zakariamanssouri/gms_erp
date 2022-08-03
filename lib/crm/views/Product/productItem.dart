@@ -66,7 +66,7 @@ class _ProductItemState extends State<ProductItem> {
                 leading: const Text('Numéro',
                     style: TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
-                        fontWeight: FontWeight.w900)),
+                        fontWeight: FontWeight.w800)),
                 title: Text(
                   widget.product.no,
                   style: const TextStyle(
@@ -80,7 +80,7 @@ class _ProductItemState extends State<ProductItem> {
                 leading: const Text('Noms',
                     style: TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
-                        fontWeight: FontWeight.w900)),
+                        fontWeight: FontWeight.w800)),
                 title: Text(widget.product.name,
                     style: const TextStyle(
                       fontFamily: GlobalParams.MainfontFamily,
@@ -93,38 +93,62 @@ class _ProductItemState extends State<ProductItem> {
                 leading: Text('Code Bar',
                     style: const TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
-                        fontWeight: FontWeight.w900)),
+                        fontWeight: FontWeight.w800)),
                 title: Text(barcode,
                     style: TextStyle(
                       fontFamily: GlobalParams.MainfontFamily,
                       fontWeight: FontWeight.w300,
                     )),
-                trailing: FloatingActionButton(
-                    heroTag: 'barcode-button',
-                    disabledElevation: 0,
-                    mini: true,
-                    backgroundColor: Colors.deepOrange,
-                    child: Icon(
-                      Icons.qr_code_scanner_rounded,
-                      size: 20,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: FloatingActionButton(
+                      heroTag: 'barcode-button',
+                      disabledElevation: 0,
+                      mini: true,
+                      backgroundColor: Colors.deepOrange,
+                      child: Icon(
+                        Icons.qr_code_scanner_rounded,
+                        size: 13,
+                      ),
+                      onPressed: () async {
+                        String barcodeScanRes =
+                            await FlutterBarcodeScanner.scanBarcode(
+                                "blue", "cancel", true, ScanMode.BARCODE);
+                        setState(() {
+                          barcode = barcodeScanRes;
+                          widget.product.code = barcode;
+                        });
+                      }),
+                  ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FloatingActionButton(
+                        heroTag: "btn-submit",
+                      disabledElevation: 0,
+                      mini: true,
+                      child: Icon(
+                        Icons.check,
+                        size: 13,
+                      ),
+                      onPressed: () async {
+                          BlocProvider.of<ProductBloc>(context)
+                            ..add(
+                              UpdateProductEvent(product: widget.product),
+                            );
+                      }),
                     ),
-                    onPressed: () async {
-                      String barcodeScanRes =
-                          await FlutterBarcodeScanner.scanBarcode(
-                              "blue", "cancel", true, ScanMode.BARCODE);
-                      setState(() {
-                        barcode = barcodeScanRes;
-                        widget.product.code = barcode;
-                      });
-                    }),
-              )),
+                ]))),
               // Card(
               //     child: ListTile(
               //   minLeadingWidth: 70,
               //   leading: Text('Stock Min',
               //       style: const TextStyle(
               //           fontFamily: GlobalParams.MainfontFamily,
-              //           fontWeight: FontWeight.w900)),
+              //           fontWeight: FontWeight.w800)),
               //   title: Text(widget.product.stock_min,
               //       style: TextStyle(
               //         fontFamily: GlobalParams.MainfontFamily,
@@ -137,7 +161,7 @@ class _ProductItemState extends State<ProductItem> {
                 leading: const Text('Prix',
                     style: const TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
-                        fontWeight: FontWeight.w900)),
+                        fontWeight: FontWeight.w800)),
                 title: Text(widget.product.s_price,
                     style: TextStyle(
                       fontFamily: GlobalParams.MainfontFamily,
@@ -150,7 +174,7 @@ class _ProductItemState extends State<ProductItem> {
                 leading: Text('Prix Min',
                     style: const TextStyle(
                         fontFamily: GlobalParams.MainfontFamily,
-                        fontWeight: FontWeight.w900)),
+                        fontWeight: FontWeight.w800)),
                 title: Text(widget.product.s_price_min,
                     style: TextStyle(
                       fontFamily: GlobalParams.MainfontFamily,
@@ -161,53 +185,23 @@ class _ProductItemState extends State<ProductItem> {
                   margin: EdgeInsets.only(
                       top: GlobalParams.MainPadding / 2,
                       right: GlobalParams.MainPadding / 2,
-                      left: GlobalParams.MainPadding / 2),
-                  child: ButtonWidget(
-                      size: size,
-                      onPressed: () async {
-                        BlocProvider.of<ProductBloc>(context)
-                          ..add(
-                            UpdateProductEvent(product: widget.product),
-                          );
-
-                        // print(BlocProvider.of<ProductBloc>(context)
-                        //     .state
-                        //     .requestState);
-                        // if (BlocProvider.of<ProductBloc>(context)
-                        //         .state
-                        //         .requestState ==
-                        //     RequestState.Error) {
-                        //   print("hit here");
-                        // }
-
-                        // if (BlocProvider.of<ProductBloc>(context)
-                        //         .state
-                        //         .requestState !=
-                        //     ProductRequestState.Error) {
-                        //   CoolAlert.show(
-                        //       context: context,
-                        //       type: CoolAlertType.success,
-                        //       text: "le produit a été mis à jour avec succès");
-                        //   Navigator.pop(context);
-                        // }
-                      },
-                      text: "Modifier"))
+                      left: GlobalParams.MainPadding / 2),)
             ])),
             floatingActionButton: FloatingActionButton(
-        onPressed: () {
-                  Navigator.push(_context,
-                      MaterialPageRoute(builder: (context) {
-                    return BlocProvider.value(
-                      value: BlocProvider.of<ProductBloc>(
-                          _context),
-          child: AddProductPage(product: widget.product,));}));
-        },
-        backgroundColor: Colors.white,
-        child: const Icon(
-          Icons.edit,
-          color: Colors.blue,
-        ),
-      ),
-            );
+                heroTag: "btn-modify",
+              onPressed: () {
+                        Navigator.push(_context,
+                            MaterialPageRoute(builder: (context) {
+                          return BlocProvider.value(
+                            value: BlocProvider.of<ProductBloc>(
+                                _context),
+                child: AddProductPage(product: widget.product,));}));
+              },
+            backgroundColor: Colors.white,
+            child: const Icon(
+              Icons.edit,
+              color: Colors.blue,
+            ),
+            ));
   }
 }
