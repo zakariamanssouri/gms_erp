@@ -16,6 +16,7 @@ class Product {
       required this.name,
       required this.s_price,
       this.stock_min,
+      this.p_price,
       required this.code,
       required this.s_price_min,
       this.measure_id,
@@ -38,6 +39,7 @@ class Product {
       is_active: int.parse(json["is_active"]),
       product_type: json["product_type"],
       product_group: json["product_group"],
+      p_price: json["purchase_price"],
       measure: json["measure"],
       code: json["ean_code"],
       s_price_min: json["sales_price_min"],
@@ -49,7 +51,7 @@ class Product {
     );
   }
   Map<String, dynamic> toJson() => {
-        "id": id,
+        "id": id == '' ? null : int.parse(id),
         "product_no": no,
         "product_name1": name,
         "sales_price": s_price,

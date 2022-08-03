@@ -47,7 +47,7 @@ class ButtonOption {
     const ButtonOption(
         route: "/Client", text: 'Clients', iconData: Icons.account_box),
     const ButtonOption(
-        route: "/Activity", text: 'Contacts', iconData: Icons.contact_page),
+        route: "/CustomerOrder", text: 'Ordres des Clients', iconData: Icons.contact_page),
     const ButtonOption(
         route: "/Activity", text: 'Opportunités', iconData: Icons.file_copy),
     const ButtonOption(
@@ -62,6 +62,10 @@ class ButtonOption {
         route: "/Product",
         text: 'Produits',
         iconData: Icons.production_quantity_limits),
+        const ButtonOption(
+        route: "/Activity",
+        text: 'Vendeurs',
+        iconData: Icons.account_balance_wallet),
   ];
 
   static List<ButtonOption> InventoryOptions = const <ButtonOption>[

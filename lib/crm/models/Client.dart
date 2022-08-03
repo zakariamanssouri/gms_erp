@@ -28,7 +28,8 @@ class Client {
         phone: json["contact_phone"]);
   }
   Map<String, dynamic> toJson() => {
-        "customer_no": no,
+        "id": id == '' ? null : int.parse(id),
+        "customer_no": int.parse(no),
         "customer_name1": name,
         "customer_type_id": int.parse(type_id!),
         "customer_group_id": int.parse(grp_id!),
@@ -38,7 +39,7 @@ class Client {
         "customer_model_id":  3,
         "delivery_type_id":  1,
         "salutation_id":  3,
-        "address_pool_id":  null,
+        "address_pool_id":  1,
     };
 
   

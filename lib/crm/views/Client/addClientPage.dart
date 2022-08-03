@@ -1,3 +1,4 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gms_erp/crm/views/Client/clientItem.dart';
@@ -49,8 +50,8 @@ class AddingWidget extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.grey[200],
           elevation: 0,
-          title: update! ? const Text(
-            "Modifier Client",
+          title: update! ? Text(
+            "Client  " + client.no,
             style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w900,
@@ -98,34 +99,32 @@ class AddingWidget extends StatelessWidget {
               // data is loaded
               else if (state.requestState == RequestState.Added) {
                 print('Add successful');
+                CoolAlert.show(
+                  context: context,
+                  type: CoolAlertType.success,
+                  text: 'Le client a été ajouté avec succès',
+                );
                 BlocProvider.of<ClientBloc>(context).add(
                     LoadClients());
                     
-                              Navigator.push(_context,
-                                  MaterialPageRoute(builder: (context) {
-                                return BlocProvider.value(
-                                  value: BlocProvider.of<ClientBloc>(
-                                      _context),
-                                      child: ClientItem(
-                                    client: client,
-                                  ),);}));
+                              Navigator.pop(context);
                   }
                   else if (state.requestState == RequestState.Updated) {
                 print('Update successful');
+                CoolAlert.show(
+                  context: context,
+                  type: CoolAlertType.success,
+                  text: 'Le client a été mis à jour avec succès',
+                );
                 BlocProvider.of<ClientBloc>(context).add(
                     LoadClients());
                     
-                              Navigator.push(_context,
-                                  MaterialPageRoute(builder: (context) {
-                                return BlocProvider.value(
-                                  value: BlocProvider.of<ClientBloc>(
-                                      _context),
-                                      child: ClientItem(
-                                    client: client,
-                                  ),);}));
+                              Navigator.pop(context);
                   }
               // Error
               if (state.requestState == RequestState.Error){
+                BlocProvider.of<ClientBloc>(context).add(
+                    LoadClients());
               ErrorWithRefreshButtonWidget(
                 inventory: null,
                 button_function: () {
@@ -133,7 +132,8 @@ class AddingWidget extends StatelessWidget {
                 },
               );
                     }
-                   },child:DataField(client: client, isUpdate: update!), // Error
+                   }, // Error
+                   child: DataField(client: client, isUpdate: update!)
             ),
           )]),
           )
@@ -190,9 +190,11 @@ class DataFieldState extends State<DataField> {
     telController.text = client.phone.toString();
     if(isUpdate){
       selectedType = client.type;
+      if(client.type.contains('tranger'))
+        selectedType = 'Etranger';
       selectedGroup = client.group;
-      selectedState = State(client.state_id!);
-      selectedVat = Vat(client.vat!);
+      selectedState = State(client.state_id == null || client.state_id == 'null' ? '1' : client.state_id!);
+      selectedVat = Vat(client.vat_id == null || client.vat_id == 'null' ? '1' : client.vat_id!);
     }
   }
 
@@ -202,7 +204,7 @@ class DataFieldState extends State<DataField> {
                 return 2;
             case 'Agence de voyage' :
                 return 4;
-            case 'Societé privé' :
+            case 'Société privé' :
                 return 7;
             case 'Etranger' :
                 return 8;
@@ -284,7 +286,7 @@ class DataFieldState extends State<DataField> {
             case '6' :
                 return 'Nouveau';
             default:
-                return '';
+                return 'Qualifier';
         }
     }
     String Vat(String id){
@@ -298,7 +300,7 @@ class DataFieldState extends State<DataField> {
             case '4':
                 return '10 %';
             default:
-                return '';
+                return '14 %';
         }
     }
 
@@ -325,14 +327,14 @@ class DataFieldState extends State<DataField> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-  client.type = selectedType;
-  client.group = selectedGroup;
-  client.etat = selectedState;
-  client.vat = selectedVat;
-  client.type_id = TypeID(selectedType).toString();
-  client.grp_id = GrpID(selectedGroup).toString();
-  client.state_id = StateID(selectedState).toString();
-  client.vat_id = VatID(selectedVat).toString();
+    client.type = selectedType;
+    client.group = selectedGroup;
+    client.etat = selectedState;
+    client.vat = selectedVat;
+    client.type_id = TypeID(selectedType).toString();
+    client.grp_id = GrpID(selectedGroup).toString();
+    client.state_id = StateID(selectedState).toString();
+    client.vat_id = VatID(selectedVat).toString();
 
     return Center(
       child: Form(
@@ -575,7 +577,7 @@ class DataFieldState extends State<DataField> {
               SizedBox(height: size.height * 0.04),
       
               ButtonWidget(
-                text: isUpdate ? 'Modifier' : 'Ajouter',
+                text: 'Envoyer',
                 size: size,
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
