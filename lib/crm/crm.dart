@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gms_erp/crm/models/CustomerOrder.dart';
 import 'package:gms_erp/crm/views/Activity/activities.dart';
+import 'package:gms_erp/crm/views/CustomerDelivery/customerDeliveries.dart';
 import 'package:gms_erp/crm/views/CustomerOrder/customerOrders.dart';
 import 'package:gms_erp/crm/views/Product/products.dart';
 import 'package:gms_erp/crm/views/Client/clients.dart';
@@ -21,6 +22,7 @@ class CRMPage extends StatelessWidget {
           '/Product': (context) => Products(),
           '/Client': (context) => Clients(),
           '/CustomerOrder': (context) => CustomerOrders(),
+          '/CustomerDelivery': (context) => CustomerDeliveries(),
         },
       title: 'GM-CRM',
       theme: ThemeData(

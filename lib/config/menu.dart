@@ -53,8 +53,8 @@ class ButtonOption {
     const ButtonOption(
         route: "/Activity", text: 'Devis', iconData: Icons.file_download),
     const ButtonOption(
-        route: "/Activity",
-        text: 'Commandes',
+        route: "/CustomerDelivery",
+        text: 'Livraison',
         iconData: Icons.keyboard_command_key),
     const ButtonOption(
         route: "/Activity", text: 'Factures', iconData: Icons.inventory),
