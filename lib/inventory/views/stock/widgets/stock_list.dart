@@ -33,15 +33,14 @@ class StockListView extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return ItemCard(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return BlocProvider.value(
                       value: BlocProvider.of<StockBlock>(_context),
                       child: StockDetailsPage(product: products[index]),
                     );
                   }));
                 },
-                size: size,
+                size: size * 1.15,
                 var1: products[index].productName1,
                 var2: products[index].purchasePrice,
                 var3: products[index].eanCode,
