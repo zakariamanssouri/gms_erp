@@ -18,7 +18,7 @@ class ButtonOption {
     const ButtonOption(
         route: "/inventory", text: 'Inventaire', iconData: Icons.inventory_2),
     const ButtonOption(
-        route: "/identity", text: 'Icidents', iconData: Icons.settings),
+        route: "/identity", text: 'Incidents', iconData: Icons.settings),
     const ButtonOption(route: "", text: 'BI', iconData: Icons.poll_sharp),
   ];
 
