@@ -11,8 +11,11 @@ class ItemCard extends StatelessWidget {
   String? var3;
   String? var4;
   String? var5;
+  String? var6;
+  String? var7;
 
   Widget? indicator;
+  Widget? additionalinfowidget;
   Color? textcolor;
   ItemCard(
       {Key? key,
@@ -23,9 +26,12 @@ class ItemCard extends StatelessWidget {
       this.var3,
       this.var4,
       this.var5,
+      this.var6,
+      this.var7,
       this.onPressed,
       this.textcolor = GlobalParams.itemCardTextColor,
-      this.indicator})
+      this.indicator,
+      this.additionalinfowidget})
       : super(key: key);
 
   @override
@@ -79,6 +85,33 @@ class ItemCard extends StatelessWidget {
                           color: textcolor,
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
+                          fontFamily: 'Open Sans'),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        var6 ?? "",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            color: textcolor,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w300,
+                            fontFamily: 'Open Sans'),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      var7 ?? "",
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                          color: textcolor,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w300,
                           fontFamily: 'Open Sans'),
                     ),
                   ],
