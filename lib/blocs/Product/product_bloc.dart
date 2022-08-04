@@ -36,9 +36,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
     on<SearchProductEvent>((event, emit) async {
       try {
-        print('------------------------------------');
-        print("start search product event on product bloc");
-        print("search value: ${event.search_value}");
         emit(ProductState(
             products: event.product_list,
             requestState: ProductRequestState.Searching,

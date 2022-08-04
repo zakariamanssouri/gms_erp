@@ -78,7 +78,7 @@ class AddingWidget extends StatelessWidget {
                   initiallyExpanded: true,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(6.0),
+                      padding: const EdgeInsets.all(7.0),
                       child: Container(
                         child: 
                         BlocBuilder<ProductBloc, ProductState>(
@@ -124,7 +124,7 @@ class AddingWidget extends StatelessWidget {
               title: Text('Autres'),
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(6.0),
+                  padding: const EdgeInsets.all(7.0),
                   child: Container(
                     child: 
                     BlocBuilder<ProductBloc, ProductState>(
@@ -177,55 +177,6 @@ class AddingWidget extends StatelessWidget {
                 ),
           ],
       onExpansionChanged: (bool expanding) => (() => this.isExpanded = expanding),
-          ),
-          
-                Container(
-                    child: 
-                    BlocListener<ProductBloc, ProductState>(
-                    listener: (context, state) {
-                      print("request state:${state.requestState}");
-                      
-              
-              // data is loading
-              if (state.requestState == ProductRequestState.Adding ||
-                    state.requestState == ProductRequestState.Loading ||
-                    state.requestState == ProductRequestState.Updating)
-                  Container(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-
-              // data is loading
-              // data is loaded
-              else if (state.requestState == ProductRequestState.Added) {
-                  print('Add successful');
-                  BlocProvider.of<ProductBloc>(context).add(
-                      LoadAllProductsEvent());
-                      
-                                Navigator.pushReplacement(_context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return BlocProvider.value(
-                                    value: BlocProvider.of<ProductBloc>(
-                                        _context),
-                                        child: Products(
-                                    ),);}));
-                    }
-                    else if (state.requestState == ProductRequestState.Updated) {
-                          print('Update successful');
-                          BlocProvider.of<ProductBloc>(context).add(
-                              LoadAllProductsEvent());
-                      
-                                Navigator.pushReplacement(_context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return BlocProvider.value(
-                                    value: BlocProvider.of<ProductBloc>(
-                                        _context),
-                                        child: Products(
-                                    ),);}));
-                    }
-                     } // Error
-            ),
           ),
           
               SizedBox(height: size.height * 0.04),
@@ -400,17 +351,12 @@ class ProductDataFieldState extends State<ProductDataField> {
                   valuetext: product.no,
                   keyboardType: TextInputType.numberWithOptions(
                       signed: false, decimal: true),
-                      on_changed_function: () {
-                        if (_formKey.currentState!.validate()) {
-                          product.name = nameController.text;
-                          product.no = numController.text;
-                          product.code = codeController.text;
-                          product.p_price = purPriceController.text;
-                          product.s_price = salesPriceController.text;
-                          //product.setStock_min = stock;
-                        print(product.name + ' ' + product.no + ' ' + product.code + ' ' +
-                        product.p_price! + ' ' + product.s_price + ' ' );
-                  }
+                      onChangedFun: () {
+                          if (_formKey.currentState!.validate()) {
+                            setState(() {
+                              product.no = numController.text;
+                            });
+                          }
                       },),
 
               SizedBox(height: size.height * 0.02),
@@ -422,7 +368,14 @@ class ProductDataFieldState extends State<ProductDataField> {
                   },
                   obj: product,
                   labeltext: 'Nom',
-                  valuetext: product.name,),
+                  valuetext: product.name,
+                      onChangedFun: () {
+                          if (_formKey.currentState!.validate()) {
+                            setState(() {
+                              product.name = nameController.text;
+                            });
+                          }
+                      }),
               SizedBox(height: size.height * 0.02),
 
               
@@ -440,7 +393,15 @@ class ProductDataFieldState extends State<ProductDataField> {
                                 "blue", "cancel", true, ScanMode.BARCODE);
                         setState(() {
                           codeController.text = barcodeScanRes;
-                        });
+                        });},
+                        onChangedFun: () {
+                            print(codeController.text + '-----');
+                          if (_formKey.currentState!.validate()) {
+                            print(codeController.text);
+                            setState(() {
+                              product.code = codeController.text;
+                            });
+                          }
                       },),
               SizedBox(height: size.height * 0.02),
 
@@ -451,7 +412,16 @@ class ProductDataFieldState extends State<ProductDataField> {
                   validator: (value) {
                     return validateField(value!);
                   },
-                  obj: product, valuetext: product.p_price!, labeltext: 'Prix d\'achat',),
+                  obj: product, valuetext: product.p_price!, labeltext: 'Prix d\'achat',
+                  
+                    onChangedFun: () {
+                          if (_formKey.currentState!.validate()) {
+                            setState(() {
+                              product.p_price = purPriceController.text;
+                            });
+                          }
+                      }
+                    ),
               SizedBox(height: size.height * 0.02),
 
               TextFieldWidget(
@@ -461,7 +431,15 @@ class ProductDataFieldState extends State<ProductDataField> {
                   validator: (value) {
                     return validateField(value!);
                   },
-                  obj: product, valuetext: product.s_price, labeltext: 'Prix de vente',),
+                  obj: product, valuetext: product.s_price, labeltext: 'Prix de vente',
+                  
+                  onChangedFun: () {
+                          if (_formKey.currentState!.validate()) {
+                            setState(() {
+                              product.s_price = salesPriceController.text;
+                            });
+                          }
+                      }),
               SizedBox(height: size.height * 0.02),
 
               // TextFieldWidget(
@@ -980,7 +958,6 @@ class ProductSecondDataFieldState extends State<ProductSecondDataField> {
               SizedBox(height: size.height * 0.02),
 
                   Container(
-                            //padding: EdgeInsets.only(top: 8),
                             child: Column(
                               children: [
                                 Form(
