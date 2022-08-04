@@ -19,18 +19,27 @@ class GlobalParams {
 
   static final List<Map<String, dynamic>> menus = [
     {
-      "title": "Home",
+      "title": "Acceuil",
       "icon": Icon(
-        Icons.dashboard,
+        Icons.home,
         color: Colors.blue,
       ),
       "route": "/home"
     },
     {
-      "title": "Products",
+      "title": "Produits",
       // ignore: prefer_const_constructors
       "icon": Icon(
         Icons.dashboard,
+        color: Colors.blue,
+      ),
+      "route": "/products"
+    },
+    {
+      "title": "Stock",
+      // ignore: prefer_const_constructors
+      "icon": Icon(
+        Icons.warehouse_rounded,
         color: Colors.blue,
       ),
       "route": "/products"

@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gms_erp/blocs/purchased_orders/purchased_orders_bloc.dart';
-import 'package:gms_erp/crm/models/PurchaseOrder.dart';
-import 'package:gms_erp/crm/models/CustomerOrder.dart';
 import 'package:gms_erp/crm/views/Activity/activities.dart';
 import 'package:gms_erp/crm/views/CustomerDelivery/customerDeliveries.dart';
 import 'package:gms_erp/crm/views/CustomerOrder/customerOrders.dart';
@@ -12,6 +8,7 @@ import 'package:gms_erp/crm/views/PurchasedOrders/purchased_orders.dart';
 import 'package:gms_erp/crm/views/Vendor/vendors.dart';
 import 'package:gms_erp/crm/widgets/list_item_view.dart';
 import 'package:gms_erp/crm/widgets/side_drawer.dart';
+import 'package:gms_erp/homepage.dart';
 
 class CRMPage extends StatelessWidget {
   const CRMPage({Key? key}) : super(key: key);
@@ -24,7 +21,7 @@ class CRMPage extends StatelessWidget {
           '/Activity': (context) => Activities(),
           '/Product': (context) => Products(),
           '/Client': (context) => Clients(),
-          '/PurchasedOrders': (context) =>  PurchasedOrdersPage(),
+          '/PurchasedOrders': (context) => PurchasedOrdersPage(),
           '/CustomerOrder': (context) => CustomerOrders(),
           '/CustomerDelivery': (context) => CustomerDeliveries(),
           '/Vendors': (context) => Vendors(),
