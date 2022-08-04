@@ -64,7 +64,7 @@ class ButtonOption {
         iconData: Icons.production_quantity_limits),
     const ButtonOption(
         route: "/Vendors",
-        text: 'Vendeurs',
+        text: 'Fournisseurs',
         iconData: Icons.account_balance_wallet),
     const ButtonOption(
         route: "/PurchasedOrders",

@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print, sized_box_for_whitespace
-
 import 'package:flutter/material.dart';
 import 'package:gms_erp/blocs/Vendor/vendor_event.dart';
 import 'package:gms_erp/blocs/Vendor/vendor_state.dart';
@@ -10,10 +9,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../blocs/Vendor/vendor_bloc.dart';
 import '../../../inventory/views/InventoryDetails/widgets/ErrorWithRefreshButtonWidget.dart';
 import '../../../widgets/ItemCard.dart';
+import 'vendorItem.dart';
 
-class Vendors extends StatelessWidget {
+class Vendors extends StatelessWidget 
+{
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+  {
     BuildContext _context = context;
     Size size = MediaQuery.of(context).size;
     return BlocProvider(
@@ -23,7 +25,8 @@ class Vendors extends StatelessWidget {
   }
 }
 
-class VendorsHome extends StatelessWidget {
+class VendorsHome extends StatelessWidget 
+{
   const VendorsHome({
     Key? key,
     required this.size,
@@ -32,7 +35,8 @@ class VendorsHome extends StatelessWidget {
   final Size size;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+  {
     BuildContext _context = context;
     return SafeArea(
         child: Scaffold(
@@ -43,53 +47,51 @@ class VendorsHome extends StatelessWidget {
         elevation: 0,
       ),
       body: VendorsBody(size: size),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //             Navigator.push(_context,
-      //                 MaterialPageRoute(builder: (context) {
-      //               return BlocProvider.value(
-      //                 value: BlocProvider.of<VendorBloc>(
-      //                     _context),
-      //    );
-      //    }));
-      //   },
-      //   backgroundColor: Colors.white,
-      //   child: const Icon(
-      //     Icons.add,
-      //     color: Colors.blue,
-      //   ),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () 
+        {
+          Navigator.push(_context,
+          MaterialPageRoute(builder: (context) {
+          return BlocProvider.value(
+          value: BlocProvider.of<VendorBloc>(_context),
+         );
+         }));
+        },
+        backgroundColor: Colors.white,
+        child: const Icon(Icons.add,color: Colors.blue,),
+      ),
     ));
   }
 }
 
-class VendorsBody extends StatelessWidget {
-  const VendorsBody({
-    Key? key,
-    required this.size,
-  }) : super(key: key);
+class VendorsBody extends StatelessWidget 
+{
+  const VendorsBody({Key? key,required this.size,}) : super(key: key);
 
   final Size size;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+  {
     BuildContext _context = context;
     return Container(
       height: size.height,
       width: size.width,
       child: Column(
         children: [
-          // Header(
-          //   size: size / 1.5,
-          //   // child: SearchField(
-          //   //     size: size / 1.4,
-          //   //     onchanged_function: (String value) {
-          //   //       // BlocProvider.of<VendorBloc>(context).add(
-          //   //       //   SearchClientEvent(value,
-          //   //       //       BlocProvider.of<VendorBloc>(context).state.clients),
-          //   //       // );
-          //   //     }),
-          // ),
+          Header(
+             size: size / 1.5,
+              child: SearchField(
+                 size: size / 1.4,
+                 onchanged_function: (String value) 
+                 {
+                    BlocProvider.of<VendorBloc>(context).add(
+                     SearchVendorEvent(value,
+                          BlocProvider.of<VendorBloc>(context).state.vendors),
+                   );
+                 }
+                ),
+          ),
           Expanded(
             child:
                 BlocBuilder<VendorBloc, VendorState>(builder: (context, state) {
@@ -117,14 +119,36 @@ class VendorsBody extends StatelessWidget {
                         : state.search_result?.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ItemCard(
-                          size: size * 1.3,
-                          onPressed: () {},
+                          size: size * 1.2,
+                           onPressed: () {
+                            print("lenghth here");
+                            VendorBloc bloc =
+                                BlocProvider.of<VendorBloc>(context);
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return BlocProvider.value(
+                                value: BlocProvider.of<VendorBloc>(_context),
+                                child: VendorItem(
+                                  vendor:
+                                      state.requestState == RequestState.Loaded
+                                          ? state.vendors[index]
+                                          : state.search_result![index],
+                                ),
+                              );
+                            }));
+                          },
                           var1: state.requestState == RequestState.Loaded
                               ? state.vendors[index].id
                               : state.search_result![index].id,
                           var2: state.requestState == RequestState.Loaded
                               ? state.vendors[index].vendorName1
                               : state.search_result![index].vendorName1,
+                          var3: state.requestState == RequestState.Loaded
+                              ? state.vendors[index].city
+                              : state.search_result![index].city,
+                          var4: state.requestState == RequestState.Loaded
+                              ? state.vendors[index].addressText
+                              : state.search_result![index].addressText,
                          );
                     },
                   ),
