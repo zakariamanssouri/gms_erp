@@ -139,7 +139,8 @@ class _UserLoginState extends State<UserLogin>
                                                   prefs.setString('password', ''); 
                                               }
                                           },);
-                                       Navigator.push(context,MaterialPageRoute(builder: (context) => const HomePage(),));
+                                          // fix bug when user press back button after login
+                                       Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => const HomePage()),ModalRoute.withName('/home'));
                                       //  var token = await BaseService.READTOKEN();
                                       //  print('token $token');
                                     }
