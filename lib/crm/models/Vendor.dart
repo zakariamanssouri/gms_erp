@@ -40,38 +40,38 @@ class Vendor {
         required this.iceNo,
     });
 
-    String id;
-    String vendorNo;
-    String accountingNo;
-    String addressId;
-    String countryId;
-    String countryName;
-    String displayName;
-    String vendorName1;
-    dynamic vendorName2;
-    dynamic vendorName3;
-    dynamic invoiceEmailAddress;
-    String isActive;
-    String vendorGroupId;
-    String vendorGroup;
-    String vendorTypeId;
-    String vendorType;
-    String street;
-    String zipCode;
-    String city;
-    dynamic addressText;
-    String contactDisplayName;
-    String contactPhone;
-    String contactFax;
-    dynamic contactMobileNumber;
-    String isAccountingDiverse;
-    String insUser;
-    DateTime insDatime;
-    String updUser;
-    DateTime updDatime;
-    String currencyId;
-    String taxIdentNo;
-    String iceNo;
+    String ? id;
+    String ? vendorNo;
+    String ? accountingNo;
+    String ? addressId;
+    String ? countryId;
+    String ? countryName;
+    String ? displayName;
+    String ? vendorName1;
+    dynamic?  vendorName2;
+    dynamic?  vendorName3;
+    dynamic?  invoiceEmailAddress;
+    String ? isActive;
+    String ? vendorGroupId;
+    String ? vendorGroup;
+    String ? vendorTypeId;
+    String ? vendorType;
+    String ? street;
+    String ? zipCode;
+    String ? city;
+    dynamic?  addressText;
+    String ? contactDisplayName;
+    String ? contactPhone;
+    String ? contactFax;
+    dynamic?  contactMobileNumber;
+    String ? isAccountingDiverse;
+    String ? insUser;
+    DateTime ?insDatime;
+    String? updUser;
+    DateTime? updDatime;
+    String? currencyId;
+    String? taxIdentNo;
+    String? iceNo;
 
     factory Vendor.fromJson(Map<String, dynamic> json) => Vendor(
         id: json["id"],
@@ -135,9 +135,9 @@ class Vendor {
         "contact_mobile_number": contactMobileNumber,
         "is_accounting_diverse": isAccountingDiverse,
         "ins_user": insUser,
-        "ins_datime": insDatime.toIso8601String(),
+        "ins_datime": insDatime?.toIso8601String(),
         "upd_user": updUser,
-        "upd_datime": updDatime.toIso8601String(),
+        "upd_datime": updDatime?.toIso8601String(),
         "currency_id": currencyId,
         "tax_ident_no": taxIdentNo,
         "ice_no": iceNo,

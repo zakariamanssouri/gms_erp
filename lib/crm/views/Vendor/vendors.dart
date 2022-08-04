@@ -117,7 +117,7 @@ class VendorsBody extends StatelessWidget {
                         : state.search_result?.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ItemCard(
-                          size: size,
+                          size: size * 1.3,
                           onPressed: () {},
                           var1: state.requestState == RequestState.Loaded
                               ? state.vendors[index].id
