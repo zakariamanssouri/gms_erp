@@ -8,8 +8,10 @@ import '../config/global_params.dart';
 class SearchField extends StatefulWidget {
   final Size size;
   final void Function(String)? onchanged_function;
+  String? value;
 
-  SearchField({Key? key, required this.size, this.onchanged_function})
+  SearchField(
+      {Key? key, required this.size, this.onchanged_function, this.value})
       : super(key: key);
 
   @override
@@ -34,7 +36,14 @@ class _SearchFieldState extends State<SearchField> {
       margin: EdgeInsets.symmetric(horizontal: GlobalParams.MainPadding),
       padding: EdgeInsets.symmetric(horizontal: GlobalParams.MainPadding),
       decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(20)),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 20,
+                offset: Offset(0, 10))
+          ]),
       child: TextField(
         onChanged: onchanged_function,
         controller: controller,
@@ -48,6 +57,7 @@ class _SearchFieldState extends State<SearchField> {
             splashColor: Colors.transparent,
             icon: Icon(Icons.clear),
             onPressed: () {
+              onchanged_function?.call("");
               setState(() {
                 controller.text = "";
               });
