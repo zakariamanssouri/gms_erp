@@ -6,7 +6,7 @@ import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/crm/views/Client/widgets/Header.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../inventory/views/InventoryDetails/widgets/ErrorWithRefreshButtonWidget.dart';
-import '../../../widgets/ItemCard.dart';
+import '../../../widgets/ItemCardComplexe.dart';
 
 class CustomerDeliveries extends StatelessWidget {
   @override
@@ -100,7 +100,7 @@ class CustomerDeliveriesBody extends StatelessWidget {
                         ? state.customer_deliveries.length
                         : state.search_result?.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return ItemCard(
+                      return ItemCardComplexe(
                           size: size * 1.2,
                           onPressed: () {
                             print("lenghth here");

@@ -36,9 +36,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
     on<SearchProductEvent>((event, emit) async {
       try {
-        print('------------------------------------');
-        print("start search product event on product bloc");
-        print("search value: ${event.search_value}");
         emit(ProductState(
             products: event.product_list,
             requestState: ProductRequestState.Searching,
@@ -51,6 +48,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
                   .toLowerCase()
                   .contains(event.search_value.toLowerCase()) ||
               event.product_list[i].code
+                  .toLowerCase()
+                  .contains(event.search_value.toLowerCase()) ||
+              event.product_list[i].no
                   .toLowerCase()
                   .contains(event.search_value.toLowerCase())) {
             search_result.add(event.product_list[i]);
@@ -116,7 +116,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         print("update product event");
         await ProductService.updateAllProduct(event.product).then((value) => {
               print("value : $value"),
-              if (value == true)
+              if (value)
                 {
                   emit(ProductState(
                       products: state.products,

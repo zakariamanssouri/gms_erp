@@ -37,9 +37,11 @@ class AddingWidget extends StatelessWidget {
   }) : super(key: key);
 
   final Product product;
+  bool isExpanded = false, isExpanded2 = false;
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     BuildContext _context = context;
     if(product.id == '')
       update = false;
@@ -69,24 +71,10 @@ class AddingWidget extends StatelessWidget {
           ),
         ),
         body: SingleChildScrollView(
-          child: Column(
-            // padding: EdgeInsets.only(
-            //     bottom: GlobalParams.MainPadding,
-            //     right: GlobalParams.MainPadding,
-            //     left: GlobalParams.MainPadding),
-            // width: double.infinity,
-            children: [
-                  ExpansionTile(
-              //crossAxisAlignment: CrossAxisAlignment.stretch,
-              title: Text('Informations'),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(6.0),
-                  child: Container(
-                    child: 
-                    BlocBuilder<ProductBloc, ProductState>(
-                    builder: (context, state) {
-                      print("request state:${state.requestState}");
+          
+          child: BlocBuilder<ProductBloc, ProductState>(
+                  builder: (context, state) {
+                          print("request state:${state.requestState}");
                       
 
                       
@@ -108,26 +96,43 @@ class AddingWidget extends StatelessWidget {
                   BlocProvider.of<ProductBloc>(context).add(
                       LoadAllProductsEvent());
                       
-                                Navigator.pop(context);
+                                Navigator.pushReplacement(_context,
+                                            MaterialPageRoute(builder: (context) {
+                                          return BlocProvider.value(
+                                            value: BlocProvider.of<ProductBloc>(
+                                                _context),
+                                child: Products());}));
                     }
                     else if (state.requestState == ProductRequestState.Updated) {
                   print('Update successful');
                   BlocProvider.of<ProductBloc>(context).add(
                       LoadAllProductsEvent());
                       
-                                Navigator.pop(context);
+                                Navigator.pushReplacement(_context,
+                                            MaterialPageRoute(builder: (context) {
+                                          return BlocProvider.value(
+                                            value: BlocProvider.of<ProductBloc>(
+                                                _context),
+                                child: Products());}));
                     }
-                      return ProductDataField(product: product, isUpdate: update!);
-                     }
-            ),
-          ),
-                )]),
+          return Column(
+            children: [
+                  ExpansionTile(
+                  title: Text('Général'),
+                  initiallyExpanded: true,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(7.0),
+                      child: Container(
+                        child: 
+                        ProductDataField(product: product, isUpdate: update!))
+            ),]),
           ExpansionTile(
               //crossAxisAlignment: CrossAxisAlignment.stretch,
-              title: Text('Details'),
+              title: Text('Autres'),
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(6.0),
+                  padding: const EdgeInsets.all(7.0),
                   child: Container(
                     child: 
                     BlocBuilder<ProductBloc, ProductState>(
@@ -177,9 +182,32 @@ class AddingWidget extends StatelessWidget {
                      } // Error
             ),
           ),
-                )
+                ),
           ],
-          )])
+      onExpansionChanged: (bool expanding) => (() => this.isExpanded = expanding),
+          ),
+          
+              SizedBox(height: size.height * 0.04),
+
+              ButtonWidget(
+                text: 'Envoyer',
+                size: size,
+                onPressed: () async {
+
+                  product.name = ProductDataFieldState.nameController.text;
+                  product.no = ProductDataFieldState.numController.text;
+                  product.code = ProductDataFieldState.codeController.text;
+                  product.s_price = ProductDataFieldState.salesPriceController.text;
+                  product.p_price = ProductDataFieldState.purPriceController.text;
+                  
+                    update! ? BlocProvider.of<ProductBloc>(context).add(
+                    UpdateAllProductEvent(
+                        product: product,))
+                    : BlocProvider.of<ProductBloc>(context).add(
+                    AddProductEvent(
+                        product: product,));
+                }
+                    )]);})
           ),
         );
   }
@@ -200,12 +228,12 @@ class ProductDataField extends StatefulWidget {
 class ProductDataFieldState extends State<ProductDataField> {
   Product product;
   bool isUpdate;
-  TextEditingController numController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController codeController = TextEditingController();
-  TextEditingController purPriceController = TextEditingController();
-  TextEditingController salesPriceController = TextEditingController();
-  TextEditingController stockController = TextEditingController();
+  static TextEditingController numController = TextEditingController();
+  static TextEditingController nameController = TextEditingController();
+  static TextEditingController codeController = TextEditingController();
+  static TextEditingController purPriceController = TextEditingController();
+  static TextEditingController salesPriceController = TextEditingController();
+  static TextEditingController stockController = TextEditingController();
   
   String? num, name, code, purPrice, salesPrice, stock;
   
@@ -365,8 +393,7 @@ class ProductDataFieldState extends State<ProductDataField> {
                                 "blue", "cancel", true, ScanMode.BARCODE);
                         setState(() {
                           codeController.text = barcodeScanRes;
-                        });
-                      },),
+                        });},),
               SizedBox(height: size.height * 0.02),
 
               TextFieldWidget(
@@ -376,7 +403,9 @@ class ProductDataFieldState extends State<ProductDataField> {
                   validator: (value) {
                     return validateField(value!);
                   },
-                  obj: product, valuetext: product.p_price!, labeltext: 'Prix d\'achat',),
+                  obj: product, valuetext: product.p_price!, labeltext: 'Prix d\'achat',
+                  
+                    ),
               SizedBox(height: size.height * 0.02),
 
               TextFieldWidget(
@@ -386,7 +415,8 @@ class ProductDataFieldState extends State<ProductDataField> {
                   validator: (value) {
                     return validateField(value!);
                   },
-                  obj: product, valuetext: product.s_price, labeltext: 'Prix de vente',),
+                  obj: product, valuetext: product.s_price, labeltext: 'Prix de vente',
+                  ),
               SizedBox(height: size.height * 0.02),
 
               // TextFieldWidget(
@@ -398,23 +428,7 @@ class ProductDataFieldState extends State<ProductDataField> {
               //     },
               //     obj: product, valuetext: product.stock_min, labeltext: 'Stock Min',),
               SizedBox(height: size.height * 0.04),
-
-              ButtonWidget(
-                text: 'Valider',
-                size: size,
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                      product.name = nameController.text;
-                      product.no = numController.text;
-                      product.code = codeController.text;
-                      product.p_price = purPriceController.text;
-                      product.s_price = salesPriceController.text;
-                      //product.setStock_min = stock;
-                    print(product.name + ' ' + product.no + ' ' + product.code + ' ' +
-                    product.p_price! + ' ' + product.s_price + ' ' );
-                  }
-                }
-                    )])));
+])));
   }
 }
 
@@ -921,7 +935,6 @@ class ProductSecondDataFieldState extends State<ProductSecondDataField> {
               SizedBox(height: size.height * 0.02),
 
                   Container(
-                            //padding: EdgeInsets.only(top: 8),
                             child: Column(
                               children: [
                                 Form(
@@ -1216,21 +1229,6 @@ class ProductSecondDataFieldState extends State<ProductSecondDataField> {
                                     ),
                                   ),
                                 )])
-                                ),
-              SizedBox(height: size.height * 0.04),
-
-              ButtonWidget(
-                text: 'Envoyer',
-                size: size,
-                onPressed: () async {
-                    isUpdate ? BlocProvider.of<ProductBloc>(context).add(
-                    UpdateAllProductEvent(
-                        product: product,))
-                    : BlocProvider.of<ProductBloc>(context).add(
-                    AddProductEvent(
-                        product: product,));
-                  //}
-                }
-                    )])));
+                                ),])));
   }
 }
