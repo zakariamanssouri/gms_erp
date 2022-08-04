@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gms_erp/blocs/purchased_orders/purchased_orders_bloc.dart';
 import 'package:gms_erp/blocs/stock/stock_bloc.dart';
 import 'package:gms_erp/crm/views/Client/widgets/Header.dart';
-import 'package:gms_erp/crm/views/PurchasedOrders/widgets/purchased_orders_list.dart';
+import 'package:gms_erp/crm/views/PurchasedOrders/widgets/purchased_orders_body_list.dart';
 import 'package:gms_erp/inventory/views/InventoryDetails/widgets/ErrorWithRefreshButtonWidget.dart';
 import 'package:gms_erp/inventory/views/stock/widgets/stock_list.dart';
 import 'package:gms_erp/widgets/SearchField.dart';

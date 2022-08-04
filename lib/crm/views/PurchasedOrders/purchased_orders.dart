@@ -14,7 +14,7 @@ class PurchasedOrdersPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: GlobalParams.backgroundColor,
       appBar: AppBar(
-        title: const Text('Commandes achetées'),
+        title: const Text('Réceptions'),
         elevation: 0,
         backgroundColor: Colors.blue,
       ),

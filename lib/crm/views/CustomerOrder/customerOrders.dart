@@ -101,7 +101,7 @@ class CustomerOrdersBody extends StatelessWidget {
                         : state.search_result?.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ItemCard(
-                          size: size,
+                          size: size * 1.2,
                           onPressed: () {
                             print("lenghth here");
                             CustomerOrderBloc bloc =

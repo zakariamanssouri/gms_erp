@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gms_erp/blocs/purchased_orders/purchased_orders_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/crm/models/PurchaseOrder.dart';
+import 'package:gms_erp/crm/views/PurchasedOrders/widgets/purchased_orders_details.dart';
 import 'package:gms_erp/widgets/ItemCard.dart';
 
 class PurchasedOrdersList extends StatelessWidget {
@@ -15,6 +18,7 @@ class PurchasedOrdersList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BuildContext _context = context;
     return Container(
         height: size.height * 0.78,
         padding: EdgeInsets.only(
@@ -25,15 +29,15 @@ class PurchasedOrdersList extends StatelessWidget {
             itemCount: orders.length,
             itemBuilder: (BuildContext context, int index) {
               return ItemCard(
-                // onPressed: () {
-                //   Navigator.push(context,
-                //       MaterialPageRoute(builder: (context) {
-                //     return BlocProvider.value(
-                //       value: BlocProvider.of<StockBlock>(_context),
-                //       child: StockDetailsPage(product: orders[index]),
-                //     );
-                //   }));
-                // },
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) {
+                    return BlocProvider.value(
+                      value: BlocProvider.of<PurchasedOrderBlock>(_context),
+                      child: PurchasedOrdersDetailsPage(purchaseOrder: orders[index]),
+                    );
+                  }));
+                },
                 size: size * 1.2,
                 var1: orders[index].vendorName1,
                 var2: "F:${orders[index].vendorNo}",

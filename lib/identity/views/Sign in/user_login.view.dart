@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/identity/services/user.service.dart';
 import 'package:gms_erp/identity/views/Sign%20in/settings.view.dart';
 import 'package:gms_erp/service.base.dart';
@@ -25,10 +26,12 @@ class _UserLoginState extends State<UserLogin>
   UserService userService =UserService();
   bool isChecked = false;
   @override
-   void initState() 
-   { 
+   void initState()
+   {
     super.initState();
-    BaseService.GET_DOMAIN();
+      BaseService.GET_DOMAIN().then((value) =>
+       GlobalParams.baseUrl=value
+      );
     loadUserEmailPassword();
    }
 
@@ -52,8 +55,7 @@ class _UserLoginState extends State<UserLogin>
                                   color: Colors.blue,
                                   onPressed: () 
                                   {
-                                    Navigator.push(
-                                          context,
+                                    Navigator.push( context,
                                           MaterialPageRoute(
                                             builder: (context) => const SettingsView(),
                                           ));
@@ -74,10 +76,12 @@ class _UserLoginState extends State<UserLogin>
                                   autovalidateMode: AutovalidateMode.onUserInteraction,
                                   decoration: const InputDecoration(
                                   border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10),),),
-                                  hintText: 'Adresse Email',
-                                  labelText: 'Adresse Email',
+                                  hintText: 'Identifiant/Email',
+                                  labelText: 'Identifiant/Email',
                                   prefixIcon: Icon(Icons.email,color: Color(0xff00A3EE),),),
-                                  validator: MultiValidator([RequiredValidator(errorText: 'Champs Obligatoire'),EmailValidator(errorText: 'Email est invalide')]),
+                                  validator: MultiValidator([RequiredValidator(errorText: 'Champs Obligatoire')
+                                  /*  ,EmailValidator(errorText: 'Email est invalide')*/
+                                  ]),
                                   ),
                                   const SizedBox(height:20),
                                   TextFormField(

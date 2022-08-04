@@ -27,10 +27,10 @@ class BaseService
       
         final prefs = await SharedPreferences.getInstance();
         await GET_DOMAINS().then((domains) => {
+            prefs.setString(GlobalParams.key_domain, value),
             if(!domains.contains(value))
             { 
-                domains.add(value),                
-                prefs.setString(GlobalParams.key_domain, value),
+                domains.add(value),
                SET_DOMAIN(domains),
             }
         });

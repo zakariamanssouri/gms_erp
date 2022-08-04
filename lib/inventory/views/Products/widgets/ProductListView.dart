@@ -38,7 +38,7 @@ class ProductsListView extends StatelessWidget {
                       );
                     }));
                   },
-                  size: size,
+                  size: size * 1.3,
                   var1: products[index].name,
                   var2: products[index].s_price,
                   var3: products[index].code,

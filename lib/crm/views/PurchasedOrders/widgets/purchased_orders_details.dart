@@ -1,137 +1,166 @@
-import 'package:cool_alert/cool_alert.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gms_erp/blocs/Product/product_bloc.dart';
-import 'package:gms_erp/blocs/stock/stock_bloc.dart';
+import 'package:gms_erp/blocs/purchased_orders/purchased_orders_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
-import 'package:gms_erp/inventory/models/stock.dart';
-import 'package:gms_erp/widgets/ButtonWidget.dart';
+import 'package:gms_erp/crm/models/PurchaseOrder.dart';
 
-class StockDetailsPage extends StatefulWidget {
-  Stock product;
-  StockDetailsPage({Key? key, required this.product}) : super(key: key);
+class PurchasedOrdersDetailsPage extends StatefulWidget {
+  PurchaseOrder purchaseOrder;
+  PurchasedOrdersDetailsPage({Key? key, required this.purchaseOrder})
+      : super(key: key);
 
   @override
-  State<StockDetailsPage> createState() => _StockDetailsPageState();
+  State<PurchasedOrdersDetailsPage> createState() =>
+      _PurchasedOrdersDetailsPageState();
 }
 
-class _StockDetailsPageState extends State<StockDetailsPage> {
+class _PurchasedOrdersDetailsPageState
+    extends State<PurchasedOrdersDetailsPage> {
   @override
   void initState() {}
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          title: Text('Produit : ${widget.product.productNo}'),
+          title: Text('Reception : ${widget.purchaseOrder.orderStateId}'),
         ),
-        body: BlocListener<StockBlock, StockState>(
-            listener: (context, state) {
-              if (state.requestState == ProductRequestState.Updating) {
-              } else if (state.requestState == ProductRequestState.Updated) {
-                CoolAlert.show(
-                  context: context,
-                  type: CoolAlertType.success,
-                  text: 'le produit a été mis à jour avec succès',
-                );
-                BlocProvider.of<ProductBloc>(context)
-                    .add(const LoadAllProductsEvent());
-                Navigator.pop(context);
-                // BlocProvider.of<ProductBloc>(context)
-                //     .add(LoadAllProductsEvent());
-                // Navigator.pop(context); // error on updating
-              } else if (state.requestState == ProductRequestState.Error) {
-                CoolAlert.show(
-                  context: context,
-                  type: CoolAlertType.error,
-                  text: 'Erreur lors de la mise à jour du produit',
-                );
-              }
-            },
-            child: ListView(children: <Widget>[
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-                leading: const Text('Numéro',
-                    style: TextStyle(
-                        fontFamily: GlobalParams.MainfontFamily,
-                        fontWeight: FontWeight.w900)),
-                title: Text(
-                  widget.product.productNo!,
-                  style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w300),
-                ),
-              )),
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-                leading: const Text('Noms',
-                    style: TextStyle(
-                        fontFamily: GlobalParams.MainfontFamily,
-                        fontWeight: FontWeight.w900)),
-                title: Text(widget.product.productName1!,
-                    style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w300,
-                    )),
-              )),
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-                leading: const Text('Code Bar',
-                    style: TextStyle(
-                        fontFamily: GlobalParams.MainfontFamily,
-                        fontWeight: FontWeight.w900)),
-                title: Text(widget.product.eanCode!,
-                    style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w300,
-                    )),
-              )),
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-                leading: const Text('Prix',
-                    style: TextStyle(
-                        fontFamily: GlobalParams.MainfontFamily,
-                        fontWeight: FontWeight.w900)),
-                title: Text(widget.product.purchasePrice ?? "",
-                    style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w300,
-                    )),
-              )),
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-                leading: const Text('Location',
-                    style: TextStyle(
-                        fontFamily: GlobalParams.MainfontFamily,
-                        fontWeight: FontWeight.w900)),
-                title: Text("${widget.product.locationName}",
-                    style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w300,
-                    )),
-              )),
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-                leading: const Text('Ground',
-                    style: TextStyle(
-                        fontFamily: GlobalParams.MainfontFamily,
-                        fontWeight: FontWeight.w900)),
-                title: Text(widget.product.groundName ?? "",
-                    style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w300,
-                    )),
-              )),
-            ])));
+        body: ListView(children: <Widget>[
+          Card(
+              child: ListTile(
+            minLeadingWidth: 70,
+            leading: const Text('Numero du fournisseur',
+                style: TextStyle(
+                    fontFamily: GlobalParams.MainfontFamily,
+                    fontWeight: FontWeight.w800)),
+            title: Text(
+              widget.purchaseOrder.vendorNo,
+              style: const TextStyle(
+                  fontFamily: GlobalParams.MainfontFamily,
+                  fontWeight: FontWeight.w300),
+            ),
+          )),
+          Card(
+              child: ListTile(
+            minLeadingWidth: 70,
+            leading: const Text('Numéro du réception',
+                style: TextStyle(
+                    fontFamily: GlobalParams.MainfontFamily,
+                    fontWeight: FontWeight.w800)),
+            title: Text(widget.purchaseOrder.receiptNo,
+                style: const TextStyle(
+                  fontFamily: GlobalParams.MainfontFamily,
+                  fontWeight: FontWeight.w300,
+                )),
+          )),
+          Card(
+              child: ListTile(
+            minLeadingWidth: 70,
+            leading: const Text('Numéro du projet ',
+                style: TextStyle(
+                    fontFamily: GlobalParams.MainfontFamily,
+                    fontWeight: FontWeight.w800)),
+            title: Text(widget.purchaseOrder.projectNo ?? "",
+                style: const TextStyle(
+                  fontFamily: GlobalParams.MainfontFamily,
+                  fontWeight: FontWeight.w300,
+                )),
+          )),
+          Card(
+              child: ListTile(
+            minLeadingWidth: 70,
+            leading: const Text('Nom du fournisseur',
+                style: TextStyle(
+                    fontFamily: GlobalParams.MainfontFamily,
+                    fontWeight: FontWeight.w800)),
+            title: Text(widget.purchaseOrder.vendorName1,
+                style: const TextStyle(
+                  fontFamily: GlobalParams.MainfontFamily,
+                  fontWeight: FontWeight.w300,
+                )),
+          )),
+          Card(
+              child: ListTile(
+            minLeadingWidth: 70,
+            leading: const Text('Pays',
+                style: TextStyle(
+                    fontFamily: GlobalParams.MainfontFamily,
+                    fontWeight: FontWeight.w800)),
+            title: Text("${widget.purchaseOrder.countryName}",
+                style: const TextStyle(
+                  fontFamily: GlobalParams.MainfontFamily,
+                  fontWeight: FontWeight.w300,
+                )),
+          )),
+          Card(
+              child: ListTile(
+            minLeadingWidth: 70,
+            leading: const Text('Devise',
+                style: TextStyle(
+                    fontFamily: GlobalParams.MainfontFamily,
+                    fontWeight: FontWeight.w800)),
+            title: Text(widget.purchaseOrder.currencyName,
+                style: const TextStyle(
+                  fontFamily: GlobalParams.MainfontFamily,
+                  fontWeight: FontWeight.w300,
+                )),
+          )),
+          Card(
+              child: ListTile(
+            minLeadingWidth: 70,
+            leading: const Text('Status du Payement',
+                style: TextStyle(
+                    fontFamily: GlobalParams.MainfontFamily,
+                    fontWeight: FontWeight.w800)),
+            title: Text(widget.purchaseOrder.orderStateName,
+                style: const TextStyle(
+                  fontFamily: GlobalParams.MainfontFamily,
+                  fontWeight: FontWeight.w300,
+                )),
+          )),
+          Card(
+              child: ListTile(
+            minLeadingWidth: 70,
+            leading: const Text('Status',
+                style: TextStyle(
+                    fontFamily: GlobalParams.MainfontFamily,
+                    fontWeight: FontWeight.w800)),
+            title: Text(widget.purchaseOrder.orderStateName,
+                style: const TextStyle(
+                  fontFamily: GlobalParams.MainfontFamily,
+                  fontWeight: FontWeight.w300,
+                )),
+          )),
+          Card(
+              child: ListTile(
+            minLeadingWidth: 70,
+            leading: const Text('Date de livraison',
+                style: TextStyle(
+                    fontFamily: GlobalParams.MainfontFamily,
+                    fontWeight: FontWeight.w800)),
+            title: Text(
+                widget.purchaseOrder.deliveryDate.toString().substring(0, 10),
+                style: const TextStyle(
+                  fontFamily: GlobalParams.MainfontFamily,
+                  fontWeight: FontWeight.w300,
+                )),
+          )),
+          Card(
+              child: ListTile(
+            minLeadingWidth: 70,
+            leading: const Text('Date du réception',
+                style: TextStyle(
+                    fontFamily: GlobalParams.MainfontFamily,
+                    fontWeight: FontWeight.w800)),
+            title: Text(
+                widget.purchaseOrder.receiptDate.toString().substring(0, 10),
+                style: const TextStyle(
+                  fontFamily: GlobalParams.MainfontFamily,
+                  fontWeight: FontWeight.w300,
+                )),
+          )),
+        ]));
   }
 }
