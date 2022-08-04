@@ -30,10 +30,6 @@ class DrawerWidget extends StatelessWidget {
           return ListTile(
             title: Text(item["title"]),
             leading: item["icon"],
-            trailing: Icon(
-              Icons.arrow_right,
-              color: Colors.blue,
-            ),
             onTap: () {
               Navigator.pushNamed(context, item["route"]);
             },

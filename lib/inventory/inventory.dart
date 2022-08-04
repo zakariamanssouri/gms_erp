@@ -11,9 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:gms_erp/widgets/homebutton.dart';
 
 class InventoryHomePage extends StatelessWidget {
-  const InventoryHomePage({
+  InventoryHomePage({
     Key? key,
   }) : super(key: key);
+  final GlobalKey<ScaffoldState>? _key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +34,31 @@ class InventoryHomePage extends StatelessWidget {
         title: 'GMS inventory',
         debugShowCheckedModeBanner: false,
         home: Scaffold(
+          key: _key,
           drawer: DrawerWidget(),
           appBar: AppBar(
-            title: const Text('GMS inventory'),
+            automaticallyImplyLeading: false,
+            title: Row(
+              children: [
+                IconButton(
+                    icon: Icon(Icons.menu),
+                    onPressed: () {
+                      _key?.currentState!.openDrawer();
+                    }),
+                IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                    child: Text(
+                  'GMS Inventaires',
+                )),
+              ],
+            ),
           ),
           body: GridView.count(
             padding: const EdgeInsets.all(60),

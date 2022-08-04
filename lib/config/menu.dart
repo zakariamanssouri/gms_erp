@@ -68,20 +68,20 @@ class ButtonOption {
         iconData: Icons.account_balance_wallet),
     const ButtonOption(
         route: "/PurchasedOrders",
-        text: 'Purchased Orders',
-        iconData: Icons.account_balance_wallet),
+        text: 'Réceptions',
+        iconData: Icons.shopping_cart),
   ];
 
   static List<ButtonOption> InventoryOptions = const <ButtonOption>[
     const ButtonOption(
         route: "/products",
         text: 'Produits',
-        iconData: Icons.shopping_cart_checkout_sharp),
+        iconData: Icons.grid_view_rounded),
     const ButtonOption(
         route: "/stock",
         text: 'Stock',
-        iconData: Icons.production_quantity_limits),
+        iconData: Icons.warehouse_rounded),
     const ButtonOption(
-        route: "/inventories", text: 'Inventaires', iconData: Icons.dashboard),
+        route: "/inventories", text: 'Inventaires', iconData: Icons.inventory),
   ];
 }

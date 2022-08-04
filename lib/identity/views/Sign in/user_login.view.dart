@@ -29,9 +29,7 @@ class _UserLoginState extends State<UserLogin>
    void initState()
    {
     super.initState();
-      BaseService.GET_DOMAIN().then((value) =>
-       GlobalParams.baseUrl=value
-      );
+
     loadUserEmailPassword();
    }
 
@@ -39,6 +37,10 @@ class _UserLoginState extends State<UserLogin>
   @override
   Widget build(BuildContext context) 
   {
+      BaseService.GET_DOMAIN().then((value) =>
+          GlobalParams.baseUrl=value
+       );
+
     return Scaffold(
             backgroundColor: Colors.white,
             body: Padding(
@@ -125,7 +127,6 @@ class _UserLoginState extends State<UserLogin>
                                       //  await userService.Login(U).then((value) => _saveToken(value));
                                          SharedPreferences.getInstance().then(
                                           (prefs) {
-
                                               if(isChecked) 
                                               {
                                                   prefs.setBool("remember_me", isChecked);
@@ -139,7 +140,8 @@ class _UserLoginState extends State<UserLogin>
                                                   prefs.setString('password', ''); 
                                               }
                                           },);
-                                       Navigator.push(context,MaterialPageRoute(builder: (context) => const HomePage(),));
+                                          // fix bug when user press back button after login
+                                       Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => const HomePage()),ModalRoute.withName('/home'));
                                       //  var token = await BaseService.READTOKEN();
                                       //  print('token $token');
                                     }
@@ -165,6 +167,8 @@ class _UserLoginState extends State<UserLogin>
                                       },
                                       ),
                                   ]), */
+
+                                  //Text("Domain: ${GlobalParams.baseUrl}")
                               ],
                         ),
                     ),
