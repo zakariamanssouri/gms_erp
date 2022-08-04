@@ -11,7 +11,9 @@ import 'package:gms_erp/crm/widgets/side_drawer.dart';
 import 'package:gms_erp/homepage.dart';
 
 class CRMPage extends StatelessWidget {
-  const CRMPage({Key? key}) : super(key: key);
+   CRMPage({Key? key}) : super(key: key);
+
+  final GlobalKey<ScaffoldState>? _key = GlobalKey();
 
   // This widget is the root of your application.
   @override
@@ -31,7 +33,31 @@ class CRMPage extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: Scaffold(
-          appBar: new AppBar(title: Text("GM-CRM")),
+          key: _key,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: Row(
+              children: [
+                IconButton(
+                    icon: Icon(Icons.menu),
+                    onPressed: () {
+                      _key?.currentState!.openDrawer();
+                    }),
+                IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                    child: Text(
+                  'GM-CRM',
+                )),
+              ],
+            ),
+          ),
           body: ListItemView(),
           drawer: SideDrawer(),
         ));
