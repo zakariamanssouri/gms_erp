@@ -17,10 +17,10 @@ class HomePage extends StatelessWidget
     return MaterialApp(
      
         routes: {
-          '/inventory': (context) => const InventoryHomePage(),
+          '/inventory': (context) =>  InventoryHomePage(),
           '/inventory_details': (context) => InventoyDetailsPage(),
-          '/crm': (context) => const CRMPage(),
-          '/identity': (context) => const IdentityPage(),
+          '/crm': (context) =>  CRMPage(),
+          '/identity': (context) =>  IdentityPage(),
           '/home': (context) => const HomePage(),
          
         },
@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget
           home: Builder(
           builder: (context) =>Scaffold(
           appBar: AppBar(
-            title: const Text('GMS ERP'),
+            title: const Text('Accueil'),
           ),
           drawer: Drawer(
             child: ListView(
@@ -37,10 +37,6 @@ class HomePage extends StatelessWidget
               children: <Widget>[
                 DrawerHeader(
                   decoration: const BoxDecoration(
-                    image: DecorationImage(
-                  image: AssetImage('images/logo.png'),
-                  
-                 ),
                      borderRadius:  BorderRadius.only(
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30),
@@ -66,7 +62,7 @@ class HomePage extends StatelessWidget
                    Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const CRMPage(),
+                                builder: (context) =>  CRMPage(),
                               ));
                   },
                 ),
@@ -80,7 +76,7 @@ class HomePage extends StatelessWidget
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const InventoryHomePage(),
+                          builder: (context) => InventoryHomePage(),
                         )); //ddUserView
                   },
                 ),
@@ -116,7 +112,7 @@ class HomePage extends StatelessWidget
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const IdentityPage(),
+                          builder: (context) =>  IdentityPage(),
                         ));
                   },
                 ),
