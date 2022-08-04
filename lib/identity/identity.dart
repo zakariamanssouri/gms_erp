@@ -11,43 +11,70 @@ import 'views/Sign in/user.signup.view.dart';
 import 'package:gms_erp/inventory/inventory.dart';
 import 'package:gms_erp/inventory/views/InventoryDetails/Inventory_details_page.dart';
 
+class IdentityPage extends StatelessWidget {
+  IdentityPage({super.key});
+  final GlobalKey<ScaffoldState>? _key = GlobalKey();
 
-class IdentityPage extends StatelessWidget 
-{
-  const IdentityPage({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-     '/identityUsersList': (context) => const UserView(),
-     '/identityAddUsers': (context) => const AddUserView(),
-     '/identityAdminAddUsers': (context) => const AddUserAdminView(),
-     },
+        "/home": (context) => HomePage(),
+        '/identityUsersList': (context) => const UserView(),
+        '/identityAddUsers': (context) => const AddUserView(),
+        '/identityAdminAddUsers': (context) => const AddUserAdminView(),
+      },
       debugShowCheckedModeBanner: true,
       home: Builder(
           builder: (context) => Scaffold(
-             appBar: AppBar(
-                  title: const Text('Identité'),
+                key: _key,
+                appBar: AppBar(
+                  automaticallyImplyLeading: false,
+                  title: Row(
+                    children: [
+                      IconButton(
+                          icon: Icon(Icons.menu),
+                          onPressed: () {
+                            _key?.currentState!.openDrawer();
+                          }),
+                      IconButton(
+                          icon: Icon(Icons.arrow_back),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/home');
+                          }),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                          child: Text(
+                        'Identité',
+                      )),
+                    ],
+                  ),
                 ),
+
                 drawer: Drawer(
                   child: ListView(
                     padding: EdgeInsets.zero,
                     children: <Widget>[
                       DrawerHeader(
                         decoration: BoxDecoration(
-                          image: DecorationImage(image: AssetImage('assets/images/logo.png'),),
-                          borderRadius:  BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30),),),
-                      child: CircleAvatar(
-                      radius: 5.0,
-                       child: ClipRRect(
-                         child: Image.asset('images/logo.png'),
-                         borderRadius: BorderRadius.circular(10.0),
-                       ),
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                            bottomRight: Radius.circular(30),
+                          ),
+                        ),
+                        child: CircleAvatar(
+                          radius: 5.0,
+                          child: ClipRRect(
+                            child: Image.asset('assets/images/logo.png'),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
                       ),
+                      SizedBox(
+                        height: 10,
                       ),
-                      SizedBox(height:10,),
                       ListTile(
                         title: const Text('Accueil'),
                         leading: const Icon(
@@ -55,7 +82,7 @@ class IdentityPage extends StatelessWidget
                           color: Colors.blue,
                         ),
                         onTap: () {
-                         Navigator.push(
+                          Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => HomePage(),
@@ -69,7 +96,7 @@ class IdentityPage extends StatelessWidget
                           color: Colors.blue,
                         ),
                         onTap: () {
-                         Navigator.push(
+                          Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => AddUserAdminView(),
@@ -118,7 +145,9 @@ class IdentityPage extends StatelessWidget
                           //     ));
                         },
                       ),
-                      SizedBox(height: 150,),
+                      SizedBox(
+                        height: 150,
+                      ),
                       ListTile(
                         title: const Text("Se Déconnecter"),
                         leading: const Icon(
@@ -136,7 +165,7 @@ class IdentityPage extends StatelessWidget
                     ],
                   ),
                 ),
-                 backgroundColor: Colors.white,
+                backgroundColor: Colors.white,
                 // ignore: dead_code
                 body: GridView.count(
                   padding: const EdgeInsets.all(60),
