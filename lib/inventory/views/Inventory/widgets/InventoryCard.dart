@@ -21,21 +21,19 @@ class InventoryCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return InventoyDetailsPage(
-            inventory: inventory
-          );
+          return InventoyDetailsPage(inventory: inventory);
         }));
       },
       child: Container(
         width: double.infinity,
-        height: size.height * 0.22,
+        height: size.height * 0.18,
         margin: EdgeInsets.all(GlobalParams.MainPadding),
         padding: EdgeInsets.only(right: GlobalParams.MainPadding),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
-              BoxShadow(
+              const BoxShadow(
                   color: Color.fromARGB(246, 190, 185, 185),
                   blurRadius: 25,
                   spreadRadius: 5,
@@ -44,9 +42,10 @@ class InventoryCard extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              color: inventory.inventoryStatusName.startsWith("Fe")
-                  ? Colors.red
-                  : Colors.green,
+              color:
+                  inventory.inventoryStatusName.toLowerCase().startsWith("fe")
+                      ? Colors.red
+                      : Colors.green,
               width: 4,
               height: double.infinity,
             ),
@@ -101,14 +100,15 @@ class InventoryCard extends StatelessWidget {
                       width: 80,
                       height: 25,
                       decoration: BoxDecoration(
-                          color:
-                              inventory.inventoryStatusName.startsWith("Fe")
-                                  ? Colors.red
-                                  : Colors.green,
+                          color: inventory.inventoryStatusName
+                                  .toLowerCase()
+                                  .startsWith("fe")
+                              ? Colors.red
+                              : Colors.green,
                           borderRadius: BorderRadius.circular(30)),
                       child: Center(
                           child: Text(
-                        "${inventory.inventoryStatusName.startsWith("Fe") ? "Fermé" : "Ouvert"}",
+                        "${inventory.inventoryStatusName.toLowerCase().startsWith("fe") ? "Fermé" : "Ouvert"}",
                         style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'Open Sans',
