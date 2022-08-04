@@ -72,24 +72,18 @@ class AddingWidget extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Column(
-            // padding: EdgeInsets.only(
-            //     bottom: GlobalParams.MainPadding,
-            //     right: GlobalParams.MainPadding,
-            //     left: GlobalParams.MainPadding),
-            // width: double.infinity,
             children: [
                   ExpansionTile(
-              //crossAxisAlignment: CrossAxisAlignment.stretch,
-              title: Text('Général'),
-              initiallyExpanded: true,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(6.0),
-                  child: Container(
-                    child: 
-                    BlocBuilder<ProductBloc, ProductState>(
-                    builder: (context, state) {
-                      print("request state:${state.requestState}");
+                  title: Text('Général'),
+                  initiallyExpanded: true,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Container(
+                        child: 
+                        BlocBuilder<ProductBloc, ProductState>(
+                        builder: (context, state) {
+                          print("request state:${state.requestState}");
                       
 
                       
