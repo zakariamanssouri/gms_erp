@@ -49,6 +49,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
                   .contains(event.search_value.toLowerCase()) ||
               event.product_list[i].code
                   .toLowerCase()
+                  .contains(event.search_value.toLowerCase()) ||
+              event.product_list[i].no
+                  .toLowerCase()
                   .contains(event.search_value.toLowerCase())) {
             search_result.add(event.product_list[i]);
           }

@@ -71,18 +71,9 @@ class AddingWidget extends StatelessWidget {
           ),
         ),
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-                  ExpansionTile(
-                  title: Text('Général'),
-                  initiallyExpanded: true,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(7.0),
-                      child: Container(
-                        child: 
-                        BlocBuilder<ProductBloc, ProductState>(
-                        builder: (context, state) {
+          
+          child: BlocBuilder<ProductBloc, ProductState>(
+                  builder: (context, state) {
                           print("request state:${state.requestState}");
                       
 
@@ -105,20 +96,37 @@ class AddingWidget extends StatelessWidget {
                   BlocProvider.of<ProductBloc>(context).add(
                       LoadAllProductsEvent());
                       
-                                Navigator.pop(context);
+                                Navigator.pushReplacement(_context,
+                                            MaterialPageRoute(builder: (context) {
+                                          return BlocProvider.value(
+                                            value: BlocProvider.of<ProductBloc>(
+                                                _context),
+                                child: Products());}));
                     }
                     else if (state.requestState == ProductRequestState.Updated) {
                   print('Update successful');
                   BlocProvider.of<ProductBloc>(context).add(
                       LoadAllProductsEvent());
                       
-                                Navigator.pop(context);
+                                Navigator.pushReplacement(_context,
+                                            MaterialPageRoute(builder: (context) {
+                                          return BlocProvider.value(
+                                            value: BlocProvider.of<ProductBloc>(
+                                                _context),
+                                child: Products());}));
                     }
-                      return ProductDataField(product: product, isUpdate: update!);
-                     }
-            ),
-          ),
-                )]),
+          return Column(
+            children: [
+                  ExpansionTile(
+                  title: Text('Général'),
+                  initiallyExpanded: true,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(7.0),
+                      child: Container(
+                        child: 
+                        ProductDataField(product: product, isUpdate: update!))
+            ),]),
           ExpansionTile(
               //crossAxisAlignment: CrossAxisAlignment.stretch,
               title: Text('Autres'),
@@ -185,6 +193,12 @@ class AddingWidget extends StatelessWidget {
                 text: 'Envoyer',
                 size: size,
                 onPressed: () async {
+
+                  product.name = ProductDataFieldState.nameController.text;
+                  product.no = ProductDataFieldState.numController.text;
+                  product.code = ProductDataFieldState.codeController.text;
+                  product.s_price = ProductDataFieldState.salesPriceController.text;
+                  product.p_price = ProductDataFieldState.purPriceController.text;
                   
                     update! ? BlocProvider.of<ProductBloc>(context).add(
                     UpdateAllProductEvent(
@@ -193,7 +207,7 @@ class AddingWidget extends StatelessWidget {
                     AddProductEvent(
                         product: product,));
                 }
-                    )])
+                    )]);})
           ),
         );
   }
@@ -214,12 +228,12 @@ class ProductDataField extends StatefulWidget {
 class ProductDataFieldState extends State<ProductDataField> {
   Product product;
   bool isUpdate;
-  TextEditingController numController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController codeController = TextEditingController();
-  TextEditingController purPriceController = TextEditingController();
-  TextEditingController salesPriceController = TextEditingController();
-  TextEditingController stockController = TextEditingController();
+  static TextEditingController numController = TextEditingController();
+  static TextEditingController nameController = TextEditingController();
+  static TextEditingController codeController = TextEditingController();
+  static TextEditingController purPriceController = TextEditingController();
+  static TextEditingController salesPriceController = TextEditingController();
+  static TextEditingController stockController = TextEditingController();
   
   String? num, name, code, purPrice, salesPrice, stock;
   
@@ -350,14 +364,7 @@ class ProductDataFieldState extends State<ProductDataField> {
                   labeltext: 'Numero',
                   valuetext: product.no,
                   keyboardType: TextInputType.numberWithOptions(
-                      signed: false, decimal: true),
-                      onChangedFun: () {
-                          if (_formKey.currentState!.validate()) {
-                            setState(() {
-                              product.no = numController.text;
-                            });
-                          }
-                      },),
+                      signed: false, decimal: true),),
 
               SizedBox(height: size.height * 0.02),
               TextFieldWidget(
@@ -368,14 +375,7 @@ class ProductDataFieldState extends State<ProductDataField> {
                   },
                   obj: product,
                   labeltext: 'Nom',
-                  valuetext: product.name,
-                      onChangedFun: () {
-                          if (_formKey.currentState!.validate()) {
-                            setState(() {
-                              product.name = nameController.text;
-                            });
-                          }
-                      }),
+                  valuetext: product.name,),
               SizedBox(height: size.height * 0.02),
 
               
@@ -393,16 +393,7 @@ class ProductDataFieldState extends State<ProductDataField> {
                                 "blue", "cancel", true, ScanMode.BARCODE);
                         setState(() {
                           codeController.text = barcodeScanRes;
-                        });},
-                        onChangedFun: () {
-                            print(codeController.text + '-----');
-                          if (_formKey.currentState!.validate()) {
-                            print(codeController.text);
-                            setState(() {
-                              product.code = codeController.text;
-                            });
-                          }
-                      },),
+                        });},),
               SizedBox(height: size.height * 0.02),
 
               TextFieldWidget(
@@ -414,13 +405,6 @@ class ProductDataFieldState extends State<ProductDataField> {
                   },
                   obj: product, valuetext: product.p_price!, labeltext: 'Prix d\'achat',
                   
-                    onChangedFun: () {
-                          if (_formKey.currentState!.validate()) {
-                            setState(() {
-                              product.p_price = purPriceController.text;
-                            });
-                          }
-                      }
                     ),
               SizedBox(height: size.height * 0.02),
 
@@ -432,14 +416,7 @@ class ProductDataFieldState extends State<ProductDataField> {
                     return validateField(value!);
                   },
                   obj: product, valuetext: product.s_price, labeltext: 'Prix de vente',
-                  
-                  onChangedFun: () {
-                          if (_formKey.currentState!.validate()) {
-                            setState(() {
-                              product.s_price = salesPriceController.text;
-                            });
-                          }
-                      }),
+                  ),
               SizedBox(height: size.height * 0.02),
 
               // TextFieldWidget(
