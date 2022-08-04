@@ -116,7 +116,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         print("update product event");
         await ProductService.updateAllProduct(event.product).then((value) => {
               print("value : $value"),
-              if (value == true)
+              if (value)
                 {
                   emit(ProductState(
                       products: state.products,

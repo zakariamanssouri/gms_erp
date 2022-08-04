@@ -37,9 +37,11 @@ class AddingWidget extends StatelessWidget {
   }) : super(key: key);
 
   final Product product;
+  bool isExpanded = false, isExpanded2 = false;
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     BuildContext _context = context;
     if(product.id == '')
       update = false;
@@ -78,7 +80,8 @@ class AddingWidget extends StatelessWidget {
             children: [
                   ExpansionTile(
               //crossAxisAlignment: CrossAxisAlignment.stretch,
-              title: Text('Informations'),
+              title: Text('Général'),
+              initiallyExpanded: true,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(6.0),
@@ -124,7 +127,7 @@ class AddingWidget extends StatelessWidget {
                 )]),
           ExpansionTile(
               //crossAxisAlignment: CrossAxisAlignment.stretch,
-              title: Text('Details'),
+              title: Text('Autres'),
               children: [
                 Padding(
                   padding: const EdgeInsets.all(6.0),
@@ -177,9 +180,75 @@ class AddingWidget extends StatelessWidget {
                      } // Error
             ),
           ),
-                )
+                ),
           ],
-          )])
+      onExpansionChanged: (bool expanding) => (() => this.isExpanded = expanding),
+          ),
+          
+                Container(
+                    child: 
+                    BlocListener<ProductBloc, ProductState>(
+                    listener: (context, state) {
+                      print("request state:${state.requestState}");
+                      
+              
+              // data is loading
+              if (state.requestState == ProductRequestState.Adding ||
+                    state.requestState == ProductRequestState.Loading ||
+                    state.requestState == ProductRequestState.Updating)
+                  Container(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+
+              // data is loading
+              // data is loaded
+              else if (state.requestState == ProductRequestState.Added) {
+                  print('Add successful');
+                  BlocProvider.of<ProductBloc>(context).add(
+                      LoadAllProductsEvent());
+                      
+                                Navigator.pushReplacement(_context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return BlocProvider.value(
+                                    value: BlocProvider.of<ProductBloc>(
+                                        _context),
+                                        child: Products(
+                                    ),);}));
+                    }
+                    else if (state.requestState == ProductRequestState.Updated) {
+                          print('Update successful');
+                          BlocProvider.of<ProductBloc>(context).add(
+                              LoadAllProductsEvent());
+                      
+                                Navigator.pushReplacement(_context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return BlocProvider.value(
+                                    value: BlocProvider.of<ProductBloc>(
+                                        _context),
+                                        child: Products(
+                                    ),);}));
+                    }
+                     } // Error
+            ),
+          ),
+          
+              SizedBox(height: size.height * 0.04),
+
+              ButtonWidget(
+                text: 'Envoyer',
+                size: size,
+                onPressed: () async {
+                  
+                    update! ? BlocProvider.of<ProductBloc>(context).add(
+                    UpdateAllProductEvent(
+                        product: product,))
+                    : BlocProvider.of<ProductBloc>(context).add(
+                    AddProductEvent(
+                        product: product,));
+                }
+                    )])
           ),
         );
   }
@@ -336,7 +405,19 @@ class ProductDataFieldState extends State<ProductDataField> {
                   labeltext: 'Numero',
                   valuetext: product.no,
                   keyboardType: TextInputType.numberWithOptions(
-                      signed: false, decimal: true),),
+                      signed: false, decimal: true),
+                      on_changed_function: () {
+                        if (_formKey.currentState!.validate()) {
+                          product.name = nameController.text;
+                          product.no = numController.text;
+                          product.code = codeController.text;
+                          product.p_price = purPriceController.text;
+                          product.s_price = salesPriceController.text;
+                          //product.setStock_min = stock;
+                        print(product.name + ' ' + product.no + ' ' + product.code + ' ' +
+                        product.p_price! + ' ' + product.s_price + ' ' );
+                  }
+                      },),
 
               SizedBox(height: size.height * 0.02),
               TextFieldWidget(
@@ -398,23 +479,7 @@ class ProductDataFieldState extends State<ProductDataField> {
               //     },
               //     obj: product, valuetext: product.stock_min, labeltext: 'Stock Min',),
               SizedBox(height: size.height * 0.04),
-
-              ButtonWidget(
-                text: 'Valider',
-                size: size,
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                      product.name = nameController.text;
-                      product.no = numController.text;
-                      product.code = codeController.text;
-                      product.p_price = purPriceController.text;
-                      product.s_price = salesPriceController.text;
-                      //product.setStock_min = stock;
-                    print(product.name + ' ' + product.no + ' ' + product.code + ' ' +
-                    product.p_price! + ' ' + product.s_price + ' ' );
-                  }
-                }
-                    )])));
+])));
   }
 }
 
@@ -1216,21 +1281,6 @@ class ProductSecondDataFieldState extends State<ProductSecondDataField> {
                                     ),
                                   ),
                                 )])
-                                ),
-              SizedBox(height: size.height * 0.04),
-
-              ButtonWidget(
-                text: 'Envoyer',
-                size: size,
-                onPressed: () async {
-                    isUpdate ? BlocProvider.of<ProductBloc>(context).add(
-                    UpdateAllProductEvent(
-                        product: product,))
-                    : BlocProvider.of<ProductBloc>(context).add(
-                    AddProductEvent(
-                        product: product,));
-                  //}
-                }
-                    )])));
+                                ),])));
   }
 }
