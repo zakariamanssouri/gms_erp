@@ -10,9 +10,8 @@ class BaseService
     {
         final prefs = await SharedPreferences.getInstance();
         final value = prefs.getString(GlobalParams.key_domain) ?? "";
-        GlobalParams.baseUrl = value;
 
-        return GlobalParams.baseUrl;
+        return value;
     }
     
     static Future<List<String>> GET_DOMAINS() async

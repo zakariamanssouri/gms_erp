@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget
           home: Builder(
           builder: (context) =>Scaffold(
           appBar: AppBar(
-            title: const Text('GMS ERP'),
+            title: const Text('GMS ERP - Accueil'),
           ),
           drawer: Drawer(
             child: ListView(

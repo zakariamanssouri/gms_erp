@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:gms_erp/config/global_params.dart';
 import '../../../service.base.dart';
 
 class SettingsView extends StatefulWidget
@@ -21,9 +22,8 @@ class _SettingsView extends State<SettingsView>
    void initState()  {
     loadDomains();
     super.initState();
-     BaseService.GET_DOMAINS().then((value) => {
-      if(value.isNotEmpty)
-       domainNameController.text = value.last,
+     BaseService.GET_DOMAIN().then((value) => {
+       domainNameController.text = value,
      });
   }
 
@@ -84,6 +84,9 @@ class _SettingsView extends State<SettingsView>
                                   if (formKey.currentState!.validate())
                                   {
                                     BaseService.ADD_DOMAIN(domainNameController.text).then((value) => items=value);
+                                    BaseService.GET_DOMAIN().then((value) =>
+                                      GlobalParams.baseUrl=value
+                                    );
                                   }
                                },
                                   style: ElevatedButton.styleFrom(
