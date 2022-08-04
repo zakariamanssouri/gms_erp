@@ -19,7 +19,7 @@ class _SettingsView extends State<SettingsView>
  
   @override
    void initState()  {
-    BaseService.GET_DOMAINS().then((value) => items=value);
+    loadDomains();
     super.initState();
      BaseService.GET_DOMAINS().then((value) => {
       if(value.isNotEmpty)
@@ -27,6 +27,9 @@ class _SettingsView extends State<SettingsView>
      });
   }
 
+  loadDomains(){
+    BaseService.GET_DOMAINS().then((value) => items=value);
+  }
 
 
   @override
@@ -80,7 +83,7 @@ class _SettingsView extends State<SettingsView>
                                 onPressed: () async {
                                   if (formKey.currentState!.validate())
                                   {
-                                    BaseService.ADD_DOMAIN(domainNameController.text);
+                                    BaseService.ADD_DOMAIN(domainNameController.text).then((value) => items=value);
                                   }
                                },
                                   style: ElevatedButton.styleFrom(
