@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/crm/views/Product/addProductNextPage.dart';
@@ -304,7 +305,15 @@ class ProductDataFieldState extends State<ProductDataField> {
                   validator: (value) {
                     return validateField(value!);
                   },
-                  obj: product, valuetext: product.code, labeltext: 'Code Bar',),
+                  obj: product, valuetext: product.code, labeltext: 'Code Bar',
+                  on_changed_function: () async {
+                        String barcodeScanRes =
+                            await FlutterBarcodeScanner.scanBarcode(
+                                "blue", "cancel", true, ScanMode.BARCODE);
+                        setState(() {
+                          codeController.text = barcodeScanRes;
+                        });
+                      },),
               SizedBox(height: size.height * 0.02),
 
               TextFieldWidget(

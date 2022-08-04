@@ -29,13 +29,14 @@ class CustomerDeliveryBloc extends Bloc<CustomerDeliveryEvent, CustomerDeliveryS
             search_result: []));
 
         List<CustomerDelivery> search_result = [];
+        var lower_search_value = event.search_value;
         for (var i = 0; i < event.customer_delivery_list.length; i++) {
           if (event.customer_delivery_list[i].customerNo!
-                  .toLowerCase()
-                  .contains(event.search_value.toLowerCase()) ||
-              event.customer_delivery_list[i].deliveryNo!
-                  .toLowerCase()
-                  .contains(event.search_value.toLowerCase())) {
+                  .startsWith(lower_search_value) ||
+              (event.customer_delivery_list[i].invoiceNo ?? '')
+                  .startsWith(lower_search_value) ||
+                  event.customer_delivery_list[i].orderNo!
+                  .startsWith(lower_search_value)) {
             search_result.add(event.customer_delivery_list[i]);
           }
         }
