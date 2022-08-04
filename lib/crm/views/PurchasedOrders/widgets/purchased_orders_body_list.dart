@@ -5,6 +5,7 @@ import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/crm/models/PurchaseOrder.dart';
 import 'package:gms_erp/crm/views/PurchasedOrders/widgets/purchased_orders_details.dart';
 import 'package:gms_erp/widgets/ItemCard.dart';
+import 'package:gms_erp/widgets/ItemCardComplexe.dart';
 
 class PurchasedOrdersList extends StatelessWidget {
   List<PurchaseOrder> orders;
@@ -28,7 +29,7 @@ class PurchasedOrdersList extends StatelessWidget {
         child: ListView.builder(
             itemCount: orders.length,
             itemBuilder: (BuildContext context, int index) {
-              return ItemCard(
+              return ItemCardComplexe(
                 onPressed: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) {
