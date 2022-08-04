@@ -89,53 +89,104 @@ class PageOneState extends State<PageOne> {
               Card(
                   child: ListTile(
                 minLeadingWidth: 70,
-                leading: const Icon(Icons.account_box_outlined,
+                leading: const Icon(Icons.numbers,
                 color: Colors.black),
-                title: Text(vendor.getId,
+                title: Text(vendor.getvendorNo,
                   style: const TextStyle(
                       fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w300),
+                      fontWeight: FontWeight.w200),
                 ),
               )),
               Card(
                   child: ListTile(
                 minLeadingWidth: 70,
-                leading: const Icon(Icons.phone_android_outlined,
-                color: Colors.black),
-                title: Text(vendor.getcountryName,
-                    style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w300,
-                    )),
-              )),
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-                leading: const Text('Numéro',
-                    style: TextStyle(
-                        fontFamily: GlobalParams.MainfontFamily,
-                        fontWeight: FontWeight.w900)),
-                    title: Text(vendor.getvendorName1,
-                    style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w300,
-                    )),
-              )),
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-                leading: const Text('Group',
-                    style: TextStyle(
-                        fontFamily: GlobalParams.MainfontFamily,
-                        fontWeight: FontWeight.w900)),
+                leading: const Icon(Icons.text_rotation_none,color: Colors.black),
                 title: Text(vendor.getdisplayName,
                     style: const TextStyle(
                       fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w200,
+                    )),
+              )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+                leading: const Icon(Icons.location_city,color: Colors.black),
+                    title: Text(vendor.getcity,
+                    style: const TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w200,
+                    )),
+              )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+               leading: const Icon(Icons.person,color: Colors.black),
+                title: Text(vendor.getvendorName1,
+                    style: const TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w200,
+                    )),
+              )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+               leading: const Icon(Icons.group,color: Colors.black),
+                title: Text(vendor.getvendorGroup,
+                    style: const TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w200,
+                    )),
+              )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+               leading: const Icon(Icons.type_specimen,color: Colors.black),
+                title: Text(vendor.getvendorType,
+                    style: const TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w200,
+                    )),
+              )),
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+               leading: const Icon(Icons.streetview,color: Colors.black),
+                title: Text(vendor.getstreet,
+                    style: const TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w200,
+                    )),
+              )),
+             Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+               leading: const Icon(Icons.code_off_sharp,color: Colors.black),
+                title: Text(vendor.getzipCode,
+                    style: const TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
                       fontWeight: FontWeight.w300,
                     )),
               )),
-              
-              
+              Card(
+                  child: ListTile(
+                minLeadingWidth: 70,
+               leading: const Icon(Icons.contact_phone,color: Colors.black),
+                title: Text(vendor.getcontactPhone,
+                    style: const TextStyle(
+                      fontFamily: GlobalParams.MainfontFamily,
+                      fontWeight: FontWeight.w300,
+                    )),
+              )),
+              // Card(
+              //     child: ListTile(
+              //   minLeadingWidth: 70,
+              //  leading: const Icon(Icons.date_range,color: Colors.blue),
+              //   title: Text(vendor.getinsDatime,
+              //       style: const TextStyle(
+              //         fontFamily: GlobalParams.MainfontFamily,
+              //         fontWeight: FontWeight.w300,
+              //       )),
+              // )),
               Container(width: double.infinity, alignment: Alignment.bottomRight ,child: FloatingActionButton(
                 onPressed: () {
                   print(vendor.city);

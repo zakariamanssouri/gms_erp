@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:gms_erp/blocs/Vendor/vendor_event.dart';
 import 'package:gms_erp/blocs/Vendor/vendor_state.dart';
+import 'package:gms_erp/widgets/ItemCardComplexe.dart';
 import 'package:gms_erp/widgets/SearchField.dart';
 import 'package:gms_erp/config/global_params.dart';
 import 'package:gms_erp/crm/views/Client/widgets/Header.dart';
@@ -118,10 +119,9 @@ class VendorsBody extends StatelessWidget
                         ? state.vendors.length
                         : state.search_result?.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return ItemCard(
+                      return ItemCardComplexe(
                           size: size * 1.2,
                            onPressed: () {
-                            print("lenghth here");
                             VendorBloc bloc =
                                 BlocProvider.of<VendorBloc>(context);
                             Navigator.push(context,
@@ -138,8 +138,8 @@ class VendorsBody extends StatelessWidget
                             }));
                           },
                           var1: state.requestState == RequestState.Loaded
-                              ? state.vendors[index].id
-                              : state.search_result![index].id,
+                              ? state.vendors[index].vendorNo
+                              : state.search_result![index].vendorNo,
                           var2: state.requestState == RequestState.Loaded
                               ? state.vendors[index].vendorName1
                               : state.search_result![index].vendorName1,
@@ -147,8 +147,17 @@ class VendorsBody extends StatelessWidget
                               ? state.vendors[index].city
                               : state.search_result![index].city,
                           var4: state.requestState == RequestState.Loaded
-                              ? state.vendors[index].addressText
-                              : state.search_result![index].addressText,
+                              ? state.vendors[index].accountingNo
+                              : state.search_result![index].accountingNo,
+                          var5: state.requestState == RequestState.Loaded
+                              ? state.vendors[index].vendorType
+                              : state.search_result![index].vendorType,
+                          // var6: state.requestState == RequestState.Loaded
+                          //     ? state.vendors[index].displayName
+                          //     : state.search_result![index].displayName,
+                          var7: state.requestState == RequestState.Loaded
+                              ? state.vendors[index].vendorGroup
+                              : state.search_result![index].vendorGroup,
                          );
                     },
                   ),

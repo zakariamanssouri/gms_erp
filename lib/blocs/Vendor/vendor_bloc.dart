@@ -32,7 +32,7 @@ class VendorBloc extends Bloc<VendorEvent, VendorState> {
 
         List<Vendor> search_result = [];
         for (var i = 0; i < event.vendor_list.length; i++) {
-          if (event.vendor_list[i].id
+          if (event.vendor_list[i].vendorNo
                   !.startsWith(event.search_value.toLowerCase()) ||
               event.vendor_list[i].vendorName1!
                   .toLowerCase()
