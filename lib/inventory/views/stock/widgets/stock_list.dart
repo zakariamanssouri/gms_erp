@@ -40,7 +40,7 @@ class StockListView extends StatelessWidget {
                     );
                   }));
                 },
-                size: size * 1.15,
+                size: size,
                 var1: products[index].productName1,
                 var2: products[index].purchasePrice,
                 var3: products[index].eanCode,

@@ -38,11 +38,8 @@ class ItemCardComplexe extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
-      // () {
-      //   Navigator.push(context, MaterialPageRoute(builder: (context) {
-      //     return ProductDetails(inventoryDetails: inventoryDetails);
-      //   }));
-      // },
+
+
       child: Container(
         padding: EdgeInsets.all(GlobalParams.MainPadding / 4),
         width: double.infinity,

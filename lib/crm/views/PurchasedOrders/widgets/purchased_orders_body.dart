@@ -5,7 +5,6 @@ import 'package:gms_erp/blocs/stock/stock_bloc.dart';
 import 'package:gms_erp/crm/views/Client/widgets/Header.dart';
 import 'package:gms_erp/crm/views/PurchasedOrders/widgets/purchased_orders_body_list.dart';
 import 'package:gms_erp/inventory/views/InventoryDetails/widgets/ErrorWithRefreshButtonWidget.dart';
-import 'package:gms_erp/inventory/views/stock/widgets/stock_list.dart';
 import 'package:gms_erp/widgets/SearchField.dart';
 
 class PurchasedOrdersPageBody extends StatelessWidget {
@@ -41,7 +40,6 @@ class PurchasedOrdersPageBody extends StatelessWidget {
           Expanded(
             child: BlocBuilder<PurchasedOrderBlock, PurchasedOrdersState>(
               builder: (context, state) {
-                print(state.orders.length);
                 // Initial state
 
                 if (state.requestState == PurchasedOrderRequestState.Loading ||
@@ -55,15 +53,14 @@ class PurchasedOrdersPageBody extends StatelessWidget {
                           ? state.orders
                           : state.search_result!);
                 }
-                return Container(
-                    child: ErrorWithRefreshButtonWidget(
+                return ErrorWithRefreshButtonWidget(
                   inventory: null,
                   button_function: () {
-                    BlocProvider.of<StockBlock>(context).add(
-                      const LoadStockEvent(),
-                    );
+                BlocProvider.of<StockBlock>(context).add(
+                  const LoadStockEvent(),
+                );
                   },
-                ));
+                );
                 // Initial state
 
                 // Searching state
