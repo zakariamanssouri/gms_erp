@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tree_view/tree_view.dart';
 
 import '../config/global_params.dart';
 
