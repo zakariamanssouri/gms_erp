@@ -28,7 +28,7 @@ class _CustomerOrderItemState extends State<CustomerOrderItem> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          title: Text('Ordre  ' + widget.customer_order.receiptNo!),
+          title: Text('Commande  ' + widget.customer_order.receiptNo!),
         ),
         body: BlocListener<CustomerOrderBloc, CustomerOrderState>(
             listener: (context, state) {

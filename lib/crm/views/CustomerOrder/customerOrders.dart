@@ -35,7 +35,7 @@ class CustomerOrdersHome extends StatelessWidget {
         child: Scaffold(
       backgroundColor: GlobalParams.backgroundColor,
       appBar: AppBar(
-        title: Text('Ordres'),
+        title: Text('Commandes'),
         backgroundColor: Colors.blue,
         elevation: 0,
       ),
