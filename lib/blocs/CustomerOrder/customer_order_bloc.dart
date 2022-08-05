@@ -17,7 +17,7 @@ class CustomerOrderBloc extends Bloc<CustomerOrderEvent, CustomerOrderState> {
             .then((value) => customer_orders = value);
         emit(CustomerOrderState(customer_orders: customer_orders, requestState: RequestState.Loaded, errorMessage: ''));
       } catch (e) {
-        print("error on block Client bloc : $e");
+        print("error on block CustomerOrder bloc : $e");
         emit(CustomerOrderState(customer_orders:[], requestState: RequestState.Error, errorMessage: "error"));
       }
     });
@@ -44,6 +44,69 @@ class CustomerOrderBloc extends Bloc<CustomerOrderEvent, CustomerOrderState> {
             search_result: search_result));
       } catch (e) {
         emit(CustomerOrderState(customer_orders:[], requestState: RequestState.Error, errorMessage: "error"));
+      }
+    });
+
+    
+    on<AddCustomerOrderEvent>((event, emit) async {
+      try {
+        emit(CustomerOrderState(
+            customer_orders: state.customer_orders,
+            requestState: RequestState.Adding,
+            errorMessage: ''));
+        print("add CustomerOrder event");
+        await CustomerOrderService.addCustomerOrder(event.customer_order).then((value) {
+            if(value){
+           emit(CustomerOrderState(
+            customer_orders: state.customer_orders,
+            requestState: RequestState.Added,
+            errorMessage: ''));
+         
+          }
+          else{
+            emit(CustomerOrderState(
+              customer_orders: state.customer_orders,
+              requestState: RequestState.Error,
+              errorMessage: 'error'));
+          }
+        });
+      
+      } catch (e) {
+        emit(CustomerOrderState(
+            customer_orders: state.customer_orders,
+            requestState: RequestState.Error,
+            errorMessage: 'error'));
+      }
+    });
+
+    on<UpdateCustomerOrderEvent>((event, emit) async {
+      try {
+        emit(CustomerOrderState(
+            customer_orders: state.customer_orders,
+            requestState: RequestState.Updating,
+            errorMessage: ''));
+        print("update CustomerOrder event");
+        await CustomerOrderService.updateCustomerOrder(event.customer_order).then((value) {
+            if(value){
+              emit(CustomerOrderState(
+              customer_orders: state.customer_orders,
+              requestState: RequestState.Updated,
+              errorMessage: ''));
+         
+        }
+        else{
+          emit(CustomerOrderState(
+            customer_orders: state.customer_orders,
+            requestState: RequestState.Error,
+            errorMessage: 'error'));
+        }
+        });
+      
+      } catch (e) {
+        emit(CustomerOrderState(
+            customer_orders: state.customer_orders,
+            requestState: RequestState.Error,
+            errorMessage: 'error'));
       }
     });
   }

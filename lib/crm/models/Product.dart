@@ -60,7 +60,7 @@ class Product {
         "product_type": product_type,
         "product_group": product_group,
         "is_active": is_active.toString(),
-        "sales_price_min": s_price_min,
+        "sales_price_min": "0.00",
         "measure_id": measure_id,
         "product_type_id": type_id,
         "product_group_id": grp_id,

@@ -47,9 +47,7 @@ class ButtonOption {
     const ButtonOption(
         route: "/Client", text: 'Clients', iconData: Icons.account_box),
     const ButtonOption(
-        route: "/CustomerOrder",
-        text: 'Commandes',
-        iconData: Icons.contact_page),
+        route: "/CustomerOrder", text: 'Commandes', iconData: Icons.storage),
     const ButtonOption(
         route: "/Activity", text: 'Opportunités', iconData: Icons.copy),
     const ButtonOption(
@@ -57,9 +55,9 @@ class ButtonOption {
     const ButtonOption(
         route: "/CustomerDelivery",
         text: 'Livraisons',
-        iconData: Icons.keyboard_command_key),
+        iconData: Icons.delivery_dining),
     const ButtonOption(
-        route: "/Activity", text: '.', iconData: Icons.inventory),
+        route: "/Activity", text: '.', iconData: Icons.keyboard_command_key),
     const ButtonOption(
         route: "/Product",
         text: 'Produits',

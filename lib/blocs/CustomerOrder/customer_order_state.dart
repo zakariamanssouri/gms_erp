@@ -1,6 +1,6 @@
 part of 'customer_order_bloc.dart';
 
-enum RequestState { Loaded, Loading, Error, None, Searching, SearchLoaded }
+enum RequestState { Loaded, Loading, Error, None, Searching, SearchLoaded, Adding, Added, Updating, Updated }
 
 class CustomerOrderState extends Equatable {
   List<CustomerOrder> customer_orders = [];

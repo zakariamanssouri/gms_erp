@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gms_erp/blocs/CustomerOrder/customer_order_bloc.dart';
+import 'package:gms_erp/crm/views/CustomerOrder/addCustomerOrder.dart';
 import 'package:gms_erp/crm/views/CustomerOrder/customerOrderItem.dart';
 import 'package:gms_erp/widgets/SearchField.dart';
 import 'package:gms_erp/config/global_params.dart';
@@ -40,6 +41,21 @@ class CustomerOrdersHome extends StatelessWidget {
         elevation: 0,
       ),
       body: CustomerOrdersBody(size: size),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //             Navigator.push(_context,
+      //                 MaterialPageRoute(builder: (context) {
+      //               return BlocProvider.value(
+      //                 value: BlocProvider.of<CustomerOrderBloc>(
+      //                     _context),
+      //     child: AddCustomerOrderPage());}));
+      //   },
+      //   backgroundColor: Colors.white,
+      //   child: const Icon(
+      //     Icons.add,
+      //     color: Colors.blue,
+      //   ),
+      // ),
     ));
   }
 }

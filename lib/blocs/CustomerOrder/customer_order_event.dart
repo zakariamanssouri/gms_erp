@@ -22,3 +22,22 @@ class SearchCustomerOrderEvent extends CustomerOrderEvent {
   @override
   List<Object> get props => [search_value, customer_order_list];
 }
+
+
+class UpdateCustomerOrderEvent extends CustomerOrderEvent {
+  CustomerOrder customer_order;
+
+  UpdateCustomerOrderEvent({required this.customer_order});
+  @override
+  List<Object> get props => [CustomerOrder];
+}
+
+
+class AddCustomerOrderEvent extends CustomerOrderEvent {
+  CustomerOrder customer_order;
+  
+  AddCustomerOrderEvent({required this.customer_order});
+
+  @override
+  List<Object> get props => [customer_order];
+}

@@ -15,39 +15,94 @@ class CustomerOrderItem extends StatefulWidget {
 }
 
 class _CustomerOrderItemState extends State<CustomerOrderItem> {
+final Key keyOne = PageStorageKey('Général');
+  final Key keyTwo = PageStorageKey('Produits');
+
+  int currentTab = 0;
+
+  late PageOne one;
+  late PageTwo two;
+  late List<Widget> pages;
+  late Widget currentPage;
+
+  final PageStorageBucket bucket = PageStorageBucket();
 
   @override
   void initState() {
+    one = PageOne(
+      key: keyOne,
+      customer_order: widget.customer_order,
+    );
+    two = PageTwo(
+      key: keyTwo,
+    );
+
+    pages = [one, two];
+
+    currentPage = one;
+
+    super.initState();
   }
+  @override
+  Widget build(BuildContext context) {
+    BuildContext _context = context;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Commande " + widget.customer_order.receiptNo!),
+      ),
+      body: PageStorage(
+        child: currentPage,
+        bucket: bucket,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentTab,
+        onTap: (int index) {
+          setState(() {
+            currentTab = index;
+            currentPage = pages[index];
+          });
+        },
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Général',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.production_quantity_limits),
+            label: 'Produits',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PageOne extends StatefulWidget {
+  
+  CustomerOrder customer_order;
+  PageOne({
+    Key? key,
+    required this.customer_order
+  }) : super(key: key);
+
+  @override
+  PageOneState createState() => PageOneState(customer_order: customer_order);
+}
+
+class PageOneState extends State<PageOne> {
+  
+  CustomerOrder customer_order;
+  PageOneState({required this.customer_order});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     BuildContext _context = context;
 
-    return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          title: Text('Commande  ' + widget.customer_order.receiptNo!),
-        ),
-        body: BlocListener<CustomerOrderBloc, CustomerOrderState>(
+    return BlocListener<CustomerOrderBloc, CustomerOrderState>(
             listener: (context, state) {
             },
-            child: ListView(children: <Widget>[/*
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 125,
-                leading: const Text('Numéro d\'ordre',
-                    style: TextStyle(
-                        fontFamily: GlobalParams.MainfontFamily,
-                        fontWeight: FontWeight.w800)),
-                title: Text(
-                  widget.customer_order.customerOrderNo == null ? '--' : widget.customer_order.customerOrderNo!,
-                  style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w300),
-                ),
-              )),*/
+            child: ListView(children: <Widget>[
               Card(
                   child: ListTile(
                 minLeadingWidth: 125,
@@ -178,7 +233,34 @@ class _CustomerOrderItemState extends State<CustomerOrderItem> {
                       fontWeight: FontWeight.w300,
                     )),
               )),
-            ])),
+            ]),
             );
   }
+}
+
+
+class PageTwo extends StatefulWidget {
+  PageTwo({Key? key}) : super(key: key);
+
+  @override
+  PageTwoState createState() => PageTwoState();
+}
+
+class PageTwoState extends State<PageTwo> {
+  
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+   @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text('Produits'),
+      ),
+    );
+  }
+
 }
