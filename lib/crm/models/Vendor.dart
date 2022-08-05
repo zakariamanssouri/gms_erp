@@ -142,4 +142,134 @@ class Vendor {
         "tax_ident_no": taxIdentNo,
         "ice_no": iceNo,
     };
+
+
+
+ get getId => this.id;
+
+ set setId(id) => this.id = id;
+
+ get getvendorNo => this.vendorNo;
+
+ set setvendorNo( vendorNo) => this.vendorNo = vendorNo;
+
+ get getaccountingNo => this.accountingNo;
+
+ set setaccountingNo( accountingNo) => this.accountingNo = accountingNo;
+
+ get getaddressId => this.addressId;
+
+ set setaddressId( addressId) => this.addressId = addressId;
+
+ get getcountryId => this.countryId;
+
+ set setcountryId( countryId) => this.countryId = countryId;
+
+ get getcountryName => this.countryName;
+
+ set setcountryName( countryName) => this.countryName = countryName;
+
+ get getdisplayName => this.displayName;
+
+ set setdisplayName( displayName) => this.displayName = displayName;
+
+ get getvendorName1 => this.vendorName1;
+
+ set setvendorName1( vendorName1) => this.vendorName1 = vendorName1;
+
+  get getvendorName2 => this.vendorName2;
+
+ set setvendorName2( vendorName2) => this.vendorName2 = vendorName2;
+
+ get getvendorName3 => this.vendorName3;
+
+ set setvendorName3( vendor_name3) => this.vendorName2 = vendorName3;
+
+ get getinvoiceEmailAddress => this.invoiceEmailAddress;
+
+ set setinvoiceEmailAddress( invoiceEmailAddress) => this.invoiceEmailAddress = invoiceEmailAddress;
+
+ get getisActive => this.isActive;
+
+ set setisActive( isActive) => this.isActive = isActive;
+
+ get getvendorGroupId => this.vendorGroupId;
+
+ set setvendorGroupId(vendorGroupId) => this.vendorGroupId = vendorGroupId;
+
+ get getvendorGroup => this.vendorGroup;
+
+ set setvendorGroup(vendorGroup) => this.vendorGroup = vendorGroup;
+
+ get getvendorTypeId => this.vendorTypeId;
+
+ set setvendorTypeId(vendorTypeId) => this.vendorTypeId = vendorTypeId;
+
+ get getvendorType => this.vendorType;
+
+ set setvendorType(vendorType) => this.vendorType = vendorType;
+
+ get getstreet => this.street;
+
+ set setstreet(street) => this.street = street;
+
+ get getzipCode => this.zipCode;
+
+ set setzipCode(zipCode) => this.zipCode = zipCode;
+
+ get getcity => this.city;
+
+ set setcity(city) => this.city = city;
+
+ get getaddressText => this.addressText;
+
+ set setaddressText(addressText) => this.addressText = addressText;
+
+ get getcontactDisplayName => this.contactDisplayName;
+
+ set setcontactDisplayName(contactDisplayName) => this.contactDisplayName = contactDisplayName;
+
+ get getcontactPhone => this.contactPhone;
+
+ set setcontactPhone(contactPhone) => this.contactPhone = contactPhone;
+
+ get getcontactFax => this.contactFax;
+
+ set setcontactFax(contactFax) => this.contactFax = contactFax;
+
+ get getcontactMobileNumber => this.contactMobileNumber;
+
+ set setcontactMobileNumber(contactMobileNumber) => this.contactMobileNumber = contactMobileNumber;
+
+ get getisAccountingDiverse => this.isAccountingDiverse;
+
+ set setisAccountingDiverse(isAccountingDiverse) => this.isAccountingDiverse = isAccountingDiverse;
+
+ get getinsUser => this.insUser;
+
+ set setinsUser(insUser) => this.insUser = insUser;
+
+ get getinsDatime => this.insDatime;
+
+ set setinsDatime(insDatime) => this.insDatime = insDatime;
+
+ get getupdUser => this.updUser;
+
+ set setupdUser(updUser) => this.updUser = updUser;
+
+ get getupdDatime => this.updDatime;
+
+ set setupdDatime(updDatime) => this.updDatime = updDatime;
+
+  get getcurrencyId => this.currencyId  ;
+
+ set setcurrencyId(currencyId) => this.currencyId = currencyId;
+
+ get gettaxIdentNo => this.taxIdentNo  ;
+
+ set settaxIdentNo(taxIdentNo) => this.taxIdentNo = taxIdentNo;
+
+ get geticeNo => this.iceNo  ;
+
+ set seticeNo(iceNo) => this.iceNo = iceNo;
 }

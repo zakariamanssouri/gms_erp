@@ -24,7 +24,7 @@ class VendorBloc extends Bloc<VendorEvent, VendorState> {
       }
     });
 
-   /*  on<SearchVendorEvent>((event, emit) async {
+    on<SearchVendorEvent>((event, emit) async {
       try {
         emit(VendorState(vendors:
             event.vendor_list, requestState: RequestState.Searching, errorMessage: '',
@@ -32,12 +32,11 @@ class VendorBloc extends Bloc<VendorEvent, VendorState> {
 
         List<Vendor> search_result = [];
         for (var i = 0; i < event.vendor_list.length; i++) {
-          if (event.vendor_list[i].id
+          if (event.vendor_list[i].vendorNo
+                  !.startsWith(event.search_value.toLowerCase()) ||
+              event.vendor_list[i].vendorName1!
                   .toLowerCase()
-                  .contains(event.search_value.toLowerCase()) ||
-              event.vendor_list[i].countryName
-                  .toLowerCase()
-                  .contains(event.search_value.toLowerCase())) {
+                  .startsWith(event.search_value.toLowerCase())) {
             search_result.add(event.vendor_list[i]);
           }
         }
@@ -47,7 +46,7 @@ class VendorBloc extends Bloc<VendorEvent, VendorState> {
       } catch (e) {
         emit(VendorState(vendors:[], requestState: RequestState.Error, errorMessage: "error"));
       }
-    }); */
+    });
     
     /* on<AddClientEvent>((event, emit) async {
       try {
