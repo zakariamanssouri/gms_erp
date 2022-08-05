@@ -47,7 +47,9 @@ class ButtonOption {
     const ButtonOption(
         route: "/Client", text: 'Clients', iconData: Icons.account_box),
     const ButtonOption(
-        route: "/CustomerOrder", text: 'Commandes', iconData: Icons.contact_page),
+        route: "/CustomerOrder",
+        text: 'Commandes',
+        iconData: Icons.contact_page),
     const ButtonOption(
         route: "/Activity", text: 'Opportunités', iconData: Icons.copy),
     const ButtonOption(
@@ -70,6 +72,10 @@ class ButtonOption {
         route: "/PurchasedOrders",
         text: 'Réceptions',
         iconData: Icons.shopping_cart),
+    const ButtonOption(
+        route: "/CustomerDeliveryOrders",
+        text: 'Livraison / Commandes',
+        iconData: Icons.shopping_cart),
   ];
 
   static List<ButtonOption> InventoryOptions = const <ButtonOption>[
@@ -78,9 +84,7 @@ class ButtonOption {
         text: 'Produits',
         iconData: Icons.grid_view_rounded),
     const ButtonOption(
-        route: "/stock",
-        text: 'Stock',
-        iconData: Icons.warehouse_rounded),
+        route: "/stock", text: 'Stock', iconData: Icons.warehouse_rounded),
     const ButtonOption(
         route: "/inventories", text: 'Inventaires', iconData: Icons.inventory),
   ];

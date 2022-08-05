@@ -9,7 +9,8 @@ import 'package:gms_erp/crm/views/PurchasedOrders/purchased_orders.dart';
 import 'package:gms_erp/crm/views/Vendor/vendors.dart';
 import 'package:gms_erp/crm/widgets/list_item_view.dart';
 import 'package:gms_erp/crm/widgets/side_drawer.dart';
-import 'package:gms_erp/homepage.dart';
+
+import 'views/CustomerDeliveryOrder/customer_delivery_order.dart';
 
 class CRMPage extends StatelessWidget {
    CRMPage({Key? key}) : super(key: key);
@@ -29,6 +30,7 @@ class CRMPage extends StatelessWidget {
           '/CustomerDelivery': (context) => CustomerDeliveries(),
           '/Vendors': (context) => Vendors(),
           '/CustomerInvoices': (context) => CustomerInvoices(),
+          '/CustomerDeliveryOrders': (context) => const CustomerDeliveryOrderPage(),
         },
         title: 'GM-CRM',
         theme: ThemeData(
