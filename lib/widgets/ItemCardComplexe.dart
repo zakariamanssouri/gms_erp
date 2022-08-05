@@ -41,7 +41,6 @@ class ItemCardComplexe extends StatelessWidget {
 
 
       child: Container(
-        padding: EdgeInsets.all(GlobalParams.MainPadding / 4),
         width: double.infinity,
         height: size.height * 0.13,
         child: Card(
@@ -54,7 +53,7 @@ class ItemCardComplexe extends StatelessWidget {
           //     ? Colors.red[400]
           //     : Colors.blue[400],
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(GlobalParams.MainPadding / 4),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
