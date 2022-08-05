@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tree_view/tree_view.dart';
 
 import '../config/global_params.dart';
 
@@ -9,19 +10,18 @@ class DrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
         child: ListView(children: [
-      const DrawerHeader(
-        decoration: BoxDecoration(
+      DrawerHeader(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(30),
             bottomRight: Radius.circular(30),
           ),
         ),
-        // TODO : add  a grid layout
-        child: Center(
-          child: CircleAvatar(
-            // ToDO : add a logo
-            child: Text("GM Invent"),
-            radius: 50,
+        child: CircleAvatar(
+          radius: 5.0,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: Image.asset('assets/images/logo.png'),
           ),
         ),
       ),
