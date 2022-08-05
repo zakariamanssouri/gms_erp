@@ -138,23 +138,20 @@ class VendorsBody extends StatelessWidget
                             }));
                           },
                           var1: state.requestState == RequestState.Loaded
-                              ? state.vendors[index].vendorNo
-                              : state.search_result![index].vendorNo,
-                          var2: state.requestState == RequestState.Loaded
                               ? state.vendors[index].vendorName1
                               : state.search_result![index].vendorName1,
+                          var2: state.requestState == RequestState.Loaded
+                              ? state.vendors[index].vendorNo
+                              : state.search_result![index].vendorNo,
                           var3: state.requestState == RequestState.Loaded
                               ? state.vendors[index].city
                               : state.search_result![index].city,
-                          var4: state.requestState == RequestState.Loaded
-                              ? state.vendors[index].accountingNo
-                              : state.search_result![index].accountingNo,
+                          var6: state.requestState == RequestState.Loaded
+                              ? state.vendors[index].countryName
+                              : state.search_result![index].countryName,
                           var5: state.requestState == RequestState.Loaded
                               ? state.vendors[index].vendorType
                               : state.search_result![index].vendorType,
-                          // var6: state.requestState == RequestState.Loaded
-                          //     ? state.vendors[index].displayName
-                          //     : state.search_result![index].displayName,
                           var7: state.requestState == RequestState.Loaded
                               ? state.vendors[index].vendorGroup
                               : state.search_result![index].vendorGroup,

@@ -45,7 +45,7 @@ class _VendorItemState extends State<VendorItem> {
     BuildContext _context = context;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Fornisseur ${widget.vendor.id}"),
+        title: Text("Fornisseur N° : ${widget.vendor.id}"),
       ),
       body: PageStorage(
         child: currentPage,
@@ -75,133 +75,151 @@ class PageOneState extends State<PageOne> {
   @override
   Widget build(BuildContext context) {
     BuildContext _context = context;
-    return BlocListener<VendorBloc, VendorState>(
-            listener: (context, state) {
-              if (state.requestState == RequestState.Error) {
-                CoolAlert.show(
-                  context: context,
-                  type: CoolAlertType.error,
-                  text: 'Erreur lors du chargement du client',
-                );
-              }
-            },
-            child: ListView(children: <Widget>[
-              Card(
+    return Scaffold(
+      body: BlocListener<VendorBloc, VendorState>(
+              listener: (context, state) {
+                if (state.requestState == RequestState.Error) {
+                  CoolAlert.show(
+                    context: context,
+                    type: CoolAlertType.error,
+                    text: 'Erreur lors du chargement du client',
+                  );
+                }
+              },
+              child: ListView(children: <Widget>[
+                Card(
+                    child: ListTile(
+                    minLeadingWidth: 70,
+                    leading: const Text('Code',
+                      style:  TextStyle(
+                          fontFamily: GlobalParams.MainfontFamily,
+                          fontWeight: FontWeight.w800)),
+                      title: Text(vendor.getvendorNo,
+                      style: const TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w300,
+                      )),
+                )),
+                Card(
+                    child: ListTile(
+                    minLeadingWidth: 70,
+                     leading: const Text('Affichage',
+                      style:  TextStyle(
+                          fontFamily: GlobalParams.MainfontFamily,
+                          fontWeight: FontWeight.w800)),
+                    title: Text(vendor.getdisplayName,
+                      style: const TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w300,
+                      )),
+                )),
+                Card(
+                    child: ListTile(
+                    minLeadingWidth: 70,
+                    leading: const Text('Nom',
+                      style:  TextStyle(
+                          fontFamily: GlobalParams.MainfontFamily,
+                          fontWeight: FontWeight.w800)),
+                    title: Text(vendor.getvendorName1,
+                      style: const TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w200,
+                      )),
+                )),
+                Card(
+                    child: ListTile(
+                    minLeadingWidth: 70,
+                    leading: const Text('Ville',
+                      style:  TextStyle(
+                          fontFamily: GlobalParams.MainfontFamily,
+                          fontWeight: FontWeight.w800)),
+                      title: Text(vendor.getcity,
+                      style: const TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w300,
+                      )),
+                )),
+                Card(
+                      child: ListTile(
+                      minLeadingWidth: 70,
+                       leading: const Text('Téléphone',
+                      style:  TextStyle(
+                          fontFamily: GlobalParams.MainfontFamily,
+                          fontWeight: FontWeight.w800)),
+                      title: Text(vendor.getcontactFax??"",
+                          style: const TextStyle(
+                            fontFamily: GlobalParams.MainfontFamily,
+                            fontWeight: FontWeight.w300,
+                      )),
+                )),
+                Card(
+                      child: ListTile(
+                      minLeadingWidth: 70,
+                      leading: const Text('Adresse',
+                      style:  TextStyle(
+                          fontFamily: GlobalParams.MainfontFamily,
+                          fontWeight: FontWeight.w800)),
+                      title: Text(vendor.getaddressText??"",
+                          style: const TextStyle(
+                            fontFamily: GlobalParams.MainfontFamily,
+                            fontWeight: FontWeight.w300,
+                      )),
+                )),
+                Card(
+                    child: ListTile(
+                    minLeadingWidth: 70,
+                    leading: const Text('Groupe',
+                      style:  TextStyle(
+                          fontFamily: GlobalParams.MainfontFamily,
+                          fontWeight: FontWeight.w700)),
+                  title: Text(vendor.getvendorGroup,
+                      style: const TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w300,
+                      )),
+                )),          
+                Card(
                   child: ListTile(
-                minLeadingWidth: 70,
-                leading: const Icon(Icons.numbers,
-                color: Colors.black),
-                title: Text(vendor.getvendorNo,
-                  style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w200),
+                  minLeadingWidth: 70,
+                  leading: const Text('Type',
+                      style:  TextStyle(
+                          fontFamily: GlobalParams.MainfontFamily,
+                          fontWeight: FontWeight.w800)),
+                      title: Text(vendor.getvendorType,
+                      style: const TextStyle(
+                        fontFamily: GlobalParams.MainfontFamily,
+                        fontWeight: FontWeight.w200,
+                      )),
+                )),
+                Card(
+                      child: ListTile(
+                      minLeadingWidth: 70,
+                       leading: const Text('Date',
+                      style:  TextStyle(
+                          fontFamily: GlobalParams.MainfontFamily,
+                          fontWeight: FontWeight.w800)),
+                      title: Text(vendor.getinsDatime.toString(),
+                        style: const TextStyle(
+                          fontFamily: GlobalParams.MainfontFamily,
+                          fontWeight: FontWeight.w300,
+                        )),
+                ))])),
+                floatingActionButton: FloatingActionButton(
+                  
+                  onPressed: () {
+                    print(vendor.city);
+                            Navigator.push(_context,
+                                MaterialPageRoute(builder: (context)
+                                 {
+                                     return BlocProvider.value( value: BlocProvider.of<VendorBloc>( _context));
+                                 }));},
+                  backgroundColor: Colors.white,
+                  child: const Icon(
+                    Icons.edit,
+                    color: Colors.blue,
+                  ),
                 ),
-              )),
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-                leading: const Icon(Icons.text_rotation_none,color: Colors.black),
-                title: Text(vendor.getdisplayName,
-                    style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w200,
-                    )),
-              )),
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-                leading: const Icon(Icons.location_city,color: Colors.black),
-                    title: Text(vendor.getcity,
-                    style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w200,
-                    )),
-              )),
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-               leading: const Icon(Icons.person,color: Colors.black),
-                title: Text(vendor.getvendorName1,
-                    style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w200,
-                    )),
-              )),
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-               leading: const Icon(Icons.group,color: Colors.black),
-                title: Text(vendor.getvendorGroup,
-                    style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w200,
-                    )),
-              )),
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-               leading: const Icon(Icons.type_specimen,color: Colors.black),
-                title: Text(vendor.getvendorType,
-                    style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w200,
-                    )),
-              )),
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-               leading: const Icon(Icons.streetview,color: Colors.black),
-                title: Text(vendor.getstreet,
-                    style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w200,
-                    )),
-              )),
-             Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-               leading: const Icon(Icons.code_off_sharp,color: Colors.black),
-                title: Text(vendor.getzipCode,
-                    style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w300,
-                    )),
-              )),
-              Card(
-                  child: ListTile(
-                minLeadingWidth: 70,
-               leading: const Icon(Icons.contact_phone,color: Colors.black),
-                title: Text(vendor.getcontactPhone,
-                    style: const TextStyle(
-                      fontFamily: GlobalParams.MainfontFamily,
-                      fontWeight: FontWeight.w300,
-                    )),
-              )),
-              // Card(
-              //     child: ListTile(
-              //   minLeadingWidth: 70,
-              //  leading: const Icon(Icons.date_range,color: Colors.blue),
-              //   title: Text(vendor.getinsDatime,
-              //       style: const TextStyle(
-              //         fontFamily: GlobalParams.MainfontFamily,
-              //         fontWeight: FontWeight.w300,
-              //       )),
-              // )),
-              Container(width: double.infinity, alignment: Alignment.bottomRight ,child: FloatingActionButton(
-                onPressed: () {
-                  print(vendor.city);
-                          Navigator.push(_context,
-                              MaterialPageRoute(builder: (context)
-                               {
-                                   return BlocProvider.value( value: BlocProvider.of<VendorBloc>( _context));
-                               }));},
-                backgroundColor: Colors.white,
-                child: const Icon(
-                  Icons.edit,
-                  color: Colors.blue,
-                ),
-              ),)
-            ]));
+    );
   }
 }
 
