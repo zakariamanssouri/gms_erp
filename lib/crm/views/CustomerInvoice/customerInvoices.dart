@@ -120,8 +120,8 @@ class CustomerInvoicesBody extends StatelessWidget {
                             }));
                           },
                           var6: state.requestState == RequestState.Loaded
-                              ? 'Ordre : ' + state.customer_invoices[index].orderNo! + ' | Livraison : ' + state.customer_invoices[index].deliveryNo!
-                              : 'Ordre : ' + state.search_result![index].orderNo! + ' | Livraison : ' + state.customer_invoices[index].deliveryNo!,
+                              ? 'O : ' + state.customer_invoices[index].orderNo! + ' | L : ' + state.customer_invoices[index].deliveryNo!
+                              : 'O : ' + state.search_result![index].orderNo! + ' | L : ' + state.customer_invoices[index].deliveryNo!,
                           var2: state.requestState == RequestState.Loaded
                               ? 'Client : ' + state.customer_invoices[index].customerNo!
                               : 'Client : ' + state.search_result![index].customerNo!,
