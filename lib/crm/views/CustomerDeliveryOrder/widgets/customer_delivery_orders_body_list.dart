@@ -50,12 +50,12 @@ class CustomerDeliveryOrdersList extends StatelessWidget {
                 indicator: Row(
                   children: [
                     orders[index].paymentStateId == "1"
-                        ? Icon(
+                        ? Text("")
+                        : Icon(
                             Icons.check,
                             color: Colors.white,
                             size: 17,
-                          )
-                        : Text(""),
+                          ),
                     SizedBox(
                       width: 10,
                     ),
