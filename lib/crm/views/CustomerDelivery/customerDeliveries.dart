@@ -132,8 +132,8 @@ class CustomerDeliveriesBody extends StatelessWidget {
                               ? state.customer_deliveries[index].invoiceDate ?? ''
                               : state.search_result![index].invoiceDate ?? '',
                           var6: state.requestState == RequestState.Loaded
-                              ? 'Facture : ' + state.customer_deliveries[index].invoiceNo!
-                              : 'Facture : ' + state.search_result![index].invoiceNo!,
+                              ? 'Facture : ' + (state.customer_deliveries[index].invoiceNo ?? '')
+                              : 'Facture : ' + (state.search_result![index].invoiceNo ?? ''),
                           indicator: state.customer_deliveries[index].paymentStateName == 'Ouvert'
                               ? const Icon(
                                   Icons.radio_button_unchecked,

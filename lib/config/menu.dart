@@ -41,15 +41,15 @@ class ButtonOption {
     const ButtonOption(
         route: "/Activity", text: 'Activités', iconData: Icons.dashboard),
     const ButtonOption(
-        route: "/Activity",
-        text: 'Plan de visite',
-        iconData: Icons.calendar_month),
+        route: "/CustomerInvoices",
+        text: 'Factures',
+        iconData: Icons.file_copy),
     const ButtonOption(
         route: "/Client", text: 'Clients', iconData: Icons.account_box),
     const ButtonOption(
-        route: "/CustomerOrder", text: 'Ordres', iconData: Icons.contact_page),
+        route: "/CustomerOrder", text: 'Commandes', iconData: Icons.contact_page),
     const ButtonOption(
-        route: "/Activity", text: 'Opportunités', iconData: Icons.file_copy),
+        route: "/Activity", text: 'Opportunités', iconData: Icons.copy),
     const ButtonOption(
         route: "/Activity", text: 'Devis', iconData: Icons.file_download),
     const ButtonOption(
@@ -57,7 +57,7 @@ class ButtonOption {
         text: 'Livraisons',
         iconData: Icons.keyboard_command_key),
     const ButtonOption(
-        route: "/Activity", text: 'Factures', iconData: Icons.inventory),
+        route: "/Activity", text: '.', iconData: Icons.inventory),
     const ButtonOption(
         route: "/Product",
         text: 'Produits',

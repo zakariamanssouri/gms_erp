@@ -51,10 +51,10 @@ class _SettingsView extends State<SettingsView>
                               decoration: const BoxDecoration(borderRadius:  BorderRadius.only(
                               bottomLeft: Radius.circular(30),bottomRight: Radius.circular(30),), ),
                               child:CircleAvatar(
-                                   radius: 80.0,
+                                   radius: 80.0,/*
                                    child: ClipRRect(
                                        borderRadius: BorderRadius.circular(10.0),
-                                       child: Image.asset('assets/images/logo.png'),), ),),
+                                       child: Image.asset('assets/images/logo.png'),),*/ ),),
                                 const SizedBox(height:10),
                                 Text(domainNameMessage,textAlign: TextAlign.center,style: const TextStyle(color: Colors.blue,fontSize:13,),),
                                 const SizedBox(height:20),
