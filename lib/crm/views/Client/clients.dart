@@ -118,7 +118,7 @@ class ClientsBody extends StatelessWidget {
                         : state.search_result?.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ItemCard(
-                          size: size * 1.2,
+                          size: size,
                           onPressed: () {
                             print("lenghth here");
                             ClientBloc bloc =
