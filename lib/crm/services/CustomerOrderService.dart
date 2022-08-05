@@ -23,5 +23,47 @@ class CustomerOrderService {
 
     return list!;
   }
+  static Future<bool> addCustomerOrder(CustomerOrder order) async {
+
+    print(1);
+    try{
+      var body = json.encode(order.toJson());
+      final response = await http.post(
+        Uri.parse(GlobalParams.baseUrl + 'customer-order'),
+        body: body,
+        headers: {'content-type': 'application/json'},
+        encoding: Encoding.getByName("utf-8")
+      );
+
+      final parsed = json.decode(response.body);
+      if (response.statusCode == 201) {
+        if(parsed["id"] != null){
+          return true;
+        }
+      }
+      }on Exception catch (_, ex){
+        print(_);
+      }
+      return false;
+
+  }
+
+  static Future<bool> updateCustomerOrder(CustomerOrder order) async {
+    try{
+      String url = '${GlobalParams.laravelApi}customer/${order.id}';
+      var body = json.encode(order.toJson());
+      var res = await http.put(Uri.parse(url), body:
+        body,
+        headers: {'content-type': 'application/json'});
+        print(res.statusCode);
+      if (res.statusCode == 200) {
+        print("success");
+        return true;
+      }
+      }on Exception catch (_, ex){
+        print(_);
+      }
+    return false;
+  }
 
 }
