@@ -7,147 +7,148 @@ import 'package:gms_erp/identity/views/Sign%20in/user_login.view.dart';
 import 'package:gms_erp/inventory/inventory.dart';
 import 'package:gms_erp/inventory/views/InventoryDetails/Inventory_details_page.dart';
 
-
-class HomePage extends StatelessWidget 
-{
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
   @override
   Widget build(BuildContext context) {
-
+    Size size = MediaQuery.of(context).size;
     return MaterialApp(
-     
         routes: {
-          '/inventory': (context) =>  InventoryHomePage(),
+          '/inventory': (context) => InventoryHomePage(),
           '/inventory_details': (context) => InventoyDetailsPage(),
-          '/crm': (context) =>  CRMPage(),
-          '/identity': (context) =>  IdentityPage(),
+          '/crm': (context) => CRMPage(),
+          '/identity': (context) => IdentityPage(),
           '/home': (context) => const HomePage(),
-         
         },
         title: 'GMS ERP',
         debugShowCheckedModeBanner: false,
-          home: Builder(
-          builder: (context) =>Scaffold(
-          appBar: AppBar(
-            title: const Text('Accueil'),
-          ),
-          drawer: Drawer(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                DrawerHeader(
-                  decoration: const BoxDecoration(
-                     borderRadius:  BorderRadius.only(
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30),
-                  ), 
-                   
-                ),
-                child: CircleAvatar(
-                radius: 5.0,
-                 child: ClipRRect(
-                   borderRadius: BorderRadius.circular(10.0),
-                   child: Image.asset('assets/images/logo.png'),
-                 ),
-                 
-                ),),
-                const SizedBox(height:10,),
-                ListTile(
-                  title: const Text('CRM'),
-                  leading: const Icon(
-                    Icons.cases_sharp,
-                    color: Colors.blue,
+        home: Builder(
+            builder: (context) => Scaffold(
+                  appBar: AppBar(
+                    title: const Text('Accueil'),
                   ),
-                  onTap: () {
-                   Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>  CRMPage(),
-                              ));
-                  },
-                ),
-                ListTile(
-                  title: const Text('Inventaire'),
-                  leading: const Icon(
-                    Icons.inventory_2,
-                    color: Colors.blue,
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => InventoryHomePage(),
-                        )); //ddUserView
-                  },
-                ),
-                 ListTile(
-                  title: const Text('Incidents'),
-                  leading: const Icon(
-                    Icons.settings,
-                    color: Colors.blue,
-                  ),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const HomePage()));
-                  },
-                ),
-                 ListTile(
-                  title: const Text('BI'),
-                  leading: const Icon(
-                    Icons.poll_sharp,
-                    color: Colors.blue,
-                  ),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const HomePage()));
-                  },
-                ),
-                ListTile(
-                  title: const Text('identité'),
-                  leading: const Icon(
-                    Icons.person,
-                    color: Colors.blue,
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>  IdentityPage(),
-                        ));
-                  },
-                ),
-               
-                const SizedBox(height: 150,),
-                ListTile(
-                        title: const Text("Se Déconnecter"),
-                        leading: const Icon(
-                          Icons.logout_rounded,
-                          color: Colors.blue,
+                  drawer: Drawer(
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                      children: <Widget>[
+                        DrawerHeader(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(30),
+                              bottomRight: Radius.circular(30),
+                            ),
+                          ),
+                          child: CircleAvatar(
+                            radius: 5.0,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: Image.asset('assets/images/logo.png'),
+                            ),
+                          ),
                         ),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const UserLogin(),
-                              ));
-                        },
-                      ),
-              ],
-            ),
-          ),
-           backgroundColor: Colors.white,
-          body: GridView.count(
-            padding: const EdgeInsets.all(60),
-            crossAxisCount: 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            children: List.generate(ButtonOption.Options.length, (index) {
-              var bOption = ButtonOption.Options[index];
-              return Center(
-                child: HomeButton(buttonOption: bOption),
-              );
-            }),
-          ),
-        )));
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        ListTile(
+                          title: const Text('CRM'),
+                          leading: const Icon(
+                            Icons.cases_sharp,
+                            color: Colors.blue,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CRMPage(),
+                                ));
+                          },
+                        ),
+                        ListTile(
+                          title: const Text('Inventaire'),
+                          leading: const Icon(
+                            Icons.inventory_2,
+                            color: Colors.blue,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => InventoryHomePage(),
+                                )); //ddUserView
+                          },
+                        ),
+                        ListTile(
+                          title: const Text('Incidents'),
+                          leading: const Icon(
+                            Icons.settings,
+                            color: Colors.blue,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const HomePage()));
+                          },
+                        ),
+                        ListTile(
+                          title: const Text('BI'),
+                          leading: const Icon(
+                            Icons.poll_sharp,
+                            color: Colors.blue,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const HomePage()));
+                          },
+                        ),
+                        ListTile(
+                          title: const Text('identité'),
+                          leading: const Icon(
+                            Icons.person,
+                            color: Colors.blue,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => IdentityPage(),
+                                ));
+                          },
+                        ),
+                        const SizedBox(
+                          height: 150,
+                        ),
+                        ListTile(
+                          title: const Text("Se Déconnecter"),
+                          leading: const Icon(
+                            Icons.logout_rounded,
+                            color: Colors.blue,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const UserLogin(),
+                                ));
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  backgroundColor: Colors.white,
+                  body: GridView.count(
+                    padding: const EdgeInsets.all(60),
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    children:
+                        List.generate(ButtonOption.Options.length, (index) {
+                      var bOption = ButtonOption.Options[index];
+                      return HomeButton(buttonOption: bOption);
+                    }),
+                  ),
+                )));
   }
 }
