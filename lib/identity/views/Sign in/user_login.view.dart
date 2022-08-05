@@ -68,10 +68,10 @@ class _UserLoginState extends State<UserLogin>
                                 decoration: const BoxDecoration(borderRadius:  BorderRadius.only(
                                 bottomLeft: Radius.circular(30),bottomRight: Radius.circular(30),), ),
                                 child:CircleAvatar(
-                                     radius: 80.0,/*
+                                     radius: 80.0,
                                      child: ClipRRect(
                                          borderRadius: BorderRadius.circular(10.0),
-                                         child: Image.asset('assets/images/logo.png'),),*/ ),),
+                                         child: Image.asset('images/logo.png'),), ),),
                                   const SizedBox(height:25),
                                   TextFormField(
                                   controller:emailController,
